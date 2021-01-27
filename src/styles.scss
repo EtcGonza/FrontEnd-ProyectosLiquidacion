@@ -1,0 +1,59 @@
+/* Importaciones PrimeNg */
+
+@import "~primeicons/primeicons.css";
+@import "~primeng/resources/primeng.min.css";
+@import "~primeng/resources/themes/saga-blue/theme.css";
+@import "~primeflex/primeflex.css";
+
+/* Estilos */
+
+body {
+    background-color: #129793;
+    height: 100%;
+}
+
+// span,
+// input {
+//     // width: 100% !important;
+//     // border-radius: 50px !important;
+// }
+div.p-grid div {
+    margin-top: 8px;
+}
+
+
+/* Sobreescribo estilo de primeng */
+
+.p-button-rounded.primary {
+    background-color: #129793 !important;
+    border: #129793 solid 1px !important;
+}
+
+.p-button-warning {
+    background-color: #f88379 !important;
+    border: #f88379 solid 1px !important;
+}
+
+.p-button-success {
+    background-color: #129793 !important;
+    border: #129793 solid 1px !important;
+}
+
+.p-button-secondary {
+    background-color: #f88379 !important;
+    border: #f88379 solid 1px !important;
+}
+
+.p-button-icon-only>span.p-button-icon {
+    color: #ffffff !important;
+}
+
+.p-tag-success {
+    background-color: #f88379 !important;
+}
+
+.p-button-outlined.p-button-secondary {
+    border: #129793 solid 1px !important;
+    background-color: transparent !important;
+    color: #129793;
+}

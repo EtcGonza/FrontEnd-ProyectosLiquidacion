@@ -1,0 +1,63 @@
+<div class="p-grid p-jc-center p-p-5">
+    <div class="p-col-12">
+        <p-card [header]="tituloCard" [style]="{width: 'auto'}" styleClass="p-card-shadow">
+
+            <div class="p-p-2">
+                <form [formGroup]="formulario">
+                    <div class="p-grid">
+                        <div class="p-col-4">
+                            <span class="p-float-label">
+                                <p-inputNumber formControlName="dni" id="float-dni" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
+                                <label for="float-dni">Dni</label>
+                            </span>
+                        </div>
+
+                        <div class="p-col-4">
+                            <span class="p-float-label">
+                                <input id="float-usuario" type="text" pInputText> 
+                                <label for="float-usuario">Nombre de usuario</label>
+                            </span>
+                        </div>
+
+                        <div class="p-col-4">
+                            <span class="p-float-label">
+                                <input id="float-nombre" type="text" pInputText formControlName="nombre"> 
+                                <label for="float-nombre">Nombre</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-grid">
+                        <div class="p-col-4">
+                            <span class="p-float-label">
+                                <input id="float-apellido" type="text" pInputText formControlName="apellido"> 
+                                <label for="float-apellido">Apellido</label>
+                            </span>
+                        </div>
+
+                        <div class="p-col-4">
+                            <span class="p-float-label">
+                                <p-inputNumber formControlName="telefono" id="float-telefono" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
+                                <label for="float-telefono">Telefono</label>
+                            </span>
+                        </div>
+
+                        <div class="p-col-4">
+                            <span class="p-float-label">
+                                <input id="float-direccion" type="text" pInputText formControlName="direccion"> 
+                                <label for="float-direccion">Direccion</label>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <ng-template pTemplate="footer">
+                <div class="centrar-boton">
+                    <button pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
+                    <button pButton pRipple type="button" icon="pi pi-save" label="Guardar proyecto" (click)="guardarUsuario()" class="p-button-raised p-button-secondary"></button>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+</div>

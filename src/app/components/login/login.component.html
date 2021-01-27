@@ -1,0 +1,33 @@
+<div class="p-grid p-jc-center">
+    <p-card header="Login" [style]="{width: '360px'}" styleClass="p-card-shadow">
+
+        <div class="contenedor-img">
+            <img class="icono-user" src="../../assets/icon/woman.svg" alt="woman-icon">
+        </div>
+
+        <form [formGroup]="formulario">
+            <div class="p-grid p-jc-center">
+                <div class="p-col-12">
+                    <span class="p-input-icon-left">
+                            <i class="pi pi-user"></i>
+                            <input type="text" formControlName="usuario" pInputText placeholder="Usuario"  />
+                        </span>
+                </div>
+                <div class="p-col-12">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-key"></i>
+                        <input type="text" formControlName="contrasenia" pInputText placeholder="Contraseña" />
+                    </span>
+                </div>
+            </div>
+        </form>
+
+
+        <ng-template pTemplate="footer">
+            <div class="centrar-boton">
+                <button pButton pRipple type="button" label="Ingresar" class="p-button-rounded primary"></button>
+            </div>
+        </ng-template>
+
+    </p-card>
+</div>

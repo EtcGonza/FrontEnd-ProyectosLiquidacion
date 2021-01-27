@@ -1,0 +1,63 @@
+<div class="p-grid p-jc-center p-p-5">
+    <div class="p-col-12">
+        <p-card header="Lista de Proyectos" subheader="¿Vas a modificar o crear un nuevo proyecto?" [style]="{width: 'auto'}" styleClass="p-card-shadow">
+
+            <div class="p-p-2">
+                <button pButton pRipple type="button" icon="pi pi-plus-circle" label="Crear nuevo proyecto" (click)="crearProyecto()" class="p-button-raised p-button-success"></button>
+            </div>
+
+            <div class="p-p-2">
+                <p-table #dt1 [value]="proyectos" selectionMode="single" dataKey="idProyecto" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="nombre">Nombre Proyecto
+                                <p-sortIcon field="nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="cliente.nombre">Cliente
+                                <p-sortIcon field="cliente.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="estadoProyecto">Estado
+                                <p-sortIcon field="estadoProyecto"></p-sortIcon>
+                            </th>
+                            <th>Acciones</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'nombre', 'contains')" [value]="dt1.filters['nombre']?.value" placeholder="Buscar por nombre" class="p-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'cliente.nombre', 'contains')" [value]="dt1.filters['cliente.nombre']?.value" placeholder="Buscar por cliente" class="p-column-filter">
+                            </th>
+                            <th>
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-proyecto>
+                        <tr [pSelectableRow]="proyecto">
+                            <td>
+                                {{proyecto.nombre}}
+                            </td>
+                            <td>
+                                {{proyecto.cliente.nombre}}
+                            </td>
+                            <td>
+                                <span [class]="'customer-badge status-' + proyecto.estado">{{proyecto.estado}}</span>
+                            </td>
+                            <td>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarProyecto(proyecto)" pTooltip="Editar proyecto" tooltipPosition="top"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="borrarProyecto(proyecto)" pTooltip="Borrar proyecto" tooltipPosition="top"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="4">No hay proyectos para mostrar.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+    </div>
+</div>
