@@ -14,7 +14,7 @@
                                 <p-sortIcon field="nombre"></p-sortIcon>
                             </th>
                             <th pSortableColumn="cliente.nombre">Cliente
-                                <p-sortIcon field="cliente.nombre"></p-sortIcon>
+                                <p-sortIcon field="cliente.nombreCliente"></p-sortIcon>
                             </th>
                             <th pSortableColumn="estadoProyecto">Estado
                                 <p-sortIcon field="estadoProyecto"></p-sortIcon>
@@ -23,10 +23,10 @@
                         </tr>
                         <tr>
                             <th>
-                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'nombre', 'contains')" [value]="dt1.filters['nombre']?.value" placeholder="Buscar por nombre" class="p-column-filter">
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'NombreProyecto', 'contains')" [value]="dt1.filters['NombreProyecto']?.value" placeholder="Buscar por nombre" class="p-column-filter">
                             </th>
                             <th>
-                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'cliente.nombre', 'contains')" [value]="dt1.filters['cliente.nombre']?.value" placeholder="Buscar por cliente" class="p-column-filter">
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'cliente.nombreCliente', 'contains')" [value]="dt1.filters['cliente.nombreCliente']?.value" placeholder="Buscar por cliente" class="p-column-filter">
                             </th>
                             <th>
                             </th>
@@ -37,13 +37,13 @@
                     <ng-template pTemplate="body" let-proyecto>
                         <tr [pSelectableRow]="proyecto">
                             <td>
-                                {{proyecto.nombre}}
+                                {{proyecto.NombreProyecto}}
                             </td>
                             <td>
-                                {{proyecto.cliente.nombre}}
+                                {{proyecto.cliente.nombreCliente}}
                             </td>
                             <td>
-                                <span [class]="'customer-badge status-' + proyecto.estado">{{proyecto.estado}}</span>
+                                <span [class]="'customer-badge status-' + proyecto.estado">{{proyecto.EstadoProyecto}}</span>
                             </td>
                             <td>
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarProyecto(proyecto)" pTooltip="Editar proyecto" tooltipPosition="top"></button>

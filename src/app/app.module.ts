@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 
 import { MyComponentsModule } from './modules/my-components.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent ],
@@ -13,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     MyComponentsModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule
   ],
   providers: [],

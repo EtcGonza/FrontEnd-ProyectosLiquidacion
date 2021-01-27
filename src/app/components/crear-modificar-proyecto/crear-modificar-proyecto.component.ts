@@ -49,17 +49,15 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
       });
   
       // this.miProyecto = await this.storage.get('_modificarProyecto') || null;
-      this.formulario.controls.estado.disable();
   
       let cliente = new Cliente();
-      cliente.nombre = 'Disney';
+      cliente.nombreCliente = 'Disney';
       this.clientes.push(cliente);
       
       if (this.miProyecto) {
         console.log('Modifico proyecto');
         this.modificandoProyecto = true;
-        this.formulario.controls.estado.enable();
-        this.fechaInicioFormateada = new Date(this.miProyecto.fechaInicio).toLocaleDateString();
+        this.fechaInicioFormateada = new Date(this.miProyecto.FechaInicioProyecto).toLocaleDateString();
         this.formulario.patchValue(this.miProyecto);
         this.formulario.controls.nombre.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Modificar proyecto - ${nombre}`);
       } else {
@@ -70,11 +68,16 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
   }
 
   guardarProyecto() {
-    console.log(this.formulario.value);
     if(this.formulario.valid) {
       console.log('formulario valido', this.formulario.value);
+
+      this.miProyecto = this.formulario.value;
+
+      console.log('this.miProyecto', this.miProyecto);
+
       this._mensagesAlertService.ventanaExitosa('Proyecto creado', 'Ahora puede agregar recursos, asignar tareas y cambiar el estado del mismo');
     } else {
+      console.log('Form invalido',this.formulario.value);
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos son obligatorios');
     }
   }

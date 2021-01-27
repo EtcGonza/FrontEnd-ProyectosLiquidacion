@@ -46,16 +46,16 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
     });
 
     let provincia = new Provincia();
-    provincia.descripcion = "Santa fe";
-    provincia.id = 0;
+    provincia.Descripcion = "Santa fe";
+    provincia.Idprovincia = 0;
 
     let localidad = new Localidad();
     localidad.descripcion = "Rosario";
     localidad.id = 1;
 
     let provincia2 = new Provincia();
-    provincia2.descripcion = "Zarasa";
-    provincia2.id = 0;
+    provincia2.Descripcion = "Zarasa";
+    provincia2.Idprovincia = 0;
 
     let localidad2 = new Localidad();
     localidad2.descripcion = "jORGE";

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SweetAlertResult } from 'sweetalert2';
-import { Empleado } from '../../../../../../FrontEnd-IngenieriaDeSoftware_backup/gestionProyect_Liquid/src/app/models/empleado';
 import { Router } from '@angular/router';
 import { MensagesAlertService } from '../../services/mensages-alert.service';
+import { Empleado } from '../../models/empleado';
 
 @Component({
   selector: 'app-gestionar-usuarios',
@@ -18,21 +18,21 @@ export class GestionarUsuariosComponent implements OnInit {
 
   ngOnInit() {
     let empleado1 = new Empleado();
-    empleado1.nombre = 'Gonzalo';
-    empleado1.apellido = 'Etchegaray';
-    empleado1.dni = 39662738;
+    empleado1.nombreEmpleado = 'Gonzalo';
+    empleado1.apellidoEmpleado = 'Etchegaray';
+    empleado1.dniEmpleado = 39662738;
     empleado1.direccion = 'Roca 1566';
     empleado1.fechaIngreso = new Date();
-    empleado1.id = 0;
+    empleado1.idEmpleado = 0;
     empleado1.telefono = 3413496691;
     
     let empleado2 = new Empleado();
-    empleado2.nombre = 'Nancy';
-    empleado2.apellido = 'Garcia';
-    empleado2.dni = 11767270;
+    empleado2.nombreEmpleado = 'Nancy';
+    empleado2.apellidoEmpleado = 'Garcia';
+    empleado2.dniEmpleado = 11767270;
     empleado2.direccion = 'Zarasa 158';
     empleado2.fechaIngreso = new Date();
-    empleado2.id = 1;
+    empleado2.idEmpleado = 1;
     empleado2.telefono = 4860399;
 
     this.empleados.push(empleado1);
@@ -45,7 +45,7 @@ export class GestionarUsuariosComponent implements OnInit {
   }
 
   borrarEmpleado(empleado: Empleado) {
-    this._mensagesAlertServices.ventanaConfirmar('Borrar empleado', `¿Esta seguro que desea borrar el proyecto '${empleado.nombre}'?`)
+    this._mensagesAlertServices.ventanaConfirmar('Borrar empleado', `¿Esta seguro que desea borrar el proyecto '${empleado.nombreEmpleado}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
         // Llamo endpoint para borrar proyecto.

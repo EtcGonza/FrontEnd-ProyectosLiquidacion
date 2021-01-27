@@ -13,11 +13,11 @@
                         </div>
 
                         <div class="p-col-4">
-                            <p-dropdown required="true" [options]="estadosProyecto" formControlName="estado" [style]="{'width':'100%'}"></p-dropdown>
+                            <p-dropdown required="true" [options]="estadosProyecto" formControlName="estado" [disabled]="!modificandoProyecto" [style]="{'width':'100%'}"></p-dropdown>
                         </div>
 
                         <div class="p-col-4">
-                            <p-dropdown required="true" [options]="clientes" optionLabel="nombre" placeholder="Seleccione un cliente" formControlName="cliente" baseZIndex="99999" [style]="{'width':'100%'}"></p-dropdown>
+                            <p-dropdown required="true" [options]="clientes" optionLabel="nombreCliente" placeholder="Seleccione un cliente" formControlName="cliente" baseZIndex="99999" [style]="{'width':'100%'}"></p-dropdown>
                         </div>
 
                         <div class="p-col-12">

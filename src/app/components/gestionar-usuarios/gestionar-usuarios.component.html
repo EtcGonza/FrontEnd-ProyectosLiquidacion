@@ -11,25 +11,25 @@
                     <ng-template pTemplate="header">
                         <tr>
                             <th pSortableColumn="dni">Dni
-                                <p-sortIcon field="dni"></p-sortIcon>
+                                <p-sortIcon field="dniEmpleado"></p-sortIcon>
                             </th>
                             <th pSortableColumn="nombre">Nombre
-                                <p-sortIcon field="nombre"></p-sortIcon>
+                                <p-sortIcon field="nombreEmpleado"></p-sortIcon>
                             </th>
                             <th pSortableColumn="apellido">Apellido
-                                <p-sortIcon field="apellido"></p-sortIcon>
+                                <p-sortIcon field="apellidoEmpleado"></p-sortIcon>
                             </th>
                             <th>Acciones</th>
                         </tr>
                         <tr>
                             <th>
-                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'dni', 'contains')" [value]="dt1.filters['dni']?.value" placeholder="Buscar por dni" class="p-column-filter">
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'dniEmpleado', 'contains')" [value]="dt1.filters['dniEmpleado']?.value" placeholder="Buscar por dni" class="p-column-filter">
                             </th>
                             <th>
-                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'nombre', 'contains')" [value]="dt1.filters['nombre']?.value" placeholder="Buscar por nombre" class="p-column-filter">
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'nombreEmpleado', 'contains')" [value]="dt1.filters['nombreEmpleado']?.value" placeholder="Buscar por nombre" class="p-column-filter">
                             </th>
                             <th>
-                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'apellido', 'contains')" [value]="dt1.filters['apellido']?.value" placeholder="Buscar por apellido" class="p-column-filter">
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'apellidoEmpleado', 'contains')" [value]="dt1.filters['apellidoEmpleado']?.value" placeholder="Buscar por apellido" class="p-column-filter">
                             </th>
                             <th></th>
                         </tr>
@@ -37,13 +37,13 @@
                     <ng-template pTemplate="body" let-empleado>
                         <tr [pSelectableRow]="empleado">
                             <td>
-                                {{empleado.dni}}
+                                {{empleado.dniEmpleado}}
                             </td>
                             <td>
-                                {{empleado.nombre}}
+                                {{empleado.nombreEmpleado}}
                             </td>
                             <td>
-                                {{empleado.apellido}}
+                                {{empleado.apellidoEmpleado}}
                             </td>
                             <td>
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarEmpleado(empleado)" pTooltip="Editar empleado" tooltipPosition="top"></button>
