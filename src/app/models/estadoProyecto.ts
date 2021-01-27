@@ -5,9 +5,9 @@ export enum EstadoProyecto {
 }
 
 export namespace EstadoProyecto {
-    export function values() {
-        return Object.keys(EstadoProyecto).filter(
-            (type) => isNaN(<any>type) && type !== 'values'
+    export function values(): any[] {
+        return Object.values(EstadoProyecto).filter(
+            (type) => typeof type === 'string'
         )
     }
 }

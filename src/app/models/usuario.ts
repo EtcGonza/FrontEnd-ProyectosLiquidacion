@@ -1,9 +1,13 @@
 import { Rol } from './rol';
+import { Empleado } from './empleado';
 
 export class Usuario {
-    id: number;
-    nombreUsuario: string;
-    idRol: Rol;
-    // Esto no seria un arreglo de roles?
-    idEmpleado: number;
+    Idusuario: number;
+    NombreUsuario: string;
+    PasswordUsuario: string;
+    Idrol: number;
+    Idempleado: number;
+
+    IdempleadoNavigation: Empleado;
+    IdrolNavigation: Rol;
 }

@@ -1,4 +1,8 @@
+import { Localidad } from "./localidad";
+
 export class Provincia {
-    id: number;
-    descripcion: string;
+    Idlocalidad: number;
+    Descripcion: string;
+    Idprovincia: number;
+    Localidad: Localidad []
 }
