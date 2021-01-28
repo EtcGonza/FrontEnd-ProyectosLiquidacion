@@ -4,6 +4,7 @@ import { Proyecto } from '../../models/proyecto';
 import { Router } from '@angular/router';
 import { SweetAlertResult } from 'sweetalert2';
 import { Cliente } from 'src/app/models/Cliente';
+import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
   selector: 'app-gestionar-proyectos',
@@ -14,7 +15,7 @@ export class GestionarProyectosComponent implements OnInit {
 
   proyectos: Proyecto [] = [];
 
-  constructor(private _mensagesAlertService: MensagesAlertService, private router: Router) {}
+  constructor(private _mensagesAlertService: MensagesAlertService, private router: Router, private storage: StorageMap) {}
 
   ngOnInit() {
     let proyecto1 = new Proyecto();
@@ -49,7 +50,10 @@ export class GestionarProyectosComponent implements OnInit {
   }
 
   editarProyecto(proyecto: any) {
-    // this.storage.set('_modificarProyecto', proyecto);
+    this.storage.set('_modificarProyecto', proyecto).subscribe({
+      next: ()=> console.log('next'),
+      error: () => console.log('error')
+    });
     this.router.navigateByUrl('crearModificarProyecto', {replaceUrl: false});
   }
 

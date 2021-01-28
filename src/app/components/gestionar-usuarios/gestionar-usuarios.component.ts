@@ -3,6 +3,7 @@ import { SweetAlertResult } from 'sweetalert2';
 import { Router } from '@angular/router';
 import { MensagesAlertService } from '../../services/mensages-alert.service';
 import { Empleado } from '../../models/empleado';
+import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
   selector: 'app-gestionar-usuarios',
@@ -14,7 +15,7 @@ export class GestionarUsuariosComponent implements OnInit {
 
   empleados: Empleado [] = [];
 
-  constructor(private router: Router, private _mensagesAlertServices: MensagesAlertService) {}
+  constructor(private router: Router, private _mensagesAlertServices: MensagesAlertService, private storage: StorageMap) {}
 
   ngOnInit() {
     let empleado1 = new Empleado();
@@ -40,7 +41,11 @@ export class GestionarUsuariosComponent implements OnInit {
   }
 
   editarEmpleado(empleado: Empleado) {
-    // this.storage.set('_modificarEmpleado', empleado);
+    this.storage.set('_modificarEmpleado', empleado).subscribe({
+      next: ()=> console.log('next'),
+      error: () => console.log('error')
+    });
+
     this.router.navigateByUrl('crearModificarProyecto', {replaceUrl: false});
   }
 
@@ -57,5 +62,4 @@ export class GestionarUsuariosComponent implements OnInit {
     // this.storage.remove('_modificarEmpleado');
     this.router.navigateByUrl('crearModificarUsuario', {replaceUrl: false});
   }
-
 }

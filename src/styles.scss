@@ -17,7 +17,11 @@ body {
 //     // width: 100% !important;
 //     // border-radius: 50px !important;
 // }
-div.p-grid div {
+div.p-col,
+div.p-col-4,
+div.p-col-6,
+div.p-col-8,
+div.p-col-12 {
     margin-top: 8px;
 }
 

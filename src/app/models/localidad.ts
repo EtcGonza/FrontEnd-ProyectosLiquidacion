@@ -1,7 +1,5 @@
-import { Provincia } from './provincia';
-
 export class Localidad {
-    id: number;
-    descripcion: string;
-    provincia: Provincia;
+    idLocalidad: number;
+    Descripcion: string;
+    Idprovincia: number;
 }

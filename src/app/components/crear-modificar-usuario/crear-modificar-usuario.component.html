@@ -7,37 +7,31 @@
                     <div class="p-grid">
                         <div class="p-col-4">
                             <span class="p-float-label">
-                                <p-inputNumber formControlName="dni" id="float-dni" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
+                                <p-inputNumber formControlName="dniEmpleado" id="float-dni" mode="decimal" [maxlength]="8" [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
                                 <label for="float-dni">Dni</label>
                             </span>
                         </div>
 
                         <div class="p-col-4">
                             <span class="p-float-label">
-                                <input id="float-usuario" type="text" pInputText> 
-                                <label for="float-usuario">Nombre de usuario</label>
+                                <input id="float-nombre" type="text" pInputText formControlName="nombreEmpleado"> 
+                                <label for="float-nombre">Nombre</label>
                             </span>
                         </div>
 
                         <div class="p-col-4">
                             <span class="p-float-label">
-                                <input id="float-nombre" type="text" pInputText formControlName="nombre"> 
-                                <label for="float-nombre">Nombre</label>
+                                <input id="float-apellido" type="text" pInputText formControlName="apellidoEmpleado"> 
+                                <label for="float-apellido">Apellido</label>
                             </span>
                         </div>
                     </div>
 
                     <div class="p-grid">
-                        <div class="p-col-4">
-                            <span class="p-float-label">
-                                <input id="float-apellido" type="text" pInputText formControlName="apellido"> 
-                                <label for="float-apellido">Apellido</label>
-                            </span>
-                        </div>
 
                         <div class="p-col-4">
                             <span class="p-float-label">
-                                <p-inputNumber formControlName="telefono" id="float-telefono" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
+                                <p-inputNumber formControlName="telefono" id="float-telefono" mode="decimal" [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
                                 <label for="float-telefono">Telefono</label>
                             </span>
                         </div>
@@ -48,8 +42,38 @@
                                 <label for="float-direccion">Direccion</label>
                             </span>
                         </div>
+
+                    </div>
+
+                    <div class="p-grid">
+                        <div class="p-col-8">
+                            <p-multiSelect [options]="perfiles" (onChange)="onChangePerfil($event.value)" defaultLabel="Seleccione uno o varios perfiles" optionLabel="NombrePerfil" display="chip" [style]="{'width':'100%'}"></p-multiSelect>
+                        </div>
                     </div>
                 </form>
+
+                <div class="p-grid">
+                    <div class="p-col-4">
+                        <span class="p-float-label">
+                            <input id="float-usuario" (change)="onChangeUsuario()" [(ngModel)]="usuarioEmpleado.NombreUsuario" type="text" pInputText> 
+                            <label for="float-usuario">Usuario</label>
+                        </span>
+                    </div>
+
+                    <div class="p-col-4">
+                        <span class="p-float-label">
+                            <input id="float-contrasenia" (change)="onChangeUsuario()" [(ngModel)]="usuarioEmpleado.PasswordUsuario" type="text" pPassword> 
+                            <label for="float-contrasenia">Contraseña</label>
+                        </span>
+                    </div>
+                </div>
+                <!-- <div class="p-col-4">
+                            <p-dropdown required="true" [options]="provincias" (onSelect)="onSelectProvincia($event)" [style]="{'width':'100%'}"></p-dropdown>
+                        </div>
+
+                        <div class="p-col-4">
+                            <p-dropdown required="true" [options]="localidades" (onSelect)="onSelectLocalidad($event)" [style]="{'width':'100%'}"></p-dropdown>
+                        </div> -->
             </div>
 
             <ng-template pTemplate="footer">

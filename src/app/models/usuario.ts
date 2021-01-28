@@ -1,5 +1,4 @@
 import { Rol } from './rol';
-import { Empleado } from './empleado';
 
 export class Usuario {
     Idusuario: number;
@@ -8,6 +7,5 @@ export class Usuario {
     Idrol: number;
     Idempleado: number;
 
-    IdempleadoNavigation: Empleado;
     IdrolNavigation: Rol;
 }

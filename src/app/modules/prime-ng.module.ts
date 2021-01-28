@@ -13,6 +13,9 @@ import { TagModule } from 'primeng/tag';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {CardModule} from 'primeng/card';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {DividerModule} from 'primeng/divider';
+import {ListboxModule} from 'primeng/listbox';
 
 @NgModule({
   imports: [
@@ -29,7 +32,10 @@ import {CardModule} from 'primeng/card';
     TagModule,
     InputTextareaModule,
     InputNumberModule,
-    CardModule
+    CardModule,
+    MultiSelectModule,
+    DividerModule,
+    ListboxModule
   ],
   exports: [
     ButtonModule,
@@ -44,7 +50,10 @@ import {CardModule} from 'primeng/card';
     TagModule,
     InputTextareaModule,
     InputNumberModule,
-    CardModule
+    CardModule,
+    MultiSelectModule,
+    DividerModule,
+    ListboxModule
   ]
 })
 export class PrimeNgModule { }
