@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ProyectosService {
 
-  constructor(private httpCliente :HttpClient) {}
+  constructor(private httpCliente: HttpClient) {}
 
    async guardarProyecto(proyecto: Proyecto): Promise<Observable<any>>{
     if(proyecto.Idproyecto) {
@@ -21,10 +21,14 @@ export class ProyectosService {
    async borrarProyecto(idProyecto: number): Promise<Observable<any>>{
     return this.httpCliente.delete<any>(`zarasa/${idProyecto}`);
   }
-
+  
    async GetProyectosByNombre(nombre: string): Promise<Observable<any>> {
     return this.httpCliente.get<any>(`/bynombre/${nombre}`);
-  }  
+  }
+
+  async GetTareasProyecto(idProyecto: number): Promise<Observable<any>> {
+    return this.httpCliente.get<any>(`Tarea/lista/${idProyecto}`);
+  }
 
   async getProyectosByCliente(idCliente: number): Promise<Observable<any>> {
     return this.httpCliente.get<any>(`/cliente/${idCliente}`);
