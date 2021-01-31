@@ -1,4 +1,4 @@
-import { Localidad } from '../../../../../Proyecto/src/app/model/localidad';
+import { Localidad } from './localidad';
 import { Proyecto } from './proyecto';
 
 export class Cliente {

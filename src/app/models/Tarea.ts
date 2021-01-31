@@ -9,10 +9,6 @@ export class Tarea {
     Idperfil: number;
     DescripcionTarea: string; 
     HorasEstimadasTarea: number;
-     HorasOverbudget: number;
+    HorasOverbudget: number;
     HorasTrabajadas: number;
-
-    Id: PerfilEmpleado;
-    IdproyectoNavigation:  Proyecto;
-    HoraTrabajada: HoraTrabajada; 
 }
