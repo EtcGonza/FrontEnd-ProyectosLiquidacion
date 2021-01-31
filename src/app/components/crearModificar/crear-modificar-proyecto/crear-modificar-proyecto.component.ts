@@ -1,15 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MensagesAlertService } from '../../services/mensages-alert.service';
 import { Router } from '@angular/router';
-import { Proyecto } from '../../models/proyecto';
-import { Cliente } from '../../models/Cliente';
-import { EstadoProyecto } from '../../models/estadoProyecto';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { Empleado } from '../../../../../../FrontEnd-IngenieriaDeSoftware_backup/gestionProyect_Liquid/src/app/models/empleado';
-import { Perfil } from '../../../../../../FrontEnd-IngenieriaDeSoftware_backup/gestionProyect_Liquid/src/app/models/Perfil';
+import { Cliente } from 'src/app/models/Cliente';
+import { Proyecto } from 'src/app/models/proyecto';
+import { Empleado } from 'src/app/models/empleado';
+import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
+import { EstadoProyecto } from 'src/app/models/estadoProyecto';
 
 @Component({
   selector: 'app-crear-modificar-proyecto',
@@ -111,7 +110,10 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
       auxEstados.push({label: estadoProyecto, value: estadoProyecto});
       this.estadosProyecto = auxEstados;
     });
+  }
 
+  asignarEmpleados(algo: any) {
+    // this.formulario.controls.EmpleadoProyecto.setValue(algo);
   }
 
   guardarProyecto() {

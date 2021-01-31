@@ -1,0 +1,70 @@
+<div class="p-grid p-jc-center p-p-5">
+    <div class="p-col-12">
+        <p-card header="Lista de Clientes" subheader="Cree y modifique clientes" [style]="{width: 'auto'}" styleClass="p-card-shadow">
+
+            <div class="p-p-2">
+                <p-table #dt1 [value]="clientes" selectionMode="single" dataKey="idCliente" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="Nombre">Nombre
+                                <p-sortIcon field="nombreCliente"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="email">Email
+                                <p-sortIcon field="emailCliente"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="Direccion">Direccion
+                                <p-sortIcon field="direccionCliente"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="Telefono">Telefono
+                                <p-sortIcon field="telefonoCliente"></p-sortIcon>
+                            </th>
+                            <th>Acciones</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'nombreCliente', 'contains')" [value]="dt1.filters['nombreCliente']?.value" placeholder="Buscar por nombre" class="p-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'emailCliente', 'contains')" [value]="dt1.filters['emailCliente']?.value" placeholder="Buscar por email" class="p-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'direccionCliente', 'contains')" [value]="dt1.filters['direccionCliente']?.value" placeholder="Buscar por direccion" class="p-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'telefonoCliente', 'contains')" [value]="dt1.filters['telefonoCliente']?.value" placeholder="Buscar por telefono" class="p-column-filter">
+                            </th>
+                            <th></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-cliente>
+                        <tr [pSelectableRow]="cliente">
+                            <td>
+                                {{cliente.nombreCliente}}
+                            </td>
+                            <td>
+                                {{cliente.emailCliente}}
+                            </td>
+                            <td>
+                                {{cliente.direccionCliente}}
+                            </td>
+                            <td>
+                                {{cliente.telefonoCliente}}
+                            </td>
+                            <td>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarCliente(cliente)" pTooltip="Editar cliente" tooltipPosition="top"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="borrarCliente(cliente)" pTooltip="Borrar cliente" tooltipPosition="top"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <ng-template pTemplate="footer">
+                <div class="centrar-boton">
+                    <button pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
+                    <button pButton pRipple type="button" icon="pi pi-plus-circle" label="Crear nuevo cliente" (click)="crearCliente()" class="p-button-raised p-button-success"></button>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+</div>

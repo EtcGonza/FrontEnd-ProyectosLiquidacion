@@ -1,0 +1,57 @@
+<div class="p-grid p-jc-center p-p-5">
+    <div class="p-col-12">
+        <p-card [header]="tituloCard" [style]="{width: 'auto'}" styleClass="p-card-shadow">
+
+            <div class="p-p-2">
+                <form [formGroup]="formulario">
+                    <div class="p-grid">
+                        <div class="p-col-6">
+                            <span class="p-float-label">
+                                <input id="float-nombre" type="text" pInputText formControlName="nombreCliente"> 
+                                <label for="float-nombre">Nombre *</label>
+                            </span>
+                        </div>
+
+                        <div class="p-col-6">
+                            <span class="p-float-label">
+                                <input id="float-direccion" type="text" pInputText formControlName="direccionCliente"> 
+                                <label for="float-direccion">Direccion</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-grid">
+                        <div class="p-col-6">
+                            <span class="p-float-label">
+                                <p-inputNumber formControlName="telefonoCliente" id="float-telefono" mode="decimal" [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
+                                <label for="float-telefono">Telefono *</label>
+                            </span>
+                        </div>
+
+                        <div class="p-col-6">
+                            <span class="p-float-label">
+                                <input id="float-email" type="text" pInputText formControlName="emailCliente"> 
+                                <label for="float-email">Email *</label>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- <div class="p-col-4">
+                            <p-dropdown required="true" [options]="provincias" (onSelect)="onSelectProvincia($event)" [style]="{'width':'100%'}"></p-dropdown>
+                        </div>
+
+                        <div class="p-col-4">
+                            <p-dropdown required="true" [options]="localidades" (onSelect)="onSelectLocalidad($event)" [style]="{'width':'100%'}"></p-dropdown>
+                        </div> -->
+            </div>
+
+            <ng-template pTemplate="footer">
+                <div class="centrar-boton">
+                    <button pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
+                    <button pButton pRipple type="button" icon="pi pi-save" label="Guardar proyecto" (click)="guardarCliente()" class="p-button-raised p-button-secondary"></button>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+</div>

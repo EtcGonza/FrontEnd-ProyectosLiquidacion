@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SweetAlertResult } from 'sweetalert2';
 import { Router } from '@angular/router';
-import { MensagesAlertService } from '../../services/mensages-alert.service';
-import { Empleado } from '../../models/empleado';
 import { StorageMap } from '@ngx-pwa/local-storage';
+import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
+import { Empleado } from 'src/app/models/empleado';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-gestionar-usuarios',
@@ -15,7 +16,7 @@ export class GestionarUsuariosComponent implements OnInit {
 
   empleados: Empleado [] = [];
 
-  constructor(private router: Router, private _mensagesAlertServices: MensagesAlertService, private storage: StorageMap) {}
+  constructor(private router: Router, private _mensagesAlertServices: MensagesAlertService, private storage: StorageMap, private location: Location) {}
 
   ngOnInit() {
     let empleado1 = new Empleado();
@@ -26,6 +27,8 @@ export class GestionarUsuariosComponent implements OnInit {
     empleado1.fechaIngreso = new Date();
     empleado1.idEmpleado = 0;
     empleado1.telefono = 3413496691;
+
+    console.log(JSON.stringify(empleado1));
     
     let empleado2 = new Empleado();
     empleado2.nombreEmpleado = 'Nancy';
@@ -59,7 +62,11 @@ export class GestionarUsuariosComponent implements OnInit {
   }
 
   crearEmpleado() {
-    // this.storage.remove('_modificarEmpleado');
+    this.storage.delete('_modificarEmpleado').subscribe(() => {});
     this.router.navigateByUrl('crearModificarUsuario', {replaceUrl: false});
+  }
+
+  volver() {
+    this.location.back();
   }
 }

@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Provincia } from '../../models/provincia';
-import { Localidad } from '../../models/localidad';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Empleado } from '../../models/empleado';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { MensagesAlertService } from '../../services/mensages-alert.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { takeUntil } from 'rxjs/operators';
-import { Perfil } from '../../../../../../FrontEnd-IngenieriaDeSoftware_backup/gestionProyect_Liquid/src/app/models/Perfil';
-import { Usuario } from '../../models/usuario';
+import { Empleado } from 'src/app/models/empleado';
+import { Usuario } from 'src/app/models/usuario';
+import { Provincia } from 'src/app/models/provincia';
+import { Localidad } from 'src/app/models/localidad';
+import { Perfil } from 'src/app/models/Perfil';
+import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
 
 @Component({
   selector: 'app-crear-modificar-usuario',
@@ -54,7 +54,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
       perfilEmpleado: [null]
     });
 
-    this.storage.get('_modificarProyecto')
+    this.storage.get('_modificarEmpleado')
     .subscribe((miEmpleado: Empleado) => {
       if (miEmpleado) {
         this.miEmpleado = miEmpleado;
@@ -87,7 +87,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
       this.miEmpleado = this.formulario.value;
         this._mensagesAlertService.ventanaExitosa('¡Exito!', `Usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} guardado`);
     } else {
-      this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con * son obligatorios');
+      this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
   }
 
@@ -157,6 +157,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('(crearModificarUsuarios) ngOnDestroy');
+    this.storage.delete('_modificarEmpleado').subscribe(() => {});
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

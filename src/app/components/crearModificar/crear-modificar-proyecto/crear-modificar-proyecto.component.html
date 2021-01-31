@@ -5,14 +5,14 @@
                 <p-tag styleClass="p-mr-2" icon="pi pi-calendar" severity="success" [value]="fechaInicioFormateada">
                 </p-tag>
             </div>
+            <form [formGroup]="formulario">
 
-            <div class="p-p-2">
-                <form [formGroup]="formulario">
+                <div class="p-p-2">
                     <div class="p-grid">
                         <div class="p-col-4">
                             <span class="p-float-label">
                                 <input id="float-input" type="text" pInputText formControlName="NombreProyecto">
-                                <label for="float-input">Nombre del proyecto</label>
+                                <label for="float-input">Nombre del proyecto *</label>
                             </span>
                         </div>
 
@@ -21,7 +21,7 @@
                         </div>
 
                         <div class="p-col-4">
-                            <p-dropdown required="true" [options]="clientes" optionLabel="cliente" optionLabel="nombreCliente" placeholder="Seleccione un cliente" formControlName="cliente" [style]="{'width':'100%'}"></p-dropdown>
+                            <p-dropdown required="true" [options]="clientes" optionLabel="cliente" optionLabel="nombreCliente" placeholder="Seleccione un cliente *" formControlName="cliente" [style]="{'width':'100%'}"></p-dropdown>
                             <ng-template pTemplate="selectedItem">
                                 <div *ngIf="formulario.value.nombreCliente">
                                     <div>{{formulario.value.nombreCliente.nombreCliente}}</div>
@@ -37,28 +37,29 @@
                             <span class="p-float-label">
                                 <textarea rows="5" id="textDescripcion" pInputTextarea
                                     formControlName="Descripcion"></textarea>
-                                <label for="textDescripcion">Descripción</label>
+                                <label for="textDescripcion">Descripción *</label>
                             </span>
                         </div>
                     </div>
-                </form>
-            </div>
-
-            <p-divider></p-divider>
-
-            <h3>Asignar empleados</h3>
-
-            <div class="p-grid">
-                <div class="p-col">
-                    <p-listbox [options]="empleados" [metaKeySelection]="false" [checkbox]="true" [filter]="true" [multiple]="true" filterPlaceHolder="Filtrar por apellido" optionLabel="apellidoEmpleado" [style]="{'width':'100%'}">
-                        <ng-template let-empleado pTemplate="item">
-                            <div class="country-item">
-                                <span>{{empleado.nombreEmpleado}} {{empleado.apellidoEmpleado}}</span>
-                            </div>
-                        </ng-template>
-                    </p-listbox>
                 </div>
-            </div>
+
+                <p-divider></p-divider>
+
+                <h3>Asignar empleados *</h3>
+
+                <div class="p-grid">
+                    <div class="p-col">
+                        <p-listbox [options]="empleados" formControlName="EmpleadoProyecto" [metaKeySelection]="false" [checkbox]="true" (onChange)="asignarEmpleados($event.value)" [filter]="true" [multiple]="true" filterPlaceHolder="Filtrar por apellido" optionLabel="apellidoEmpleado"
+                            [style]="{'width':'100%'}">
+                            <ng-template let-empleado pTemplate="item">
+                                <div class="country-item">
+                                    <span>{{empleado.nombreEmpleado}} {{empleado.apellidoEmpleado}}</span>
+                                </div>
+                            </ng-template>
+                        </p-listbox>
+                    </div>
+                </div>
+            </form>
 
             <ng-template pTemplate="footer">
                 <div class="centrar-boton">

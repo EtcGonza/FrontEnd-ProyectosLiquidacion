@@ -1,0 +1,84 @@
+<div class="p-grid p-jc-center p-p-5">
+    <div class="p-col-12">
+        <p-card [header]="tituloCard" subheader="Cree o modifique tareas">
+
+            <form [formGroup]="formulario">
+                <div class="p-grid">
+                    <div class="p-col-6">
+                        <span class="p-float-label">
+                        <input id="float-descripcion" type="text" pInputText formControlName="DescripcionTarea"> 
+                        <label for="float-descripcion">Descripcion *</label>
+                    </span>
+                    </div>
+
+                    <div class="p-col-6">
+                        <span class="p-float-label">
+                        <p-inputNumber formControlName="HorasEstimadasTarea" id="float-horas" mode="decimal" [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
+                        <label for="float-horas">Horas estimadas *</label>
+                    </span>
+                    </div>
+                </div>
+            </form>
+
+            <ng-template pTemplate="footer">
+                <div class="centrar-boton">
+                    <button pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
+                    <button pButton pRipple type="button" icon="pi pi-save" label="Guardar proyecto" (click)="guardarTarea()" class="p-button-raised p-button-secondary"></button>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+
+    <div class="p-col-12 p-pt-6">
+        <p-card *ngIf="tareasProyecto" header="Tareas existentes" subheader="Modifique tareas existentes">
+            <p-table #dt1 [value]="tareasProyecto" selectionMode="single" dataKey="idProyecto" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="DescripcionTarea">Descripción tarea
+                            <p-sortIcon field="DescripcionTarea"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="HorasEstimadasTarea">Horas estimadas
+                            <p-sortIcon field="HorasEstimadasTarea"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="HorasTrabajadas">Horas trabajadas
+                            <p-sortIcon field="HorasTrabajadas"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="HorasOverbudget">Horas overbudget
+                            <p-sortIcon field="HorasOverbudget"></p-sortIcon>
+                        </th>
+                        <th>Acciones</th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'DescripcionTarea', 'contains')" [value]="dt1.filters['DescripcionTarea']?.value" placeholder="Buscar por descripción" class="p-column-filter">
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-tarea>
+                    <tr [pSelectableRow]="tarea">
+                        <td>
+                            {{tarea.DescripcionTarea}}
+                        </td>
+                        <td>
+                            {{tarea.HorasEstimadasTarea}}
+                        </td>
+                        <td>
+                            {{tarea.HorasTrabajadas}}
+                        </td>
+                        <td>
+                            {{tarea.HorasOverbudget}}
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarTarea(tarea)" pTooltip="Editar tarea" tooltipPosition="top"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>

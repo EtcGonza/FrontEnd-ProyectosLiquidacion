@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MensagesAlertService } from '../../services/mensages-alert.service';
-import { Proyecto } from '../../models/proyecto';
 import { Router } from '@angular/router';
 import { SweetAlertResult } from 'sweetalert2';
 import { Cliente } from 'src/app/models/Cliente';
 import { StorageMap } from '@ngx-pwa/local-storage';
+import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
+import { Proyecto } from 'src/app/models/proyecto';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-gestionar-proyectos',
@@ -15,9 +16,13 @@ export class GestionarProyectosComponent implements OnInit {
 
   proyectos: Proyecto [] = [];
 
-  constructor(private _mensagesAlertService: MensagesAlertService, private router: Router, private storage: StorageMap) {}
+  constructor(private _mensagesAlertService: MensagesAlertService, private router: Router, private storage: StorageMap, private location: Location) {}
 
   ngOnInit() {
+    this.auxProyectos();
+  }
+
+  auxProyectos() {
     let proyecto1 = new Proyecto();
     proyecto1.EstadoProyecto = 'Activo';
     proyecto1.Idproyecto = 1;
@@ -67,8 +72,19 @@ export class GestionarProyectosComponent implements OnInit {
   }
 
   crearProyecto() {
-    // this.storage.remove('_modificarProyecto');
+    this.storage.delete('_modificarProyecto').subscribe(() => {});
     this.router.navigateByUrl('crearModificarProyecto', {replaceUrl: false});
   }
 
+  navegarTareas(proyecto: Proyecto) {
+    this.storage.set('_proyectoTareas', proyecto).subscribe({
+      next: ()=> console.log('next'),
+      error: () => console.log('error')
+    });
+    this.router.navigateByUrl('crearModificarTareas', {replaceUrl: false});
+  }
+
+  volver() {
+    this.location.back();
+  }
 }

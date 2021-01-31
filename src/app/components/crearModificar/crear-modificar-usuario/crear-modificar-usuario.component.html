@@ -8,21 +8,21 @@
                         <div class="p-col-4">
                             <span class="p-float-label">
                                 <p-inputNumber formControlName="dniEmpleado" id="float-dni" mode="decimal" [maxlength]="8" [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
-                                <label for="float-dni">Dni</label>
+                                <label for="float-dni">Dni *</label>
                             </span>
                         </div>
 
                         <div class="p-col-4">
                             <span class="p-float-label">
                                 <input id="float-nombre" type="text" pInputText formControlName="nombreEmpleado"> 
-                                <label for="float-nombre">Nombre</label>
+                                <label for="float-nombre">Nombre *</label>
                             </span>
                         </div>
 
                         <div class="p-col-4">
                             <span class="p-float-label">
                                 <input id="float-apellido" type="text" pInputText formControlName="apellidoEmpleado"> 
-                                <label for="float-apellido">Apellido</label>
+                                <label for="float-apellido">Apellido *</label>
                             </span>
                         </div>
                     </div>
@@ -56,14 +56,14 @@
                     <div class="p-col-4">
                         <span class="p-float-label">
                             <input id="float-usuario" (change)="onChangeUsuario()" [(ngModel)]="usuarioEmpleado.NombreUsuario" type="text" pInputText> 
-                            <label for="float-usuario">Usuario</label>
+                            <label for="float-usuario">Usuario *</label>
                         </span>
                     </div>
 
                     <div class="p-col-4">
                         <span class="p-float-label">
                             <input id="float-contrasenia" (change)="onChangeUsuario()" [(ngModel)]="usuarioEmpleado.PasswordUsuario" type="text" pPassword> 
-                            <label for="float-contrasenia">Contraseña</label>
+                            <label for="float-contrasenia">Contraseña *</label>
                         </span>
                     </div>
                 </div>
