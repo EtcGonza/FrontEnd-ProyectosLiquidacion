@@ -14,17 +14,25 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
+        label: 'Home',
+        icon: 'pi pi-fw pi-home',
+        routerLink: 'home'
+      },
+      {
         label: 'Gestionar',
         icon: 'pi pi-fw pi-book',
         items: [
           {
             label: 'Proyectos',
             icon: 'pi pi-fw pi-file-o',
-            items: [{
-              label: 'Crear/Modificar',
+            items: [
+            {
+              label: 'Gestionar proyectos',
+              routerLink: 'gestionarProyectos'
             },
             {
-              label: 'Asociar Proyecto',
+              label: 'Crear proyecto',
+              routerLink: 'crearModificarProyecto'
             }]
           },
           {
@@ -32,22 +40,26 @@ export class HeaderComponent implements OnInit {
             icon: 'pi pi-fw pi-users',
             items: [
               {
-                label: 'Crear/Modificar',
+                label: 'Gestionar Empleados',
+                routerLink: 'gestionarUsuarios'
+              },
+              {
+                label: 'Crear empleado',
+                routerLink: 'crearModificarUsuario'
               }
             ]
           },
           {
-            label: 'Perfiles',
-            icon: 'pi pi-fw pi-tag',
-            items: [{
-              label: 'Crear/Modificar',
-            }]
-          },
-          {
             label: 'Clientes',
             icon: 'pi pi-fw pi-star',
-            items: [{
-              label: 'Crear/Modificar',
+            items: [
+              {
+                label: 'Gestionar clientes',
+                routerLink: 'gestionarClientes'
+              },
+              {
+              label: 'Crear cliente',
+              routerLink: 'crearModificarCliente'
             }]
           }]
       },
