@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MensagesAlertService } from '../../services/mensages-alert.service';
+import { Store } from '@ngxs/store';
+import { SetTokenAction } from '../../states/token/token-state';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,8 @@ export class LoginComponent implements OnInit {
   formulario: FormGroup;
 
   constructor(private formBuilder: FormBuilder, 
-    private _mensagesAlertService: MensagesAlertService
+    private _mensagesAlertService: MensagesAlertService,
+    private store: Store
     ) {}
 
   ngOnInit() {
@@ -20,6 +23,8 @@ export class LoginComponent implements OnInit {
       usuario: [null ,Validators.required],
       contrasenia: [null ,Validators.required]
     });
+
+    this.store.dispatch(new SetTokenAction('probandoState'));
   }
 
   ingresar() {
