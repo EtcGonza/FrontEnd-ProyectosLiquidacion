@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
       console.log('formulario valido', this.formulario.value);
       this._mensagesAlertService.ventanaError('Credenciales invalidas', 'Usuario y/o contraseña incorrectos');
     } else {
-      this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con * son obligatorios');
+      this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
   }
 }
