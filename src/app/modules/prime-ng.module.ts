@@ -16,6 +16,7 @@ import {CardModule} from 'primeng/card';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {DividerModule} from 'primeng/divider';
 import {ListboxModule} from 'primeng/listbox';
+import {PickListModule} from 'primeng/picklist';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import {ListboxModule} from 'primeng/listbox';
     CardModule,
     MultiSelectModule,
     DividerModule,
-    ListboxModule
+    ListboxModule,
+    PickListModule
   ],
   exports: [
     ButtonModule,
@@ -53,7 +55,8 @@ import {ListboxModule} from 'primeng/listbox';
     CardModule,
     MultiSelectModule,
     DividerModule,
-    ListboxModule
+    ListboxModule,
+    PickListModule
   ]
 })
 export class PrimeNgModule { }

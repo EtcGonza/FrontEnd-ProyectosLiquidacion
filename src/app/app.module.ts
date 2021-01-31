@@ -6,10 +6,11 @@ import { AppComponent } from './app.component';
 
 import { MyComponentsModule } from './modules/my-components.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AppHttpInterceptor } from './httpInterceptor/httpInterceptor';
 
 @NgModule({
-  declarations: [AppComponent ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     MyComponentsModule,
@@ -17,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true},],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

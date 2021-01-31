@@ -5,11 +5,13 @@ import { PrimeNgModule } from './prime-ng.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from '../components/login/login.component';
 import { HomeComponent } from '../pages/home/home.component';
-import { GestionarProyectosComponent } from '../components/gestionar-proyectos/gestionar-proyectos.component';
-import { CrearModificarProyectoComponent } from '../components/crear-modificar-proyecto/crear-modificar-proyecto.component';
-import { GestionarUsuariosComponent } from '../components/gestionar-usuarios/gestionar-usuarios.component';
-import { CrearModificarUsuarioComponent } from '../components/crear-modificar-usuario/crear-modificar-usuario.component';
-
+import { GestionarUsuariosComponent } from '../components/gestiones/gestionar-usuarios/gestionar-usuarios.component';
+import { GestionarClientesComponent } from '../components/gestiones/gestionar-clientes/gestionar-clientes.component';
+import { CrearModificarClienteComponent } from '../components/crearModificar/crear-modificar-cliente/crear-modificar-cliente.component';
+import { CrearModificarProyectoComponent } from '../components/crearModificar/crear-modificar-proyecto/crear-modificar-proyecto.component';
+import { CrearModificarUsuarioComponent } from '../components/crearModificar/crear-modificar-usuario/crear-modificar-usuario.component';
+import { GestionarProyectosComponent } from '../components/gestiones/gestionar-proyectos/gestionar-proyectos.component';
+import { CrearModificarTareasComponent } from '../components/crearModificar/crear-modificar-tareas/crear-modificar-tareas.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,10 @@ import { CrearModificarUsuarioComponent } from '../components/crear-modificar-us
   GestionarUsuariosComponent,
   GestionarProyectosComponent,
   CrearModificarProyectoComponent,
-  CrearModificarUsuarioComponent
+  CrearModificarTareasComponent,
+  CrearModificarUsuarioComponent,
+  CrearModificarClienteComponent,
+  GestionarClientesComponent,
 ],
   exports:[
   HeaderComponent,
@@ -28,7 +33,10 @@ import { CrearModificarUsuarioComponent } from '../components/crear-modificar-us
   GestionarUsuariosComponent,
   GestionarProyectosComponent,
   CrearModificarProyectoComponent,
-  CrearModificarUsuarioComponent
+  CrearModificarTareasComponent,
+  CrearModificarUsuarioComponent,
+  CrearModificarClienteComponent,
+  GestionarClientesComponent,
 ],
   imports: [
     CommonModule, PrimeNgModule,
