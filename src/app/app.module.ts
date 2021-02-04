@@ -28,7 +28,7 @@ import { states } from '../app/states/states'
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true},],
+  // providers: [{provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true},],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -19,13 +19,10 @@ export class LoggedInGuard implements CanActivate {
   async canActivate(_next: ActivatedRouteSnapshot, _state: RouterStateSnapshot) {
     const token = this.store.selectSnapshot(TokenState.getToken);
 
-    console.log(token);
-
     if(!token) {
       this._mensagesAlertService.ventanaError('Error', 'Su sesión a caducado. Por favor, vuelva a registrarse');
       this.router.navigateByUrl('login', {replaceUrl: true});
       this.logueado = false;
-      console.log('No existe...');
     } else {
       this.logueado = true;
     }

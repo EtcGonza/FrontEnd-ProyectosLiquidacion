@@ -13,16 +13,17 @@ import { LoggedInGuard } from './guards/logged-in.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  
   { path: 'home', component: HomeComponent, canActivate: [LoggedInGuard] },
 
-  { path: 'gestionarProyectos', component: GestionarProyectosComponent },
-  { path: 'gestionarUsuarios', component: GestionarUsuariosComponent },
-  { path: 'gestionarClientes', component: GestionarClientesComponent },
+  { path: 'gestionarProyectos', component: GestionarProyectosComponent, canActivate: [LoggedInGuard]},
+  { path: 'gestionarUsuarios', component: GestionarUsuariosComponent, canActivate: [LoggedInGuard]},
+  { path: 'gestionarClientes', component: GestionarClientesComponent, canActivate: [LoggedInGuard]},
 
-  { path: 'crearModificarProyecto', component: CrearModificarProyectoComponent },
-  { path: 'crearModificarUsuario', component: CrearModificarUsuarioComponent },
-  { path: 'crearModificarCliente', component: CrearModificarClienteComponent },
-  { path: 'crearModificarTareas', component: CrearModificarTareasComponent },
+  { path: 'crearModificarProyecto', component: CrearModificarProyectoComponent, canActivate: [LoggedInGuard]},
+  { path: 'crearModificarUsuario', component: CrearModificarUsuarioComponent, canActivate: [LoggedInGuard]},
+  { path: 'crearModificarCliente', component: CrearModificarClienteComponent, canActivate: [LoggedInGuard]},
+  { path: 'crearModificarTareas', component: CrearModificarTareasComponent, canActivate: [LoggedInGuard]},
 
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', redirectTo: 'home', pathMatch: 'full'}

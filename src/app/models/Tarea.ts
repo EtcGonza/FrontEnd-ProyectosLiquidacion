@@ -1,7 +1,3 @@
-import { PerfilEmpleado } from "./PerfilEmpleado";
-import { Proyecto } from './proyecto';
-import { HoraTrabajada } from './HoraTrabajada';
-
 export class Tarea {
     Idtarea: number;
     Idproyecto: number;

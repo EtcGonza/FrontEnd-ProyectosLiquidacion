@@ -8,6 +8,9 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { ClientesService } from '../../../services/clientes.service';
+import { Localidad } from 'src/app/models/localidad';
+import { LocalidadService } from '../../../services/localidad.service';
+import { Provincia } from '../../../models/provincia';
 
 @Component({
   selector: 'app-crear-modificar-cliente',
@@ -24,22 +27,32 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
 
   formulario: FormGroup;
 
+  provinciaSeleccionada: Provincia = null;
+  
+  provincias: Provincia [] = [];
+  localidades: Localidad [] = [];
+
   constructor(private _clienteService: ClientesService,
      private _mensagesAlertService: MensagesAlertService,
+     private _localidadService: LocalidadService,
      private formBuilder: FormBuilder,
      private router: Router,
      private storage: StorageMap,
      private location: Location) { }
 
   ngOnInit(): void {
+
+    this.getProvincias();
+
     this.formulario = this.formBuilder.group({
-      idCliente: [null],
-      nombreCliente: [null, Validators.required],
-      telefonoCliente: [null, Validators.required],
-      direccionCliente: [null, Validators.required],
-      localidadCliente: [null],
-      emailCliente: [null, Validators.required],
-      proyecto: [null]
+      Idcliente: [null],
+      NombreCliente: ['Coto', Validators.required],
+      ApellidoCliente: ['Cotin', Validators.required],
+      TelefonoCliente: ['123', Validators.required],
+      DireccionCliente: ['zarasa', Validators.required],
+      LocalidadCliente: [null],
+      EmailCliente: ['zarasa', Validators.required],
+      Proyecto: [null]
     });
 
     this.storage.get('_modificarCliente')
@@ -50,22 +63,22 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
       }
 
       if (this.miCliente) {
-        this.tituloCard = `Modificar cliente - ${this.miCliente.nombreCliente}`;
+        this.tituloCard = `Modificar cliente - ${this.miCliente.NombreCliente}`;
         this.modificandoCliente = true;
         this.formulario.patchValue(this.miCliente);
-        this.formulario.controls.nombreCliente.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Modificar cliente - ${nombre}`);
+        this.formulario.controls.NombreCliente.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Modificar cliente - ${nombre}`);
       } else {
         this.tituloCard = `Crear cliente`;
         this.modificandoCliente = false;
-        this.formulario.controls.nombreCliente.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Crear cliente - ${nombre}`);
+        this.formulario.controls.NombreCliente.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Crear cliente - ${nombre}`);
       }
     });
   }
 
   guardarCliente() {
     if(this.formulario.valid) {
-      console.log('formulario valido', this.formulario.value);
       this.miCliente = this.formulario.value;
+    
       this._clienteService.guardarcliente(this.miCliente).then(exito => {
         exito.subscribe(respuesta => {
           this._mensagesAlertService.ventanaExitosa('Cliente creado', 'Ahora puede asignar un proyecto al nuevo cliente');
@@ -75,7 +88,6 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
         console.log('No se pudo guardar', error);
       });
     } else {
-      console.log('Form invalido',this.formulario.value);
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
   }
@@ -90,5 +102,17 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
 
   volver() {
     this.location.back();
+  }
+
+  onSelectProvincia(provincia: Provincia) {
+    this._localidadService.getLocalidades(provincia.idprovincia).then(response => response.subscribe((localidades: Localidad[]) => localidades.forEach((localidad: Localidad) => this.localidades.push(localidad))));
+  }
+
+  onSelectLocalidad(localidad: Localidad) {
+    this.formulario.controls.LocalidadCliente.setValue(localidad.idlocalidad);
+  }
+
+  getProvincias() {
+    this._localidadService.getProvincias().then(response => response.subscribe((provincias: Provincia[]) => provincias.forEach(provincias => this.provincias.push(provincias))))
   }
 }

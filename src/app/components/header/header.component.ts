@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { ResetTokenAction } from '../../states/token/token-state';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +12,7 @@ import { MenuItem } from 'primeng/api';
 export class HeaderComponent implements OnInit {
   items: MenuItem[];
 
-  constructor() { }
+  constructor(private router: Router, private store: Store) { }
 
   ngOnInit() {
     this.items = [
@@ -88,9 +91,14 @@ export class HeaderComponent implements OnInit {
       },
       {
         label: 'Salir',
-        icon: 'pi pi-fw pi-power-off'
+        icon: 'pi pi-fw pi-power-off',
+        command: () => this.logout()
       }
     ];
   }
 
+  logout() {
+    this.store.dispatch(new ResetTokenAction());
+    this.router.navigateByUrl('login', {replaceUrl: true});
+  }
 }

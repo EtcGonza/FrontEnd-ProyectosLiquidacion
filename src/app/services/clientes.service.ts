@@ -11,19 +11,28 @@ export class ClientesService {
   constructor(private httpCliente: HttpClient) { }
 
   async guardarcliente(cliente: Cliente): Promise<Observable<any>>{
-    console.log(JSON.stringify(cliente));
-    if(cliente.idCliente) {
-      return this.httpCliente.put<any>('Cliente', cliente);
+    console.log('guardarcliente Service',cliente);
+    if(cliente.Idcliente) {
+      return this.httpCliente.put<any>('https://localhost:44335/Cliente', cliente, this.getHeaderJson());
     } else {
-      return this.httpCliente.post<any>('cliente', cliente);
+      return this.httpCliente.post<any>('https://localhost:44335/Cliente', cliente, this.getHeaderJson());
     }
   }
 
    async borrarEmpelado(idcliente: number): Promise<Observable<any>>{
-    return this.httpCliente.delete<any>(`Cliente/${idcliente}`);
+    return this.httpCliente.delete<any>(`https://localhost:44335/Cliente/${idcliente}`);
   }
 
    async getclientes(): Promise<Observable<any>> {
-    return this.httpCliente.get<any>(`Cliente`);
+    return this.httpCliente.get<any>(`https://localhost:44335/Cliente`);
   }  
+
+  private getHeaderJson() {
+    return {
+      headers: {
+        'Content-type': 'application/json; charset=utf-8',
+        'Accept': 'application/json'
+      },
+    };
+  }
 }

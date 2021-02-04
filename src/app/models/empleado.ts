@@ -3,16 +3,16 @@ import { Usuario } from './usuario';
 import { PerfilEmpleado } from './PerfilEmpleado';
 
 export class Empleado {
-    idEmpleado: number;
-    nombreEmpleado: string;
-    apellidoEmpleado: string;
-    dniEmpleado: number;
-    telefono: number;
-    direccion: string;
-    usuario: Usuario;
-    localidad: Localidad;
-    fechaIngreso: Date;
-    empleadoProyecto: any [];
-    liquidacion: any [];
-    perfilEmpleado: PerfilEmpleado [];
+    Idempleado: number;
+    NombreEmpleado: string;
+    ApellidoEmpleado: string;
+    DniEmpleado: number;
+    Telefono: number;
+    Direccion: string;
+    Usuario: Usuario;
+    Localidad: number;
+    FechaIngresoEmpleado: Date;
+    EmpleadoProyecto: any [];
+    Liquidacion: any [];
+    PerfilEmpleado: PerfilEmpleado [];
 }

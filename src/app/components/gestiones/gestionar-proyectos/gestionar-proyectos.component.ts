@@ -23,35 +23,35 @@ export class GestionarProyectosComponent implements OnInit {
   }
 
   auxProyectos() {
-    let proyecto1 = new Proyecto();
-    proyecto1.EstadoProyecto = 'Activo';
-    proyecto1.Idproyecto = 1;
-    proyecto1.NombreProyecto = 'Marvel';
-    proyecto1.FechaInicioProyecto = new Date();
+    // let proyecto1 = new Proyecto();
+    // proyecto1.EstadoProyecto = 'Activo';
+    // proyecto1.Idproyecto = 1;
+    // proyecto1.NombreProyecto = 'Marvel';
+    // proyecto1.FechaInicioProyecto = new Date();
 
-    let cliente = new Cliente();
-    cliente.direccionCliente = 'Pellegrini 515';
-    cliente.idCliente = 0;
-    cliente.nombreCliente = 'Disney';
-    cliente.telefonoCliente = '3413496691';
+    // let cliente = new Cliente();
+    // cliente.direccionCliente = 'Pellegrini 515';
+    // cliente.idCliente = 0;
+    // cliente.nombreCliente = 'Disney';
+    // cliente.telefonoCliente = '3413496691';
 
-    proyecto1.cliente = cliente;
-    this.proyectos.push(proyecto1);
+    // proyecto1.cliente = cliente;
+    // this.proyectos.push(proyecto1);
 
-    let proyecto2 = new Proyecto();
-    proyecto2.EstadoProyecto = 'Activo';
-    proyecto2.Idproyecto = 2;
-    proyecto2.NombreProyecto = 'Intel';
-    proyecto2.FechaInicioProyecto = new Date();
+    // let proyecto2 = new Proyecto();
+    // proyecto2.EstadoProyecto = 'Activo';
+    // proyecto2.Idproyecto = 2;
+    // proyecto2.NombreProyecto = 'Intel';
+    // proyecto2.FechaInicioProyecto = new Date();
 
-    let cliente2 = new Cliente();
-    cliente2.direccionCliente = 'Roca 1566';
-    cliente2.idCliente = 1;
-    cliente2.nombreCliente = 'Globant';
-    cliente2.telefonoCliente = '4860399';
+    // let cliente2 = new Cliente();
+    // cliente2.direccionCliente = 'Roca 1566';
+    // cliente2.idCliente = 1;
+    // cliente2.nombreCliente = 'Globant';
+    // cliente2.telefonoCliente = '4860399';
 
-    proyecto2.cliente = cliente2;
-    this.proyectos.push(proyecto2);
+    // proyecto2.cliente = cliente2;
+    // this.proyectos.push(proyecto2);
   }
 
   editarProyecto(proyecto: any) {

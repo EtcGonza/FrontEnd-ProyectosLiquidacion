@@ -16,6 +16,8 @@ export class AppHttpInterceptor implements HttpInterceptor {
 
     console.log('Construyo url ', environment.serverUrl + req.url,);
 
+    console.log('req.headers',req.headers);
+
     req = req.clone({
       url: environment.serverUrl + req.url,
       headers: req.headers,
@@ -24,12 +26,12 @@ export class AppHttpInterceptor implements HttpInterceptor {
     });
 
     // Si estamos autenticados tenemos que enviar el token
-        req = req.clone({
-          url: req.url,
-          headers: req.headers.set('Content-Type', 'application/json; charset=utf-8'),
-          body: req.body,
-          withCredentials: true,
-        });
+        // req = req.clone({
+        //   url: req.url,
+        //   headers: req.headers.set('Content-Type', 'application/json; charset=utf-8'),
+        //   body: req.body,
+        //   withCredentials: true,
+        // });
 
     return next.handle(req).pipe(
       map((event: HttpEvent<any>) => {

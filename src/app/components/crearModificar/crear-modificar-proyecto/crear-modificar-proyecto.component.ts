@@ -73,33 +73,33 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
 
   auxClientes() {
     let cliente = new Cliente();
-    cliente.nombreCliente = 'Disney';
+    cliente.NombreCliente = 'Disney';
     this.clientes.push(cliente);
 
     let cliente2 = new Cliente();
-    cliente2.nombreCliente = 'McDonalds';
+    cliente2.NombreCliente = 'McDonalds';
     this.clientes.push(cliente2);
   }
 
   auxEmpleados() {
     let estefania: Empleado = new Empleado();
-    estefania.nombreEmpleado = "Estefania";
-    estefania.apellidoEmpleado = "Gorosito";
+    estefania.NombreEmpleado = "Estefania";
+    estefania.ApellidoEmpleado = "Gorosito";
     this.empleados.push(estefania);
 
     let martin: Empleado = new Empleado();
-    martin.nombreEmpleado = "Martin";
-    martin.apellidoEmpleado = "Moreno";
+    martin.NombreEmpleado = "Martin";
+    martin.ApellidoEmpleado = "Moreno";
     this.empleados.push(martin);
 
     let mariano: Empleado = new Empleado();
-    mariano.nombreEmpleado = "Mariano";
-    mariano.apellidoEmpleado = "Durand";
+    mariano.NombreEmpleado = "Mariano";
+    mariano.ApellidoEmpleado = "Durand";
     this.empleados.push(mariano);
 
     let gonzalo: Empleado = new Empleado();
-    gonzalo.nombreEmpleado = "Gonzalo";
-    gonzalo.apellidoEmpleado = "Etchegaray";
+    gonzalo.NombreEmpleado = "Gonzalo";
+    gonzalo.ApellidoEmpleado = "Etchegaray";
     this.empleados.push(gonzalo);
   }
 

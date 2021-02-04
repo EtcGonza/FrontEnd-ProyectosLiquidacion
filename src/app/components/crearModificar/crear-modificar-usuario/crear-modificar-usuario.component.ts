@@ -10,6 +10,7 @@ import { Provincia } from 'src/app/models/provincia';
 import { Localidad } from 'src/app/models/localidad';
 import { Perfil } from 'src/app/models/Perfil';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
+import { EmpleadosService } from '../../../services/empleados.service';
 
 @Component({
   selector: 'app-crear-modificar-usuario',
@@ -25,6 +26,8 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   modificandoEmpleado: boolean;
   fechaDeIngresoFormateada: Date;
   formulario: FormGroup;
+
+  provinciaSeleccionada: Provincia;
   provincias: Provincia [] = [];
   localidades: Localidad [] = [];
 
@@ -33,25 +36,29 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
 
   tituloCard: string = ``;
 
-  constructor(private FormBuilder: FormBuilder, private router: Router, private _mensagesAlertService: MensagesAlertService, private storage: StorageMap) {}
+  constructor(private FormBuilder: FormBuilder, 
+    private router: Router, 
+    private _mensagesAlertService: MensagesAlertService, 
+    private _empleadoService: EmpleadosService,
+    private storage: StorageMap) {}
 
   ngOnInit() {
     this.auxPerfiles();
     this.auxLocalidades();
 
     this.formulario = this.FormBuilder.group({
-      idEmpleado: [null],
-      nombreEmpleado: ['', Validators.required],
-      apellidoEmpleado: ['', Validators.required],
-      dniEmpleado: [null, Validators.required],
-      telefono: [null],
-      direccion: [null],
-      usuario: [null, Validators.required],
-      localidad: [null],
-      fechaIngreso: [null],
-      empleadoProyecto: [null],
-      liquidacion: [null],
-      perfilEmpleado: [null]
+      Idempleado: [null],
+      NombreEmpleado: ['Gonzalo', Validators.required],
+      ApellidoEmpleado: ['Etchegaray', Validators.required],
+      DniEmpleado: ['39662738', Validators.required],
+      Telefono: [null],
+      Direccion: [null],
+      Usuario: ['EtcGonza', Validators.required],
+      Localidad: [null, Validators.required],
+      FechaIngresoEmpleado: [null],
+      EmpleadoProyecto: [null],
+      Liquidacion: [null],
+      PerfilEmpleado: [null]
     });
 
     this.storage.get('_modificarEmpleado')
@@ -63,29 +70,32 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
 
       if (this.miEmpleado) {
         this.modificandoEmpleado = true;
-        this.tituloCard = `Modificar usuario - ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado}`;
-        this.formulario.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((formulario: any) => this.tituloCard = `Modificar usuario - ${formulario.nombreEmpleado} ${formulario.apellidoEmpleado}`);
+        this.tituloCard = `Modificar usuario - ${this.miEmpleado.NombreEmpleado} ${this.miEmpleado.ApellidoEmpleado}`;
+        this.formulario.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((formulario: any) => this.tituloCard = `Modificar usuario - ${formulario.NombreEmpleado} ${formulario.ApellidoEmpleado}`);
       } else {
         this.tituloCard = `Crear usuario`;
         this.modificandoEmpleado = false;
-        this.formulario.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((formulario: any) => this.tituloCard = `Crear usuario - ${formulario.nombreEmpleado} ${formulario.apellidoEmpleado}`);
+        this.formulario.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((formulario: any) => this.tituloCard = `Crear usuario - ${formulario.NombreEmpleado} ${formulario.ApellidoEmpleado}`);
       }
     });
-  }
-
-  onChangeLocalidad(localidad: Localidad) {
-    // let aux: Provincia = this.localidadSelected.provincia;
-    // this.localidadSelected = localidad;
-    // this.localidadSelected.provincia = aux;
-    // this.formulario.controls.localidad.setValue(this.localidadSelected);
-    // console.log(this.formulario.controls.localidad.value);
   }
 
   guardarUsuario() {
     console.log('formulario0', this.formulario.value);
     if(this.formulario.valid) {
+
+      
+      // let miEmpleadoAux: Object = this.miEmpleado;
       this.miEmpleado = this.formulario.value;
-        this._mensagesAlertService.ventanaExitosa('¡Exito!', `Usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} guardado`);
+      // miEmpleadoAux.Usuario = this.usuarioEmpleado;
+      // miEmpleadoAux.Localidad = 565468351;
+      // miEmpleadoAux.FechaIngresoEmpleado = Date();
+      
+      this._empleadoService.guardarEmpleado(this.miEmpleado).then(response => response.subscribe(respuesta => {
+        console.log(respuesta);
+      }));
+      
+      // this._mensagesAlertService.ventanaExitosa('¡Exito!', `Usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} guardado`);
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
@@ -119,36 +129,42 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
     this.perfiles.push(auxPerfil5);
   }
 
-  auxLocalidades() {
-    let provincia = new Provincia();
-    provincia.Descripcion = "Santa fe";
-    provincia.Idprovincia = 0;
+  // auxLocalidades() {
+  //   let provincia = new Provincia();
+  //   provincia.Descripcion = "Santa fe";
+  //   provincia.Idprovincia = 0;
 
-    let localidad = new Localidad();
-    localidad.Descripcion = "Rosario";
-    localidad.idLocalidad = 1;
+  //   let localidad = new Localidad();
+  //   localidad.Descripcion = "Rosario";
+  //   localidad.idLocalidad = 1;
 
-    let provincia2 = new Provincia();
-    provincia2.Descripcion = "Zarasa";
-    provincia2.Idprovincia = 0;
+  //   let provincia2 = new Provincia();
+  //   provincia2.Descripcion = "Zarasa";
+  //   provincia2.Idprovincia = 0;
 
-    let localidad2 = new Localidad();
-    localidad2.Descripcion = "jORGE";
-    localidad2.idLocalidad = 1;
+  //   let localidad2 = new Localidad();
+  //   localidad2.Descripcion = "jORGE";
+  //   localidad2.idLocalidad = 1;
 
-    this.provincias.push(provincia);
-    this.provincias.push(provincia2);
+  //   this.provincias.push(provincia);
+  //   this.provincias.push(provincia2);
 
-    this.localidades.push(localidad);
-    this.localidades.push(localidad2);
-  }
+  //   this.localidades.push(localidad);
+  //   this.localidades.push(localidad2);
+  // }
 
+  auxLocalidades() {}
+  
   onChangePerfil(perfiles: Perfil[]) {
-    this.formulario.controls.perfilEmpleado.setValue(perfiles);
+    this.formulario.controls.PerfilEmpleado.setValue(perfiles);
   }
 
   onChangeUsuario() {
     this.formulario.controls.usuario.setValue(this.usuarioEmpleado);
+  }
+
+  onSelectProvincia(provincia: Provincia) {
+    // provincia.Localidad.forEach((localidad: Localidad) => this.localidades.push(localidad));
   }
 
   volver() {

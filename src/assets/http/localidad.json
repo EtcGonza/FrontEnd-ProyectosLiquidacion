@@ -1,0 +1,33 @@
+{
+    "provincias": [{
+            "Descripcion": "Santa Fe",
+            "Idprovincia": 0,
+            "Localidad": [{
+                    "idLocalidad": 0,
+                    "Descripcion": "Rosario",
+                    "Idprovincia": 0
+                },
+                {
+                    "idLocalidad": 1,
+                    "Descripcion": "Roldan",
+                    "Idprovincia": 0
+                }
+            ]
+        },
+        {
+            "Descripcion": "Entre Rios",
+            "Idprovincia": 1,
+            "Localidad": [{
+                    "idLocalidad": 2,
+                    "Descripcion": "Chajari",
+                    "Idprovincia": 1
+                },
+                {
+                    "idLocalidad": 3,
+                    "Descripcion": "Roldan",
+                    "Idprovincia": 1
+                }
+            ]
+        }
+    ]
+}

@@ -5,6 +5,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { MensagesAlertService } from '../../../services/mensages-alert.service';
 import { SweetAlertResult } from 'sweetalert2';
 import { Location } from '@angular/common';
+import { ClientesService } from '../../../services/clientes.service';
 
 @Component({
   selector: 'app-gestionar-clientes',
@@ -15,26 +16,22 @@ export class GestionarClientesComponent implements OnInit {
 
   clientes: Cliente [] = [];
 
-  constructor(private _mensagesAlertService: MensagesAlertService, private router: Router, private storage: StorageMap, private location: Location) {}
+  constructor(
+    private _mensagesAlertService: MensagesAlertService,
+    private _clienteService: ClientesService, 
+    private router: Router,
+     private storage: StorageMap,
+     private location: Location) {}
 
   ngOnInit(): void {
-    this.auxClientes();
+    this.getClientes();
   }
 
-  auxClientes() {
-    let cliente1: Cliente = new Cliente();
-    cliente1.direccionCliente = "Zarasa 150";
-    cliente1.emailCliente = "zarasa@mail.com";
-    cliente1.nombreCliente = "zarasa";
-    cliente1.telefonoCliente = "4860399";
-    this.clientes.push(cliente1);
-
-    let cliente2: Cliente = new Cliente();
-    cliente2.direccionCliente = "Montevideo 230";
-    cliente2.emailCliente = "montevideo@mail.com";
-    cliente2.nombreCliente = "Montevideo";
-    cliente2.telefonoCliente = "3413496691";
-    this.clientes.push(cliente2);
+  getClientes() {
+    this._clienteService.getclientes().then(response => response.subscribe(clientes => {
+      console.log('clientes',clientes);
+      clientes.forEach(cliente => this.clientes.push(cliente))
+    }));
   }
 
   crearCliente() {
@@ -52,7 +49,7 @@ export class GestionarClientesComponent implements OnInit {
   }
 
   borrarCliente(cliente: Cliente) {
-    this._mensagesAlertService.ventanaConfirmar('Borrar cliente', `¿Esta seguro que desea borrar el cliente '${cliente.nombreCliente}'?`)
+    this._mensagesAlertService.ventanaConfirmar('Borrar cliente', `¿Esta seguro que desea borrar el cliente '${cliente.NombreCliente}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
         // Llamo endpoint para borrar proyecto.
