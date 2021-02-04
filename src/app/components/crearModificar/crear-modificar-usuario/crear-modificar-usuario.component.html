@@ -47,35 +47,37 @@
 
                     <div class="p-grid">
                         <div class="p-col-6">
-                            <p-dropdown [options]="provincias" optionLabel="Descripcion" required="true" (onChange)="onSelectProvincia($event.value)" [filter]="true" filterBy="Descripcion" [showClear]="true" placeholder="Selecciona una provincia" [style]="{'width':'100%'}">
+                            <p-dropdown [options]="provincias" optionLabel="descripcion" required="true" (onChange)="onSelectProvincia($event.value)" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una provincia" [style]="{'width':'100%'}">
                                 <ng-template *ngIf="provinciaSeleccionada" pTemplate="selectedItem">
-                                    <div>{{provinciaSeleccionada.Descripcion}}</div>
+                                    <div>{{provinciaSeleccionada.descripcion}}</div>
                                 </ng-template>
                                 <ng-template let-provincia pTemplate="item">
                                     <div>
-                                        <div>{{provincia.Descripcion}}</div>
+                                        <div>{{provincia.descripcion}}</div>
                                     </div>
                                 </ng-template>
                             </p-dropdown>
                         </div>
 
                         <div class="p-col-6">
-                            <p-dropdown [options]="localidades" formControlName="Localidad" optionLabel="Descripcion" required="true" [filter]="true" filterBy="Descripcion" [showClear]="true" placeholder="Selecciona una localidad" [style]="{'width':'100%'}">
+                            <p-dropdown [options]="localidades" (onChange)="onSelectLocalidad($event.value)" optionLabel="descripcion" required="true" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una localidad" [style]="{'width':'100%'}">
                                 <ng-template *ngIf="this.formulario.controls.Localidad.value" pTemplate="selectedItem">
                                     <div>{{this.formulario.controls.Localidad.value}}</div>
                                 </ng-template>
                                 <ng-template let-localidad pTemplate="item">
                                     <div>
-                                        <div>{{localidad.Descripcion}}</div>
+                                        <div>{{localidad.descripcion}}</div>
                                     </div>
                                 </ng-template>
                             </p-dropdown>
                         </div>
                     </div>
 
+                    {{perfiles | json}}
+
                     <div class="p-grid">
                         <div class="p-col-8">
-                            <p-multiSelect [options]="perfiles" (onChange)="onChangePerfil($event.value)" defaultLabel="Seleccione uno o varios perfiles" optionLabel="NombrePerfil" display="chip" [style]="{'width':'100%'}"></p-multiSelect>
+                            <p-multiSelect [options]="perfiles" (onChange)="onChangePerfil($event.value)" defaultLabel="Seleccione uno o varios perfiles" optionLabel="nombrePerfil" display="chip" [style]="{'width':'100%'}"></p-multiSelect>
                         </div>
                     </div>
                 </form>

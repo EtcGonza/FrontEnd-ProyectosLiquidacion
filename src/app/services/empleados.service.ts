@@ -11,20 +11,20 @@ export class EmpleadosService {
 
   constructor(private httpCliente: HttpClient, private tokenService: TokenService) {}
 
-  async guardarEmpleado(empleado: Empleado): Promise<Observable<any>>{
+  async guardarEmpleado(empleado: any): Promise<Observable<any>>{
     if(empleado.Idempleado) {
-      return this.httpCliente.put<any>('https://localhost:44319/Empleado', empleado, this.getHeaderJson());
+      return this.httpCliente.put<any>('https://localhost:44335/Empleado', empleado, this.getHeaderJson());
     } else {
-      return this.httpCliente.post<any>('https://localhost:44319/Empleado', empleado, this.getHeaderJson());
+      return this.httpCliente.post<any>('https://localhost:44335/Empleado', empleado, this.getHeaderJson());
     }
   }
 
    async borrarEmpelado(idEmpleado: number): Promise<Observable<any>>{
-    return this.httpCliente.delete<any>(`https://localhost:44319/Empleado/${idEmpleado}`);
+    return this.httpCliente.delete<any>(`https://localhost:44335/Empleado/${idEmpleado}`);
   }
 
-   async getEmpleados(nombre: string): Promise<Observable<any>> {
-    return this.httpCliente.get<any>(`https://localhost:44319/Empleado/lista`);
+   async getEmpleados(): Promise<Observable<any>> {
+    return this.httpCliente.get<any>(`https://localhost:44335/Empleado/lista`);
   }  
 
   private getHeaderJson() {

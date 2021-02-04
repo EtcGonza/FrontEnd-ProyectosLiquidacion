@@ -6,6 +6,4 @@ export class Usuario {
     PasswordUsuario: string;
     Idrol: number;
     Idempleado: number;
-
-    IdrolNavigation: Rol;
 }

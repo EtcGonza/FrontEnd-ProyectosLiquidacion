@@ -9,5 +9,4 @@ export class Cliente {
     LocalidadCliente: number;
     EmailCliente: string;
     Proyecto: Proyecto [];
-    jorgelandia: string;
 }

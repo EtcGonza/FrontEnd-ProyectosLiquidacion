@@ -29,6 +29,7 @@ export class GestionarClientesComponent implements OnInit {
 
   getClientes() {
     this._clienteService.getclientes().then(response => response.subscribe(clientes => {
+      let clientesAux = clientes
       console.log('clientes',clientes);
       clientes.forEach(cliente => this.clientes.push(cliente))
     }));
@@ -48,11 +49,13 @@ export class GestionarClientesComponent implements OnInit {
     this.router.navigateByUrl('crearModificarCliente', {replaceUrl: false});
   }
 
-  borrarCliente(cliente: Cliente) {
+  borrarCliente(cliente: any) {
     this._mensagesAlertService.ventanaConfirmar('Borrar cliente', `¿Esta seguro que desea borrar el cliente '${cliente.NombreCliente}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
-        // Llamo endpoint para borrar proyecto.
+        this._clienteService.borrarEmpelado(cliente.idcliente).then(response => response.subscribe(respuesta => {
+          console.log(respuesta);
+        }));
       }
     });
   }

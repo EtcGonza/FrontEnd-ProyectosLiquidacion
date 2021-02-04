@@ -46,12 +46,12 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
 
     this.formulario = this.formBuilder.group({
       Idcliente: [null],
-      NombreCliente: ['Coto', Validators.required],
-      ApellidoCliente: ['Cotin', Validators.required],
-      TelefonoCliente: ['123', Validators.required],
-      DireccionCliente: ['zarasa', Validators.required],
+      NombreCliente: [null, Validators.required],
+      ApellidoCliente: [null, Validators.required],
+      TelefonoCliente: [null, Validators.required],
+      DireccionCliente: [null, Validators.required],
       LocalidadCliente: [null],
-      EmailCliente: ['zarasa', Validators.required],
+      EmailCliente: [null, Validators.required],
       Proyecto: [null]
     });
 
@@ -105,7 +105,11 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
   }
 
   onSelectProvincia(provincia: Provincia) {
-    this._localidadService.getLocalidades(provincia.idprovincia).then(response => response.subscribe((localidades: Localidad[]) => localidades.forEach((localidad: Localidad) => this.localidades.push(localidad))));
+    this.localidades = [];
+    
+    this._localidadService.getLocalidades(provincia.idprovincia).then(response => response.subscribe((localidades: Localidad[]) => localidades.forEach((localidad: Localidad) => {
+      this.localidades.push(localidad)
+    })));
   }
 
   onSelectLocalidad(localidad: Localidad) {

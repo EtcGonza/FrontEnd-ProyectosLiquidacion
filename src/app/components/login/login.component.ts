@@ -35,12 +35,12 @@ export class LoginComponent implements OnInit {
 
       // this._loginService.test().then(response => response.subscribe(respuesta => console.log('TEST', respuesta)));
       // this._mensagesAlertService.ventanaError('Credenciales invalidas', 'Usuario y/o contraseña incorrectos');
-      this.store.dispatch(new SetTokenAction('probandoState'));
-      this.router.navigateByUrl('home', {replaceUrl: true});
-
+      // this.store.dispatch(new SetTokenAction('probandoState'));
+      
       this._loginService.ingresar(this.formulario.value.usuario, this.formulario.value.contrasenia).then(response => 
         response.subscribe(respuesta => {
           console.log('Respuesta! ',respuesta);
+          // this.router.navigateByUrl('home', {replaceUrl: true});
         }, error => {
           console.log('error', error);
         }));

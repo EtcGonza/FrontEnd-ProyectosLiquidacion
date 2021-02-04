@@ -16,13 +16,11 @@ export class LoginService {
       password: password
     }
 
-    console.log('body => ',body);
-
-    return this.httpClient.post<any>('https://localhost:44319/Login', body, this.getHeaderBasicFormEnconded());
+    return this.httpClient.post<any>('https://localhost:44335/Login', body, this.getHeaderBasicFormEnconded());
   }
 
   async test(): Promise<Observable<any>>{
-    return this.httpClient.get<any>('https://localhost:44319/Login', this.getHeaderBasicFormEnconded());
+    return this.httpClient.get<any>('https://localhost:44335/Login', this.getHeaderBasicFormEnconded());
   }
 
   private getHeaderBasicFormEnconded() {

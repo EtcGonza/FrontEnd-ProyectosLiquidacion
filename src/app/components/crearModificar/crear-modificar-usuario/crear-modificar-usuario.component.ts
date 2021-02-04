@@ -11,6 +11,8 @@ import { Localidad } from 'src/app/models/localidad';
 import { Perfil } from 'src/app/models/Perfil';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
 import { EmpleadosService } from '../../../services/empleados.service';
+import { LocalidadService } from '../../../services/localidad.service';
+import { PerfilService } from '../../../services/perfil.service';
 
 @Component({
   selector: 'app-crear-modificar-usuario',
@@ -32,7 +34,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   localidades: Localidad [] = [];
 
   localidadSelected: Localidad = new Localidad();;
-  perfiles: Perfil[] = [];
+  perfiles: Perfil [] = [];
 
   tituloCard: string = ``;
 
@@ -40,11 +42,14 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
     private router: Router, 
     private _mensagesAlertService: MensagesAlertService, 
     private _empleadoService: EmpleadosService,
-    private storage: StorageMap) {}
+    private storage: StorageMap,
+    private _localidadService: LocalidadService,
+    private _perfilServices: PerfilService) {}
 
   ngOnInit() {
     this.auxPerfiles();
-    this.auxLocalidades();
+
+    this.getProvincias();
 
     this.formulario = this.FormBuilder.group({
       Idempleado: [null],
@@ -81,90 +86,90 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   }
 
   guardarUsuario() {
-    console.log('formulario0', this.formulario.value);
     if(this.formulario.valid) {
 
-      
-      // let miEmpleadoAux: Object = this.miEmpleado;
       this.miEmpleado = this.formulario.value;
-      // miEmpleadoAux.Usuario = this.usuarioEmpleado;
-      // miEmpleadoAux.Localidad = 565468351;
-      // miEmpleadoAux.FechaIngresoEmpleado = Date();
+    
+      if (!this.modificandoEmpleado) {
+        this.miEmpleado.FechaIngresoEmpleado = new Date();
+      } 
+      
+      let empleadoAux: Object = this.miEmpleado;
+
+      console.log('this.miEmpleado ',this.miEmpleado);
       
       this._empleadoService.guardarEmpleado(this.miEmpleado).then(response => response.subscribe(respuesta => {
         console.log(respuesta);
+        // this._mensagesAlertService.ventanaExitosa('¡Exito!', `Usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} guardado`);
       }));
       
-      // this._mensagesAlertService.ventanaExitosa('¡Exito!', `Usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} guardado`);
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
   }
 
   auxPerfiles() {
-    let auxPerfil1: Perfil = new Perfil();
-    auxPerfil1.Idperfil = 0;
-    auxPerfil1.NombrePerfil = "Tester";
+    // let auxPerfil1: Perfil = new Perfil();
+    // auxPerfil1.Idperfil = 0;
+    // auxPerfil1.NombrePerfil = "Tester";
 
-    let auxPerfil2: Perfil = new Perfil();
-    auxPerfil2.Idperfil = 0;
-    auxPerfil2.NombrePerfil = "Analista";
+    // let auxPerfil2: Perfil = new Perfil();
+    // auxPerfil2.Idperfil = 0;
+    // auxPerfil2.NombrePerfil = "Analista";
 
-    let auxPerfil3: Perfil = new Perfil();
-    auxPerfil3.Idperfil = 0;
-    auxPerfil3.NombrePerfil = "Desarrollador";
+    // let auxPerfil3: Perfil = new Perfil();
+    // auxPerfil3.Idperfil = 0;
+    // auxPerfil3.NombrePerfil = "Desarrollador";
 
-    let auxPerfil4: Perfil = new Perfil();
-    auxPerfil4.Idperfil = 0;
-    auxPerfil4.NombrePerfil = "Implementador";
+    // let auxPerfil4: Perfil = new Perfil();
+    // auxPerfil4.Idperfil = 0;
+    // auxPerfil4.NombrePerfil = "Implementador";
 
-    let auxPerfil5: Perfil = new Perfil();
-    auxPerfil5.Idperfil = 0;
-    auxPerfil5.NombrePerfil = "Supervisor";
+    // let auxPerfil5: Perfil = new Perfil();
+    // auxPerfil5.Idperfil = 0;
+    // auxPerfil5.NombrePerfil = "Supervisor";
 
-    this.perfiles.push(auxPerfil1);
-    this.perfiles.push(auxPerfil2);
-    this.perfiles.push(auxPerfil3);
-    this.perfiles.push(auxPerfil4);
-    this.perfiles.push(auxPerfil5);
+    // // this.perfiles.push(auxPerfil1);
+    // // this.perfiles.push(auxPerfil2);
+    // // this.perfiles.push(auxPerfil3);
+    // // this.perfiles.push(auxPerfil4);
+    // // this.perfiles.push(auxPerfil5);
+
+    // // console.log('1',this.perfiles);
+
+    this.getPerfiles();
+
+    console.log('Perfiles asignados => ',this.perfiles);
   }
 
-  // auxLocalidades() {
-  //   let provincia = new Provincia();
-  //   provincia.Descripcion = "Santa fe";
-  //   provincia.Idprovincia = 0;
+  getPerfiles() {
+    this._perfilServices.getPerfiles().then(response => response.subscribe((perfiles: Perfil []) => perfiles.forEach((perfil: Perfil) => {
+      console.log('Respuesta perfiles => ',perfil);
+      this.perfiles.push(perfil as Perfil)
+    })));
+  }
 
-  //   let localidad = new Localidad();
-  //   localidad.Descripcion = "Rosario";
-  //   localidad.idLocalidad = 1;
-
-  //   let provincia2 = new Provincia();
-  //   provincia2.Descripcion = "Zarasa";
-  //   provincia2.Idprovincia = 0;
-
-  //   let localidad2 = new Localidad();
-  //   localidad2.Descripcion = "jORGE";
-  //   localidad2.idLocalidad = 1;
-
-  //   this.provincias.push(provincia);
-  //   this.provincias.push(provincia2);
-
-  //   this.localidades.push(localidad);
-  //   this.localidades.push(localidad2);
-  // }
-
-  auxLocalidades() {}
-  
   onChangePerfil(perfiles: Perfil[]) {
     this.formulario.controls.PerfilEmpleado.setValue(perfiles);
   }
 
   onChangeUsuario() {
-    this.formulario.controls.usuario.setValue(this.usuarioEmpleado);
+    this.formulario.controls.Usuario.setValue(this.usuarioEmpleado);
   }
 
   onSelectProvincia(provincia: Provincia) {
-    // provincia.Localidad.forEach((localidad: Localidad) => this.localidades.push(localidad));
+    this.localidades = [];
+
+    this._localidadService.getLocalidades(provincia.idprovincia).then(response => response.subscribe((localidades: Localidad[]) => localidades.forEach((localidad: Localidad) => {
+      this.localidades.push(localidad)
+    })));
+  }
+
+  onSelectLocalidad(localidad: Localidad) {
+    this.formulario.controls.Localidad.setValue(localidad.idlocalidad);
+  }
+  getProvincias() {
+    this._localidadService.getProvincias().then(response => response.subscribe((provincias: Provincia[]) => provincias.forEach(provincias => this.provincias.push(provincias))))
   }
 
   volver() {
