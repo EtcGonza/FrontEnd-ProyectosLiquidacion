@@ -1,6 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { TokenState } from '../states/token/token-state';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class TokenService {
 
   async getHeaderJson() {
     let headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json; charset=utf-8'
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'Bearer ' + this.store.selectSnapshot(TokenState.getToken),
     });
 
     return { headers: headers, withCredentials: false };

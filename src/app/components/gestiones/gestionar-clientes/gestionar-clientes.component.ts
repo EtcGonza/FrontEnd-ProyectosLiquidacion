@@ -29,7 +29,6 @@ export class GestionarClientesComponent implements OnInit {
 
   getClientes() {
     this._clienteService.getclientes().then(response => response.subscribe(clientes => {
-      let clientesAux = clientes
       console.log('clientes',clientes);
       clientes.forEach(cliente => this.clientes.push(cliente))
     }));
@@ -50,6 +49,7 @@ export class GestionarClientesComponent implements OnInit {
   }
 
   borrarCliente(cliente: any) {
+    console.log('borrar => ',cliente);
     this._mensagesAlertService.ventanaConfirmar('Borrar cliente', `¿Esta seguro que desea borrar el cliente '${cliente.NombreCliente}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
