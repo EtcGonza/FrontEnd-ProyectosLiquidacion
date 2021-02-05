@@ -1,12 +1,12 @@
 import { Proyecto } from './proyecto';
 
 export class Cliente {
-    Idcliente: number;
-    NombreCliente: string;
-    ApellidoCliente: string;
-    TelefonoCliente: string;
-    DireccionCliente: string;
-    LocalidadCliente: number;
-    EmailCliente: string;
-    Proyecto: Proyecto [];
+    idcliente: number;
+    apellidoCliente: string;
+    nombreCliente: string;
+    telefonoCliente: string;
+    direccionCliente: string;
+    localidadCliente: number;
+    emailCliente: string;
+    proyecto: Proyecto [];
 }

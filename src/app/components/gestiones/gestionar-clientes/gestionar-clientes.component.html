@@ -6,38 +6,38 @@
                 <p-table #dt1 [value]="clientes" selectionMode="single" dataKey="idCliente" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="NombreCliente">Nombre
-                                <p-sortIcon field="NombreCliente"></p-sortIcon>
+                            <th pSortableColumn="nombreCliente">Nombre
+                                <p-sortIcon field="nombreCliente"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="ApellidoCliente">Apellido
-                                <p-sortIcon field="ApellidoCliente"></p-sortIcon>
+                            <th pSortableColumn="apellidoCliente">Apellido
+                                <p-sortIcon field="apellidoCliente"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="EmailCliente">Email
-                                <p-sortIcon field="EmailCliente"></p-sortIcon>
+                            <th pSortableColumn="emailCliente">Email
+                                <p-sortIcon field="emailCliente"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="DireccionCliente">Direccion
-                                <p-sortIcon field="DireccionCliente"></p-sortIcon>
+                            <th pSortableColumn="direccionCliente">Direccion
+                                <p-sortIcon field="direccionCliente"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="TelefonoCliente">Telefono
-                                <p-sortIcon field="TelefonoCliente"></p-sortIcon>
+                            <th pSortableColumn="telefonoCliente">Telefono
+                                <p-sortIcon field="telefonoCliente"></p-sortIcon>
                             </th>
                             <th>Acciones</th>
                         </tr>
                         <tr>
                             <th>
-                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'NombreCliente', 'contains')" [value]="dt1.filters['NombreCliente']?.value" placeholder="Buscar por nombre" class="p-column-filter">
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'nombreCliente', 'contains')" [value]="dt1.filters['nombreCliente']?.value" placeholder="Buscar por nombre" class="p-column-filter">
                             </th>
                             <th>
-                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'ApellidoCliente', 'contains')" [value]="dt1.filters['ApellidoCliente']?.value" placeholder="Buscar por apellido" class="p-column-filter">
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'apellidoCliente', 'contains')" [value]="dt1.filters['apellidoCliente']?.value" placeholder="Buscar por apellido" class="p-column-filter">
                             </th>
                             <th>
-                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'EmailCliente', 'contains')" [value]="dt1.filters['EmailCliente']?.value" placeholder="Buscar por email" class="p-column-filter">
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'emailCliente', 'contains')" [value]="dt1.filters['emailCliente']?.value" placeholder="Buscar por email" class="p-column-filter">
                             </th>
                             <th>
-                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'DireccionCliente', 'contains')" [value]="dt1.filters['DireccionCliente']?.value" placeholder="Buscar por direccion" class="p-column-filter">
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'direccionCliente', 'contains')" [value]="dt1.filters['direccionCliente']?.value" placeholder="Buscar por direccion" class="p-column-filter">
                             </th>
                             <th>
-                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'TelefonoCliente', 'contains')" [value]="dt1.filters['TelefonoCliente']?.value" placeholder="Buscar por telefono" class="p-column-filter">
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'telefonoCliente', 'contains')" [value]="dt1.filters['telefonoCliente']?.value" placeholder="Buscar por telefono" class="p-column-filter">
                             </th>
                             <th></th>
                         </tr>
@@ -45,19 +45,19 @@
                     <ng-template pTemplate="body" let-cliente>
                         <tr [pSelectableRow]="cliente">
                             <td>
-                                {{cliente.NombreCliente}}
+                                {{cliente.nombreCliente}}
                             </td>
                             <td>
-                                {{cliente.ApellidoCliente}}
+                                {{cliente.apellidoCliente}}
                             </td>
                             <td>
-                                {{cliente.EmailCliente}}
+                                {{cliente.emailCliente}}
                             </td>
                             <td>
-                                {{cliente.DireccionCliente}}
+                                {{cliente.direccionCliente}}
                             </td>
                             <td>
-                                {{cliente.TelefonoCliente}}
+                                {{cliente.telefonoCliente}}
                             </td>
                             <td>
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarCliente(cliente)" pTooltip="Editar cliente" tooltipPosition="top"></button>

@@ -23,6 +23,6 @@ export class EmpleadosService {
   }
 
    async getEmpleados(): Promise<Observable<any>> {
-    return this.httpCliente.get<any>(`Empleado/lista`);
+    return this.httpCliente.get<any>(`Empleado/raul`);
   }  
 }

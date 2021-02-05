@@ -11,7 +11,7 @@ export class ClientesService {
   constructor(private httpCliente: HttpClient) { }
 
   async guardarcliente(cliente: Cliente): Promise<Observable<any>>{
-    if(cliente.Idcliente) {
+    if(cliente.idcliente) {
       return this.httpCliente.put<any>('Cliente', cliente);
     } else {
       return this.httpCliente.post<any>('Cliente', cliente);

@@ -1,4 +1,3 @@
-import { Rol } from './rol';
 
 export class Usuario {
     Idusuario: number;

@@ -73,8 +73,6 @@
                         </div>
                     </div>
 
-                    {{perfiles | json}}
-
                     <div class="p-grid">
                         <div class="p-col-8">
                             <p-multiSelect [options]="perfiles" (onChange)="onChangePerfil($event.value)" defaultLabel="Seleccione uno o varios perfiles" optionLabel="nombrePerfil" display="chip" [style]="{'width':'100%'}"></p-multiSelect>

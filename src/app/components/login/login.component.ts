@@ -31,16 +31,11 @@ export class LoginComponent implements OnInit {
 
   ingresar() {
     if(this.formulario.valid) {
-      console.log('formulario valido', this.formulario.value);
-      
       this._loginService.ingresar(this.formulario.value.usuario, this.formulario.value.contrasenia).then(response => 
         response.subscribe(respuesta => {
           this.store.dispatch(new SetTokenAction(respuesta.token));
           this.router.navigateByUrl('home', {replaceUrl: true});
-        }, error => {
-          console.log('error', error);
-        }));
-
+        }, error => console.log('error', error)));
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }

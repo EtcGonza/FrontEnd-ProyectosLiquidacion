@@ -45,32 +45,33 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
     this.getProvincias();
 
     this.formulario = this.formBuilder.group({
-      Idcliente: [null],
-      NombreCliente: [null, Validators.required],
-      ApellidoCliente: [null, Validators.required],
-      TelefonoCliente: [null, Validators.required],
-      DireccionCliente: [null, Validators.required],
-      LocalidadCliente: [null],
-      EmailCliente: [null, Validators.required],
-      Proyecto: [null]
+      idcliente: [null],
+      apellidoCliente: [null, Validators.required],
+      nombreCliente: [null, Validators.required],
+      telefonoCliente: [null, Validators.required],
+      direccionCliente: [null, Validators.required],
+      localidadCliente: [null],
+      emailCliente: [null, Validators.required],
+      proyecto: [null]
     });
 
     this.storage.get('_modificarCliente')
     .subscribe((miCliente: Cliente) => {
       if (miCliente) {
+        console.log('Cargo micliente', miCliente);
         this.miCliente = miCliente;
         this.formulario.patchValue(this.miCliente);
       }
 
       if (this.miCliente) {
-        this.tituloCard = `Modificar cliente - ${this.miCliente.NombreCliente}`;
+        this.tituloCard = `Modificar cliente - ${this.miCliente.nombreCliente}`;
         this.modificandoCliente = true;
         this.formulario.patchValue(this.miCliente);
-        this.formulario.controls.NombreCliente.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Modificar cliente - ${nombre}`);
+        this.formulario.controls.nombreCliente.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Modificar cliente - ${nombre}`);
       } else {
         this.tituloCard = `Crear cliente`;
         this.modificandoCliente = false;
-        this.formulario.controls.NombreCliente.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Crear cliente - ${nombre}`);
+        this.formulario.controls.nombreCliente.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Crear cliente - ${nombre}`);
       }
     });
   }
@@ -78,7 +79,7 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
   guardarCliente() {
     if(this.formulario.valid) {
       this.miCliente = this.formulario.value;
-    
+    console.log(this.miCliente);
       this._clienteService.guardarcliente(this.miCliente).then(exito => {
         exito.subscribe(respuesta => {
           this._mensagesAlertService.ventanaExitosa('Cliente creado', 'Ahora puede asignar un proyecto al nuevo cliente');
@@ -113,7 +114,7 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
   }
 
   onSelectLocalidad(localidad: Localidad) {
-    this.formulario.controls.LocalidadCliente.setValue(localidad.idlocalidad);
+    this.formulario.controls.localidadCliente.setValue(localidad.idlocalidad);
   }
 
   getProvincias() {

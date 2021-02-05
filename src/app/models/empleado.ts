@@ -9,7 +9,7 @@ export class Empleado {
     DniEmpleado: number;
     Telefono: number;
     Direccion: string;
-    Usuario: Usuario;
+    Usuario: Usuario [];
     Localidad: number;
     FechaIngresoEmpleado: Date;
     EmpleadoProyecto: any [];

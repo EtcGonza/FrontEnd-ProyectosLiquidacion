@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.token$.pipe(takeUntil(this.unsubscribe$)).subscribe((token: string) => {
-      console.log('Token', token);
       if(token) {
         this.logueado = true;
       } else {

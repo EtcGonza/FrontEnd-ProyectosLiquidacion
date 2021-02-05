@@ -5,6 +5,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
 import { Empleado } from 'src/app/models/empleado';
 import { Location } from '@angular/common';
+import { EmpleadosService } from '../../../services/empleados.service';
 
 @Component({
   selector: 'app-gestionar-usuarios',
@@ -16,31 +17,21 @@ export class GestionarUsuariosComponent implements OnInit {
 
   empleados: Empleado [] = [];
 
-  constructor(private router: Router, private _mensagesAlertServices: MensagesAlertService, private storage: StorageMap, private location: Location) {}
+  constructor(private router: Router,
+     private _mensagesAlertServices: MensagesAlertService,
+     private storage: StorageMap,
+     private location: Location,
+     private _empleadoService: EmpleadosService) {}
 
   ngOnInit() {
-    // let empleado1 = new Empleado();
-    // empleado1.NombreEmpleado = 'Gonzalo';
-    // empleado1.ApellidoEmpleado = 'Etchegaray';
-    // empleado1.DniEmpleado = 39662738;
-    // empleado1.Direccion = 'Roca 1566';
-    // empleado1.fechaIngreso = new Date();
-    // empleado1.idEmpleado = 0;
-    // empleado1.telefono = 3413496691;
+    this.getEmpleados();
+  }
 
-    // console.log(JSON.stringify(empleado1));
-    
-    // let empleado2 = new Empleado();
-    // empleado2.NombreEmpleado = 'Nancy';
-    // empleado2.ApellidoEmpleado = 'Garcia';
-    // empleado2.DniEmpleado = 11767270;
-    // empleado2.Direccion = 'Zarasa 158';
-    // empleado2.fechaIngreso = new Date();
-    // empleado2.idEmpleado = 1;
-    // empleado2.telefono = 4860399;
-
-    // this.empleados.push(empleado1);
-    // this.empleados.push(empleado2);
+  getEmpleados() {
+    this._empleadoService.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => {
+      console.log(empleado);
+      this.empleados.push(empleado)
+    })));
   }
 
   editarEmpleado(empleado: Empleado) {

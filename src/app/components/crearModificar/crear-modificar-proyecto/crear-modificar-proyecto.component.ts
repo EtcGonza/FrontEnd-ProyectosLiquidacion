@@ -73,11 +73,11 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
 
   auxClientes() {
     let cliente = new Cliente();
-    cliente.NombreCliente = 'Disney';
+    cliente.nombreCliente = 'Disney';
     this.clientes.push(cliente);
 
     let cliente2 = new Cliente();
-    cliente2.NombreCliente = 'McDonalds';
+    cliente2.nombreCliente = 'McDonalds';
     this.clientes.push(cliente2);
   }
 

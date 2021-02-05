@@ -47,18 +47,17 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
     private _perfilServices: PerfilService) {}
 
   ngOnInit() {
-    this.auxPerfiles();
-
+    this.getPerfiles();
     this.getProvincias();
 
     this.formulario = this.FormBuilder.group({
       Idempleado: [null],
-      NombreEmpleado: ['Gonzalo', Validators.required],
-      ApellidoEmpleado: ['Etchegaray', Validators.required],
-      DniEmpleado: ['39662738', Validators.required],
+      NombreEmpleado: ['Jorge', Validators.required],
+      ApellidoEmpleado: ['Bubusela', Validators.required],
+      DniEmpleado: ['58745895', Validators.required],
       Telefono: [null],
       Direccion: [null],
-      Usuario: ['EtcGonza', Validators.required],
+      Usuario: [null, Validators.required],
       Localidad: [null, Validators.required],
       FechaIngresoEmpleado: [null],
       EmpleadoProyecto: [null],
@@ -93,11 +92,9 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
       if (!this.modificandoEmpleado) {
         this.miEmpleado.FechaIngresoEmpleado = new Date();
       } 
-      
-      let empleadoAux: Object = this.miEmpleado;
 
-      console.log('this.miEmpleado ',this.miEmpleado);
-      
+      console.log(this.miEmpleado);
+
       this._empleadoService.guardarEmpleado(this.miEmpleado).then(response => response.subscribe(respuesta => {
         console.log(respuesta);
         // this._mensagesAlertService.ventanaExitosa('¡Exito!', `Usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} guardado`);
@@ -106,40 +103,6 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
-  }
-
-  auxPerfiles() {
-    // let auxPerfil1: Perfil = new Perfil();
-    // auxPerfil1.Idperfil = 0;
-    // auxPerfil1.NombrePerfil = "Tester";
-
-    // let auxPerfil2: Perfil = new Perfil();
-    // auxPerfil2.Idperfil = 0;
-    // auxPerfil2.NombrePerfil = "Analista";
-
-    // let auxPerfil3: Perfil = new Perfil();
-    // auxPerfil3.Idperfil = 0;
-    // auxPerfil3.NombrePerfil = "Desarrollador";
-
-    // let auxPerfil4: Perfil = new Perfil();
-    // auxPerfil4.Idperfil = 0;
-    // auxPerfil4.NombrePerfil = "Implementador";
-
-    // let auxPerfil5: Perfil = new Perfil();
-    // auxPerfil5.Idperfil = 0;
-    // auxPerfil5.NombrePerfil = "Supervisor";
-
-    // // this.perfiles.push(auxPerfil1);
-    // // this.perfiles.push(auxPerfil2);
-    // // this.perfiles.push(auxPerfil3);
-    // // this.perfiles.push(auxPerfil4);
-    // // this.perfiles.push(auxPerfil5);
-
-    // // console.log('1',this.perfiles);
-
-    this.getPerfiles();
-
-    console.log('Perfiles asignados => ',this.perfiles);
   }
 
   getPerfiles() {
@@ -154,7 +117,11 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   }
 
   onChangeUsuario() {
-    this.formulario.controls.Usuario.setValue(this.usuarioEmpleado);
+    let usuarioAux = [];
+    this.usuarioEmpleado.Idrol = 6;
+    usuarioAux.push(this.usuarioEmpleado);
+    this.formulario.controls.Usuario.setValue(usuarioAux);
+    console.log(this.formulario.controls.Usuario.value);
   }
 
   onSelectProvincia(provincia: Provincia) {
@@ -168,6 +135,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   onSelectLocalidad(localidad: Localidad) {
     this.formulario.controls.Localidad.setValue(localidad.idlocalidad);
   }
+
   getProvincias() {
     this._localidadService.getProvincias().then(response => response.subscribe((provincias: Provincia[]) => provincias.forEach(provincias => this.provincias.push(provincias))))
   }
