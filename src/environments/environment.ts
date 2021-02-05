@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'https://localhost:44367/'
+  serverUrl: 'https://localhost:44335/'
 };
 
 // "TpSeminarioContext": "Server=DESKTOP-FLLKKN6\\FONZIIINSTANCE;Database=TpSeminario;Trusted_Connection=True;"

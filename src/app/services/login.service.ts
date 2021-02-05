@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private _tokenService: TokenService) {}
 
   async ingresar(user: string, password: string): Promise<Observable<any>>{
 
@@ -16,19 +17,10 @@ export class LoginService {
       password: password
     }
 
-    return this.httpClient.post<any>('https://localhost:44335/Login', body, this.getHeaderBasicFormEnconded());
+    return this.httpClient.post<any>('Login', body, this._tokenService.getHeaderBasicFormEnconded());
   }
 
   async test(): Promise<Observable<any>>{
-    return this.httpClient.get<any>('https://localhost:44335/Login', this.getHeaderBasicFormEnconded());
-  }
-
-  private getHeaderBasicFormEnconded() {
-    return {
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
-        // 'Authorization': 'Basic ' + btoa("client:password")
-      },
-    };
+    return this.httpClient.get<any>('Login', this._tokenService.getHeaderBasicFormEnconded());
   }
 }

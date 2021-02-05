@@ -28,10 +28,8 @@ export class GestionarClientesComponent implements OnInit {
   }
 
   getClientes() {
-    this._clienteService.getclientes().then(response => response.subscribe(clientes => {
-      console.log('clientes',clientes);
-      clientes.forEach(cliente => this.clientes.push(cliente))
-    }));
+    this._clienteService.getclientes().then(response => response.subscribe((clientes: Cliente []) => clientes.forEach(cliente => this.clientes.push(cliente)),
+    error => console.log('Error (getClientes)', error)));
   }
 
   crearCliente() {
