@@ -11,13 +11,13 @@
                     <div class="p-grid">
                         <div class="p-col-4">
                             <span class="p-float-label">
-                                <input id="float-input" type="text" pInputText formControlName="NombreProyecto">
+                                <input id="float-input" type="text" pInputText formControlName="nombreProyecto">
                                 <label for="float-input">Nombre del proyecto *</label>
                             </span>
                         </div>
 
                         <div class="p-col-4">
-                            <p-dropdown required="true" [options]="estadosProyecto" formControlName="EstadoProyecto" [disabled]="!modificandoProyecto" [style]="{'width':'100%'}"></p-dropdown>
+                            <p-dropdown required="true" [options]="estadosProyecto" formControlName="estadoProyecto" [disabled]="!modificandoProyecto" [style]="{'width':'100%'}"></p-dropdown>
                         </div>
 
                         <div class="p-col-4">
@@ -36,7 +36,7 @@
                         <div class="p-col-12">
                             <span class="p-float-label">
                                 <textarea rows="5" id="textDescripcion" pInputTextarea
-                                    formControlName="Descripcion"></textarea>
+                                    formControlName="descripcion"></textarea>
                                 <label for="textDescripcion">Descripción *</label>
                             </span>
                         </div>
@@ -48,7 +48,7 @@
                 <h3>Asignar empleados *</h3>
 
                 <div class="p-grid">
-                    <div class="p-col" *ngIf="empleadosAux.length > 0">
+                    <div class="p-col" *ngIf="empleados.length > 0">
                         <p-listbox [options]="empleados" [metaKeySelection]="false" [checkbox]="true" optionLabel="apellidoEmpleado" (onChange)="asignarEmpleados($event.value)" [filter]="true" [multiple]="true" filterPlaceHolder="Filtrar por apellido" [style]="{'width':'100%'}">
                             <ng-template let-empleado pTemplate="item">
                                 <div>

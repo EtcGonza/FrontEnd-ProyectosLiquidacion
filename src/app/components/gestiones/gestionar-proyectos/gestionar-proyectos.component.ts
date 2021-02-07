@@ -24,10 +24,7 @@ export class GestionarProyectosComponent implements OnInit {
   }
 
   getProyectos() {
-    this._proyectosService.getProyectos().then(response => response.subscribe(proyectos => {
-      proyectos.forEach((proyecto: Proyecto) => this.proyectos.push(proyecto));
-      console.log('this.proyectosAux',this.proyectos);
-    }));
+    this._proyectosService.getProyectos().then(response => response.subscribe((proyectos: Proyecto []) => proyectos.forEach((proyecto: Proyecto) => this.proyectos.push(proyecto))));
   }
 
   editarProyecto(proyecto: any) {
@@ -39,10 +36,13 @@ export class GestionarProyectosComponent implements OnInit {
   }
 
   borrarProyecto(proyecto: Proyecto) {
-    this._mensagesAlertService.ventanaConfirmar('Borrar proyecto', `¿Esta seguro que desea borrar el proyecto '${proyecto.NombreProyecto}'?`)
+    this._mensagesAlertService.ventanaConfirmar('Borrar proyecto', `¿Esta seguro que desea borrar el proyecto '${proyecto.nombreProyecto}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
-        // Llamo endpoint para borrar proyecto.
+        this._proyectosService.borrarProyecto(proyecto.idproyecto).then(response => response.subscribe(respuesta => {
+          console.log('Elimino proyecto ',respuesta);
+          this.getProyectos();
+        }));
       }
     });
   }

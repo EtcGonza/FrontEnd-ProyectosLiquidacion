@@ -2,14 +2,14 @@ import { Tarea } from './Tarea';
 import { EmpleadoProyecto } from './EmpleadoProyecto';
 
 export class Proyecto {
-    Idproyecto: number;
-    Idcliente: number;
-    NombreProyecto: string;
-    Descripcion: string;
-    EstadoProyecto: string;
-    FechaInicioProyecto: Date;
-    FechaFinProyecto: Date;
+    idproyecto: number;
+    idcliente: number;
+    nombreProyecto: string;
+    descripcion: string;
+    estadoProyecto: string;
+    fechaInicioProyecto: Date;
+    fechaFinProyecto: Date;
 
-    EmpleadoProyecto: EmpleadoProyecto [];
-    Tarea: Tarea[];
+    empleadoProyecto: EmpleadoProyecto [];
+    tarea: Tarea[];
 }

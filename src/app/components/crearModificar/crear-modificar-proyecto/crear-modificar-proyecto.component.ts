@@ -29,7 +29,7 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
 
   formulario: FormGroup;
 
-  estadosProyecto: Object [];
+  estadosProyecto: Object [] = [];
   empleados: Empleado [] = [];
   empleadosAux: Empleado [] = [];
   fechaInicioFormateada: string;
@@ -51,15 +51,15 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
     this.getClientes();
 
     this.formulario = this.formBuilder.group({
-        Idproyecto: [null],
-        Idcliente: [null],
-        NombreProyecto: [null ,Validators.required],
-        Descripcion: [null ,Validators.required],
-        EstadoProyecto: ['En Proceso',[Validators.required]],
-        FechaInicioProyecto: [new Date() ,Validators.required],
-        FechaFinProyecto: [null],
-        EmpleadoProyecto: [null],
-        Tarea: [null]
+        idproyecto: [null],
+        idcliente: [null],
+        nombreProyecto: [null ,Validators.required],
+        descripcion: [null ,Validators.required],
+        estadoProyecto: ['En Proceso',[Validators.required]],
+        fechaInicioProyecto: [new Date() ,Validators.required],
+        fechaFinProyecto: [null],
+        empleadoProyecto: [null],
+        tarea: [null]
       });
 
       this.storage.get('_modificarProyecto')
@@ -70,15 +70,15 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
         }
 
         if (this.miProyecto) {
-          this.tituloCard = `Modificar proyecto - ${this.miProyecto.NombreProyecto}`;
+          this.tituloCard = `Modificar proyecto - ${this.miProyecto.nombreProyecto}`;
           this.modificandoProyecto = true;
-          this.fechaInicioFormateada = new Date(this.miProyecto.FechaInicioProyecto).toLocaleDateString();
+          this.fechaInicioFormateada = new Date(this.miProyecto.fechaInicioProyecto).toLocaleDateString();
           this.formulario.patchValue(this.miProyecto);
-          this.formulario.controls.NombreProyecto.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Modificar proyecto - ${nombre}`);
+          this.formulario.controls.nombreProyecto.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Modificar proyecto - ${nombre}`);
         } else {
           this.tituloCard = `Crear proyecto`;
           this.modificandoProyecto = false;
-          this.formulario.controls.NombreProyecto.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Crear proyecto - ${nombre}`);
+          this.formulario.controls.nombreProyecto.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Crear proyecto - ${nombre}`);
         }
       });
   }
@@ -88,34 +88,12 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
     error => console.log('Error (getClientes)', error)));
   }
 
-  auxEmpleados() {
-    let estefania: Empleado = new Empleado();
-    estefania.nombreEmpleado = "Estefania";
-    estefania.apellidoEmpleado = "Gorosito";
-    this.empleadosAux.push(estefania);
-
-    let martin: Empleado = new Empleado();
-    martin.nombreEmpleado = "Martin";
-    martin.apellidoEmpleado = "Moreno";
-    this.empleadosAux.push(martin);
-    console.log('this.empleadosAux',this.empleadosAux);
-  }
-
   getEmpleados() {
-    this._empleadoServices.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => {
-      this.empleados.push(empleado);
-    })));
-    this.auxEmpleados();
-    console.log('this.empleados',this.empleados);
+    this._empleadoServices.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => this.empleados.push(empleado))));
   }
 
   cargarEstadosProyecto() {
-    let auxEstados = [];
-
-    EstadoProyecto.values().forEach(estadoProyecto => {
-      auxEstados.push({label: estadoProyecto, value: estadoProyecto});
-      this.estadosProyecto = auxEstados;
-    });
+    EstadoProyecto.values().forEach(estadoProyecto => this.estadosProyecto.push({label: estadoProyecto, value: estadoProyecto}));
   }
 
   asignarEmpleados(empleados: Empleado []) {
