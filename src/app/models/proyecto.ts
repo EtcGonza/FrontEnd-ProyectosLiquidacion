@@ -1,4 +1,3 @@
-import { Cliente } from './Cliente';
 import { Tarea } from './Tarea';
 import { EmpleadoProyecto } from './EmpleadoProyecto';
 
@@ -11,7 +10,6 @@ export class Proyecto {
     FechaInicioProyecto: Date;
     FechaFinProyecto: Date;
 
-    cliente: Cliente;
     EmpleadoProyecto: EmpleadoProyecto [];
     Tarea: Tarea[];
 }

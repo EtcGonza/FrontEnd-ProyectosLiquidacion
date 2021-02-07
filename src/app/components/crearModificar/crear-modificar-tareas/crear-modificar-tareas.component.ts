@@ -63,7 +63,7 @@ export class CrearModificarTareasComponent implements OnInit {
   }
 
   getTareasProyecto(idProyecto: number) {
-    this._proyectoServices.GetTareasProyecto(idProyecto).then(response => 
+    this._proyectoServices.getTareasProyecto(idProyecto).then(response => 
       response.subscribe(respuesta => {
         console.log(respuesta);
       }));

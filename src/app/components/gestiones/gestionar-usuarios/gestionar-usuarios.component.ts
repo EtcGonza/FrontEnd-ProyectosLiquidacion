@@ -44,10 +44,13 @@ export class GestionarUsuariosComponent implements OnInit {
   }
 
   borrarEmpleado(empleado: Empleado) {
-    this._mensagesAlertServices.ventanaConfirmar('Borrar empleado', `¿Esta seguro que desea borrar el proyecto '${empleado.NombreEmpleado}'?`)
+    console.log();
+    this._mensagesAlertServices.ventanaConfirmar('Borrar empleado', `¿Esta seguro que desea borrar el proyecto '${empleado.nombreEmpleado}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
-        // Llamo endpoint para borrar proyecto.
+        this._empleadoService.borrarEmpelado(empleado.idempleado).then(response => response.subscribe(respuesta => {
+          console.log('Borro empleado... ',respuesta);
+        }));
       }
     });
   }

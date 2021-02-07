@@ -11,7 +11,7 @@ export class EmpleadosService {
   constructor(private httpCliente: HttpClient) {}
 
   async guardarEmpleado(empleado: Empleado): Promise<Observable<any>>{
-    if(empleado.Idempleado) {
+    if(empleado.idempleado) {
       return this.httpCliente.put<any>('Empleado', empleado);
     } else {
       return this.httpCliente.post<any>('Empleado', empleado);
@@ -23,6 +23,6 @@ export class EmpleadosService {
   }
 
    async getEmpleados(): Promise<Observable<any>> {
-    return this.httpCliente.get<any>(`Empleado/raul`);
+    return this.httpCliente.get<any>(`Empleado`);
   }  
 }

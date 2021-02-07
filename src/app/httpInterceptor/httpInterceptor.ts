@@ -25,8 +25,6 @@ export class AppHttpInterceptor implements HttpInterceptor {
 
     // Si estamos autenticados tenemos que enviar el token
     if (token) {
-      console.log('Hago request con token.');
-
       req = req.clone({
         url: req.url,
         headers: req.headers.set('Content-Type', 'application/json; charset=utf-8').set('Authorization', 'Bearer ' + token),

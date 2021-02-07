@@ -3,15 +3,16 @@
         <p-card header="Lista de Proyectos" subheader="¿Vas a modificar o crear un nuevo proyecto?" [style]="{width: 'auto'}" styleClass="p-card-shadow">
 
             <div class="p-p-2">
-                <p-table #dt1 [value]="proyectos" selectionMode="single" dataKey="idProyecto" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+                {{proyectos | json}}
+                <p-table #dt1 [value]="proyectos" selectionMode="single" dataKey="idproyecto" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
                     <ng-template pTemplate="header">
                         <tr>
                             <th pSortableColumn="nombre">Nombre Proyecto
                                 <p-sortIcon field="nombre"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="cliente.nombre">Cliente
+                            <!-- <th pSortableColumn="cliente.nombre">Cliente
                                 <p-sortIcon field="cliente.nombreCliente"></p-sortIcon>
-                            </th>
+                            </th> -->
                             <th pSortableColumn="estadoProyecto">Estado
                                 <p-sortIcon field="estadoProyecto"></p-sortIcon>
                             </th>
@@ -21,9 +22,9 @@
                             <th>
                                 <input pInputText type="text" (input)="dt1.filter($event.target.value, 'NombreProyecto', 'contains')" [value]="dt1.filters['NombreProyecto']?.value" placeholder="Buscar por nombre" class="p-column-filter">
                             </th>
-                            <th>
+                            <!-- <th>
                                 <input pInputText type="text" (input)="dt1.filter($event.target.value, 'cliente.nombreCliente', 'contains')" [value]="dt1.filters['cliente.nombreCliente']?.value" placeholder="Buscar por cliente" class="p-column-filter">
-                            </th>
+                            </th> -->
                             <th>
                             </th>
                             <th>
@@ -33,13 +34,13 @@
                     <ng-template pTemplate="body" let-proyecto>
                         <tr [pSelectableRow]="proyecto">
                             <td>
-                                {{proyecto.NombreProyecto}}
+                                {{proyecto.nombreProyecto}}
                             </td>
-                            <td>
+                            <!-- <td>
                                 {{proyecto.cliente.nombreCliente}}
-                            </td>
+                            </td> -->
                             <td>
-                                <span [class]="'customer-badge status-' + proyecto.estado">{{proyecto.EstadoProyecto}}</span>
+                                <span [class]="'customer-badge status-' + proyecto.estado">{{proyecto.estadoProyecto}}</span>
                             </td>
                             <td>
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarProyecto(proyecto)" pTooltip="Editar proyecto" tooltipPosition="top"></button>
@@ -48,11 +49,11 @@
                             </td>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="emptymessage">
+                    <!-- <ng-template pTemplate="emptymessage">
                         <tr>
                             <td colspan="4">No hay proyectos para mostrar.</td>
                         </tr>
-                    </ng-template>
+                    </ng-template> -->
                 </p-table>
             </div>
 

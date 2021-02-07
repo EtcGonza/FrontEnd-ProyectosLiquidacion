@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -9,6 +9,10 @@ import { Proyecto } from 'src/app/models/proyecto';
 import { Empleado } from 'src/app/models/empleado';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
 import { EstadoProyecto } from 'src/app/models/estadoProyecto';
+import { EmpleadosService } from '../../../services/empleados.service';
+import { ClientesService } from '../../../services/clientes.service';
+import { EmpleadoProyecto } from '../../../models/EmpleadoProyecto';
+import { ProyectosService } from '../../../services/proyectos.service';
 
 @Component({
   selector: 'app-crear-modificar-proyecto',
@@ -27,20 +31,28 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
 
   estadosProyecto: Object [];
   empleados: Empleado [] = [];
+  empleadosAux: Empleado [] = [];
   fechaInicioFormateada: string;
   tituloCard: string = ``;
 
-  constructor(private _mensagesAlertService: MensagesAlertService, private formBuilder: FormBuilder, private router: Router, private storage: StorageMap) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private storage: StorageMap,
+    private _empleadoServices: EmpleadosService,
+    private _mensagesAlertService: MensagesAlertService,
+    private _clienteServices: ClientesService,
+    private _proyectoService: ProyectosService
+     ) {}
 
   ngOnInit() {
     this.cargarEstadosProyecto();
-    this.auxEmpleados();
-    this.auxClientes();
+    this.getEmpleados();
+    this.getClientes();
 
     this.formulario = this.formBuilder.group({
         Idproyecto: [null],
         Idcliente: [null],
-        cliente: [null, Validators.required],
         NombreProyecto: [null ,Validators.required],
         Descripcion: [null ,Validators.required],
         EstadoProyecto: ['En Proceso',[Validators.required]],
@@ -71,36 +83,30 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
       });
   }
 
-  auxClientes() {
-    let cliente = new Cliente();
-    cliente.nombreCliente = 'Disney';
-    this.clientes.push(cliente);
-
-    let cliente2 = new Cliente();
-    cliente2.nombreCliente = 'McDonalds';
-    this.clientes.push(cliente2);
+  getClientes() {
+    this._clienteServices.getclientes().then(response => response.subscribe((clientes: Cliente []) => clientes.forEach(cliente => this.clientes.push(cliente)),
+    error => console.log('Error (getClientes)', error)));
   }
 
   auxEmpleados() {
     let estefania: Empleado = new Empleado();
-    estefania.NombreEmpleado = "Estefania";
-    estefania.ApellidoEmpleado = "Gorosito";
-    this.empleados.push(estefania);
+    estefania.nombreEmpleado = "Estefania";
+    estefania.apellidoEmpleado = "Gorosito";
+    this.empleadosAux.push(estefania);
 
     let martin: Empleado = new Empleado();
-    martin.NombreEmpleado = "Martin";
-    martin.ApellidoEmpleado = "Moreno";
-    this.empleados.push(martin);
+    martin.nombreEmpleado = "Martin";
+    martin.apellidoEmpleado = "Moreno";
+    this.empleadosAux.push(martin);
+    console.log('this.empleadosAux',this.empleadosAux);
+  }
 
-    let mariano: Empleado = new Empleado();
-    mariano.NombreEmpleado = "Mariano";
-    mariano.ApellidoEmpleado = "Durand";
-    this.empleados.push(mariano);
-
-    let gonzalo: Empleado = new Empleado();
-    gonzalo.NombreEmpleado = "Gonzalo";
-    gonzalo.ApellidoEmpleado = "Etchegaray";
-    this.empleados.push(gonzalo);
+  getEmpleados() {
+    this._empleadoServices.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => {
+      this.empleados.push(empleado);
+    })));
+    this.auxEmpleados();
+    console.log('this.empleados',this.empleados);
   }
 
   cargarEstadosProyecto() {
@@ -112,15 +118,33 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
     });
   }
 
-  asignarEmpleados(algo: any) {
-    // this.formulario.controls.EmpleadoProyecto.setValue(algo);
+  asignarEmpleados(empleados: Empleado []) {
+    let empleadosProyecto: EmpleadoProyecto[] = [];
+
+    empleados.forEach((empleado: Empleado) => {
+      let empleadoProyecto: EmpleadoProyecto = new EmpleadoProyecto();
+      empleadoProyecto.IdEmpleado = empleado.idempleado;
+      empleadosProyecto.push(empleadoProyecto);
+    });
+
+    console.log(empleadosProyecto);
+
+    this.formulario.controls.EmpleadoProyecto.setValue(empleadosProyecto);
+  }
+
+  onChangeCliente(idCliente: number) {
+    this.formulario.controls.Idcliente.setValue(idCliente);
   }
 
   guardarProyecto() {
     if(this.formulario.valid) {
-      console.log('formulario valido', this.formulario.value);
       this.miProyecto = this.formulario.value;
-      this._mensagesAlertService.ventanaExitosa('Proyecto creado', 'Ahora puede agregar recursos, asignar tareas y cambiar el estado del mismo');
+      console.log('this.miProyecto ',this.miProyecto);
+
+      this._proyectoService.guardarProyecto(this.miProyecto).then(response => response.subscribe(respuesta => {
+        console.log(respuesta);
+        // this._mensagesAlertService.ventanaExitosa('Proyecto creado', 'Ahora puede agregar recursos, asignar tareas y cambiar el estado del mismo');
+      }));
     } else {
       console.log('Form invalido',this.formulario.value);
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos son obligatorios');

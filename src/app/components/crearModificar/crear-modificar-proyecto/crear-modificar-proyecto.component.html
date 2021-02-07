@@ -21,7 +21,7 @@
                         </div>
 
                         <div class="p-col-4">
-                            <p-dropdown required="true" [options]="clientes" optionLabel="cliente" optionLabel="nombreCliente" placeholder="Seleccione un cliente *" formControlName="cliente" [style]="{'width':'100%'}"></p-dropdown>
+                            <p-dropdown required="true" [options]="clientes" (onChange)="onChangeCliente($event.value.idcliente)" optionLabel="cliente" optionLabel="nombreCliente" placeholder="Seleccione un cliente *" [style]="{'width':'100%'}"></p-dropdown>
                             <ng-template pTemplate="selectedItem">
                                 <div *ngIf="formulario.value.nombreCliente">
                                     <div>{{formulario.value.nombreCliente.nombreCliente}}</div>
@@ -48,12 +48,11 @@
                 <h3>Asignar empleados *</h3>
 
                 <div class="p-grid">
-                    <div class="p-col">
-                        <p-listbox [options]="empleados" formControlName="EmpleadoProyecto" [metaKeySelection]="false" [checkbox]="true" (onChange)="asignarEmpleados($event.value)" [filter]="true" [multiple]="true" filterPlaceHolder="Filtrar por apellido" optionLabel="apellidoEmpleado"
-                            [style]="{'width':'100%'}">
+                    <div class="p-col" *ngIf="empleadosAux.length > 0">
+                        <p-listbox [options]="empleados" [metaKeySelection]="false" [checkbox]="true" optionLabel="apellidoEmpleado" (onChange)="asignarEmpleados($event.value)" [filter]="true" [multiple]="true" filterPlaceHolder="Filtrar por apellido" [style]="{'width':'100%'}">
                             <ng-template let-empleado pTemplate="item">
-                                <div class="country-item">
-                                    <span>{{empleado.nombreEmpleado}} {{empleado.apellidoEmpleado}}</span>
+                                <div>
+                                    <span>{{empleado.apellidoEmpleado}} {{empleado.nombreEmpleado}}</span>
                                 </div>
                             </ng-template>
                         </p-listbox>
