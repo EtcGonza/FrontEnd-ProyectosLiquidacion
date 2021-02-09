@@ -22,7 +22,9 @@ import { ProyectosService } from '../../../services/proyectos.service';
 
 export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
   unsubscribe$: Subject<void> = new Subject();
+  
   clientes: Cliente [] = [];
+  clienteSeleccionado: Cliente = new Cliente();
 
   miProyecto: Proyecto = null;
   modificandoProyecto: boolean;
@@ -67,6 +69,7 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
         if (miProyecto) {
           this.miProyecto = miProyecto;
           this.formulario.patchValue(this.miProyecto);
+          this.getClienteById();
         }
 
         if (this.miProyecto) {
@@ -88,6 +91,10 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
     error => console.log('Error (getClientes)', error)));
   }
 
+  getClienteById() {
+    this._clienteServices.getClienteById(this.miProyecto.idcliente).then(response => response.subscribe((cliente: Cliente) => this.clienteSeleccionado = cliente));
+  }
+
   getEmpleados() {
     this._empleadoServices.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => this.empleados.push(empleado))));
   }
@@ -102,16 +109,17 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
     empleados.forEach((empleado: Empleado) => {
       let empleadoProyecto: EmpleadoProyecto = new EmpleadoProyecto();
       empleadoProyecto.IdEmpleado = empleado.idempleado;
+      empleadoProyecto.IdProyecto = 9;
       empleadosProyecto.push(empleadoProyecto);
     });
 
     console.log(empleadosProyecto);
 
-    this.formulario.controls.EmpleadoProyecto.setValue(empleadosProyecto);
+    this.formulario.controls.empleadoProyecto.setValue(empleadosProyecto);
   }
 
-  onChangeCliente(idCliente: number) {
-    this.formulario.controls.Idcliente.setValue(idCliente);
+  onChangeCliente(cliente: Cliente) {
+    this.formulario.controls.idcliente.setValue(cliente.idcliente);
   }
 
   guardarProyecto() {

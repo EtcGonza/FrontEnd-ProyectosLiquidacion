@@ -24,7 +24,9 @@ export class GestionarProyectosComponent implements OnInit {
   }
 
   getProyectos() {
-    this._proyectosService.getProyectos().then(response => response.subscribe((proyectos: Proyecto []) => proyectos.forEach((proyecto: Proyecto) => this.proyectos.push(proyecto))));
+    this._proyectosService.getProyectos().then(response => response.subscribe((proyectos: Proyecto []) => {
+      console.log(proyectos);
+      proyectos.forEach((proyecto: Proyecto) => this.proyectos.push(proyecto))}));
   }
 
   editarProyecto(proyecto: any) {

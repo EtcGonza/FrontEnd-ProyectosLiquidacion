@@ -1,7 +1,6 @@
 <div class="p-grid p-jc-center p-p-5">
     <div class="p-col-12">
         <p-card header="Lista de Proyectos" subheader="¿Vas a modificar o crear un nuevo proyecto?" [style]="{width: 'auto'}" styleClass="p-card-shadow">
-
             <div class="p-p-2">
                 <p-table #dt1 [value]="proyectos" selectionMode="single" dataKey="idproyecto" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
                     <ng-template pTemplate="header">

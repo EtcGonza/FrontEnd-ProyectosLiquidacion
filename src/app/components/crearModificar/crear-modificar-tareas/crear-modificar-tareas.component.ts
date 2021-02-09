@@ -47,7 +47,7 @@ export class CrearModificarTareasComponent implements OnInit {
     .subscribe((miProyecto: Proyecto) => {
       if (miProyecto) {
         this.miProyecto = miProyecto;
-        this.tituloCard = `Crear tarea - Proyecto ${miProyecto.NombreProyecto}`;
+        this.tituloCard = `Crear tarea - Proyecto ${miProyecto.nombreProyecto}`;
         // this.getTareasProyecto(miProyecto.Idproyecto);
         // this.tareasProyecto = miProyecto.Tarea;
       }
@@ -78,7 +78,7 @@ export class CrearModificarTareasComponent implements OnInit {
       // Una vez guardada la tarea, reseteo el formulario y cambio el contexto de que no estoy modificando.
       this.formulario.reset();
       this.modificarTarea = false;
-      this.tituloCard = `Crear tarea - Proyecto ${this.miProyecto.NombreProyecto}`;
+      this.tituloCard = `Crear tarea - Proyecto ${this.miProyecto.nombreProyecto}`;
     } else {
         console.log('Form invalido',this.formulario.value);
         this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
@@ -87,7 +87,7 @@ export class CrearModificarTareasComponent implements OnInit {
 
   editarTarea(tarea: Tarea) {
     this.modificarTarea = true;
-    this.tituloCard = `Modificar tarea '${tarea.DescripcionTarea}' - Proyecto ${this.miProyecto.NombreProyecto}`
+    this.tituloCard = `Modificar tarea '${tarea.DescripcionTarea}' - Proyecto ${this.miProyecto.nombreProyecto}`
     this.formulario.patchValue(tarea);
   }
 

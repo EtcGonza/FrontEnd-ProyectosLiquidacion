@@ -11,7 +11,7 @@ export class ProyectosService {
   constructor(private httpCliente: HttpClient) {}
 
    async guardarProyecto(proyecto: Proyecto): Promise<Observable<any>>{
-    if(proyecto.Idproyecto) {
+    if(proyecto.idproyecto) {
       return this.httpCliente.put<any>('Proyecto', proyecto);
     } else {
       return this.httpCliente.post<any>('Proyecto', proyecto);
