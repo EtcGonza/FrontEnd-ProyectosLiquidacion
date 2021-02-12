@@ -40,7 +40,7 @@ export class GestionarUsuariosComponent implements OnInit {
       error: () => console.log('error')
     });
 
-    this.router.navigateByUrl('crearModificarProyecto', {replaceUrl: false});
+    this.router.navigateByUrl('crearModificarUsuario', {replaceUrl: false});
   }
 
   borrarEmpleado(empleado: Empleado) {

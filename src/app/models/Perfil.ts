@@ -1,7 +1,5 @@
-import { PerfilEmpleado } from './PerfilEmpleado';
-
 export class Perfil {
-    Idperfil: number;
-    NombrePerfil: string;
-    ValorHora: number;
+    idperfil: number;
+    nombrePerfil: string;
+    valorHora: number;
 }

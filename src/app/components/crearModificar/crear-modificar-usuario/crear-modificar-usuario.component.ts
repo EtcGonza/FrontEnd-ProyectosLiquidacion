@@ -20,6 +20,7 @@ import { PerfilEmpleado } from '../../../models/PerfilEmpleado';
   templateUrl: './crear-modificar-usuario.component.html',
   styleUrls: ['./crear-modificar-usuario.component.scss']
 })
+
 export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   unsubscribe$: Subject<void> = new Subject();
 
@@ -48,7 +49,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
     private _perfilServices: PerfilService) {}
 
   ngOnInit() {
-    this.getPerfiles();
+    // this.getPerfiles();
     this.getProvincias();
 
     this.formulario = this.FormBuilder.group({
@@ -69,12 +70,13 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
     this.storage.get('_modificarEmpleado')
     .subscribe((miEmpleado: Empleado) => {
       if (miEmpleado) {
+        this.modificandoEmpleado = true;
         this.miEmpleado = miEmpleado;
         this.formulario.patchValue(this.miEmpleado);
+        this.formulario.controls.usuario.clearValidators();
       }
 
       if (this.miEmpleado) {
-        this.modificandoEmpleado = true;
         this.tituloCard = `Modificar usuario - ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado}`;
         this.formulario.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((formulario: any) => this.tituloCard = `Modificar usuario - ${formulario.nombreEmpleado} ${formulario.apellidoEmpleado}`);
       } else {
@@ -106,24 +108,24 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
     }
   }
 
-  getPerfiles() {
-    this._perfilServices.getPerfiles().then(response => response.subscribe((perfiles: Perfil []) => perfiles.forEach((perfil: Perfil) => this.perfiles.push(perfil as Perfil))));
-  }
+  // getPerfiles() {
+  //   this._perfilServices.getPerfiles().then(response => response.subscribe((perfiles: Perfil []) => perfiles.forEach((perfil: Perfil) => this.perfiles.push(perfil as Perfil))));
+  // }
 
-  onChangePerfil(perfiles: Perfil[]) {
-    let perfilesEmpleado: PerfilEmpleado [] = [];
+  // onChangePerfil(perfiles: Perfil[]) {
+  //   let perfilesEmpleado: PerfilEmpleado [] = [];
 
-    perfiles.forEach((perfil: Perfil) => {
-      let nuevoperfilEmpleado: PerfilEmpleado = new PerfilEmpleado ();
-      nuevoperfilEmpleado.Idperfil = perfil.Idperfil;
-      nuevoperfilEmpleado.Idempleado = 18;
-      perfilesEmpleado.push(nuevoperfilEmpleado);
-    });
+  //   perfiles.forEach((perfil: Perfil) => {
+  //     let nuevoperfilEmpleado: PerfilEmpleado = new PerfilEmpleado ();
+  //     nuevoperfilEmpleado.Idperfil = perfil.Idperfil;
+  //     nuevoperfilEmpleado.Idempleado = 18;
+  //     perfilesEmpleado.push(nuevoperfilEmpleado);
+  //   });
 
-    console.log(perfilesEmpleado);
+  //   console.log(perfilesEmpleado);
 
-    this.formulario.controls.perfilEmpleado.setValue(perfilesEmpleado);
-  }
+  //   this.formulario.controls.perfilEmpleado.setValue(perfilesEmpleado);
+  // }
 
   onChangeUsuario() {
     let usuarioAux = [];

@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -6,12 +6,10 @@ import { takeUntil } from 'rxjs/operators';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { Cliente } from 'src/app/models/Cliente';
 import { Proyecto } from 'src/app/models/proyecto';
-import { Empleado } from 'src/app/models/empleado';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
 import { EstadoProyecto } from 'src/app/models/estadoProyecto';
 import { EmpleadosService } from '../../../services/empleados.service';
 import { ClientesService } from '../../../services/clientes.service';
-import { EmpleadoProyecto } from '../../../models/EmpleadoProyecto';
 import { ProyectosService } from '../../../services/proyectos.service';
 
 @Component({
@@ -32,8 +30,6 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
   formulario: FormGroup;
 
   estadosProyecto: Object [] = [];
-  empleados: Empleado [] = [];
-  empleadosAux: Empleado [] = [];
   fechaInicioFormateada: string;
   tituloCard: string = ``;
 
@@ -45,11 +41,11 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
     private _mensagesAlertService: MensagesAlertService,
     private _clienteServices: ClientesService,
     private _proyectoService: ProyectosService
-     ) {}
+    
+  ) {}
 
   ngOnInit() {
     this.cargarEstadosProyecto();
-    this.getEmpleados();
     this.getClientes();
 
     this.formulario = this.formBuilder.group({
@@ -64,26 +60,26 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
         tarea: [null]
       });
 
-      this.storage.get('_modificarProyecto')
-      .subscribe((miProyecto: Proyecto) => {
-        if (miProyecto) {
-          this.miProyecto = miProyecto;
-          this.formulario.patchValue(this.miProyecto);
-          this.getClienteById();
-        }
-
-        if (this.miProyecto) {
-          this.tituloCard = `Modificar proyecto - ${this.miProyecto.nombreProyecto}`;
-          this.modificandoProyecto = true;
-          this.fechaInicioFormateada = new Date(this.miProyecto.fechaInicioProyecto).toLocaleDateString();
-          this.formulario.patchValue(this.miProyecto);
-          this.formulario.controls.nombreProyecto.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Modificar proyecto - ${nombre}`);
-        } else {
-          this.tituloCard = `Crear proyecto`;
-          this.modificandoProyecto = false;
-          this.formulario.controls.nombreProyecto.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Crear proyecto - ${nombre}`);
-        }
-      });
+    this.storage.get('_modificarProyecto')
+    .subscribe((miProyecto: Proyecto) => {
+      if (miProyecto) {
+        this.miProyecto = miProyecto;
+        this.formulario.patchValue(this.miProyecto);
+        this.getClienteById();
+      }
+      
+      if (this.miProyecto) {
+        this.tituloCard = `Modificar proyecto - ${this.miProyecto.nombreProyecto}`;
+        this.modificandoProyecto = true;
+        this.fechaInicioFormateada = new Date(this.miProyecto.fechaInicioProyecto).toLocaleDateString();
+        this.formulario.patchValue(this.miProyecto);
+        this.formulario.controls.nombreProyecto.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Modificar proyecto - ${nombre}`);
+      } else {
+        this.tituloCard = `Crear proyecto`;
+        this.modificandoProyecto = false;
+        this.formulario.controls.nombreProyecto.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((nombre: string) => this.tituloCard = `Crear proyecto - ${nombre}`);
+      }
+    });
   }
 
   getClientes() {
@@ -95,27 +91,8 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
     this._clienteServices.getClienteById(this.miProyecto.idcliente).then(response => response.subscribe((cliente: Cliente) => this.clienteSeleccionado = cliente));
   }
 
-  getEmpleados() {
-    this._empleadoServices.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => this.empleados.push(empleado))));
-  }
-
   cargarEstadosProyecto() {
     EstadoProyecto.values().forEach(estadoProyecto => this.estadosProyecto.push({label: estadoProyecto, value: estadoProyecto}));
-  }
-
-  asignarEmpleados(empleados: Empleado []) {
-    let empleadosProyecto: EmpleadoProyecto[] = [];
-
-    empleados.forEach((empleado: Empleado) => {
-      let empleadoProyecto: EmpleadoProyecto = new EmpleadoProyecto();
-      empleadoProyecto.IdEmpleado = empleado.idempleado;
-      empleadoProyecto.IdProyecto = 9;
-      empleadosProyecto.push(empleadoProyecto);
-    });
-
-    console.log(empleadosProyecto);
-
-    this.formulario.controls.empleadoProyecto.setValue(empleadosProyecto);
   }
 
   onChangeCliente(cliente: Cliente) {
@@ -125,14 +102,12 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
   guardarProyecto() {
     if(this.formulario.valid) {
       this.miProyecto = this.formulario.value;
-      console.log('this.miProyecto ',this.miProyecto);
 
       this._proyectoService.guardarProyecto(this.miProyecto).then(response => response.subscribe(respuesta => {
-        console.log(respuesta);
-        // this._mensagesAlertService.ventanaExitosa('Proyecto creado', 'Ahora puede agregar recursos, asignar tareas y cambiar el estado del mismo');
+        console.log(respuesta.error);
+        this._mensagesAlertService.ventanaExitosa('Proyecto creado', 'Ahora puede agregar recursos, asignar tareas y cambiar el estado del mismo');
       }));
     } else {
-      console.log('Form invalido',this.formulario.value);
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos son obligatorios');
     }
   }

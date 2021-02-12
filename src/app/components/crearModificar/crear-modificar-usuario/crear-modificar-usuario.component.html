@@ -72,15 +72,9 @@
                             </p-dropdown>
                         </div>
                     </div>
-
-                    <div class="p-grid">
-                        <div class="p-col-8">
-                            <p-multiSelect [options]="perfiles" (onChange)="onChangePerfil($event.value)" defaultLabel="Seleccione uno o varios perfiles" optionLabel="nombrePerfil" display="chip" [style]="{'width':'100%'}"></p-multiSelect>
-                        </div>
-                    </div>
                 </form>
 
-                <div class="p-grid">
+                <div *ngIf="!modificandoEmpleado" class="p-grid">
                     <div class="p-col-4">
                         <span class="p-float-label">
                             <input id="float-usuario" (change)="onChangeUsuario()" [(ngModel)]="usuarioEmpleado.NombreUsuario" type="text" pInputText> 
@@ -99,10 +93,14 @@
 
             <ng-template pTemplate="footer">
                 <div class="centrar-boton">
-                    <button pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
+                    <button *ngIf="!modificandoEmpleado" pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
                     <button pButton pRipple type="button" icon="pi pi-save" label="Guardar usuario" (click)="guardarUsuario()" class="p-button-raised p-button-secondary"></button>
                 </div>
             </ng-template>
         </p-card>
+    </div>
+
+    <div *ngIf="modificandoEmpleado" class="p-col-12">
+        <app-asignar-perfil-empleado [idEmpleado]="miEmpleado.idempleado"></app-asignar-perfil-empleado>
     </div>
 </div>

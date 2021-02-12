@@ -12,7 +12,7 @@ import { NgxsModule } from '@ngxs/store';
 import { environment } from '../environments/environment.prod';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
-import { states } from '../app/states/states'
+import { states } from '../app/states/states';
 
 @NgModule({
   declarations: [AppComponent],

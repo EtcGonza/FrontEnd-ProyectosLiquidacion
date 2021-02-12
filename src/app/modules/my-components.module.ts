@@ -12,6 +12,9 @@ import { CrearModificarProyectoComponent } from '../components/crearModificar/cr
 import { CrearModificarUsuarioComponent } from '../components/crearModificar/crear-modificar-usuario/crear-modificar-usuario.component';
 import { GestionarProyectosComponent } from '../components/gestiones/gestionar-proyectos/gestionar-proyectos.component';
 import { CrearModificarTareasComponent } from '../components/crearModificar/crear-modificar-tareas/crear-modificar-tareas.component';
+import { AsignarEmpleadoProyectoComponent } from '../components/crearModificar/crear-modificar-proyecto/asignar-empleado-proyecto/asignar-empleado-proyecto.component';
+import { AsignarPerfilEmpleadoComponent } from '../components/crearModificar/crear-modificar-usuario/asignar-perfil-empleado/asignar-perfil-empleado.component';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +28,8 @@ import { CrearModificarTareasComponent } from '../components/crearModificar/crea
   CrearModificarUsuarioComponent,
   CrearModificarClienteComponent,
   GestionarClientesComponent,
+  AsignarEmpleadoProyectoComponent,
+  AsignarPerfilEmpleadoComponent
 ],
   exports:[
   HeaderComponent,
@@ -37,6 +42,8 @@ import { CrearModificarTareasComponent } from '../components/crearModificar/crea
   CrearModificarUsuarioComponent,
   CrearModificarClienteComponent,
   GestionarClientesComponent,
+  AsignarEmpleadoProyectoComponent,
+  AsignarPerfilEmpleadoComponent
 ],
   imports: [
     CommonModule, PrimeNgModule,

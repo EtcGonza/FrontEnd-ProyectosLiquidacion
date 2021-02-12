@@ -47,7 +47,6 @@ export class GestionarClientesComponent implements OnInit {
   }
 
   borrarCliente(cliente: any) {
-    console.log('borrar => ',cliente);
     this._mensagesAlertService.ventanaConfirmar('Borrar cliente', `¿Esta seguro que desea borrar el cliente '${cliente.NombreCliente}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {

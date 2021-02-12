@@ -38,28 +38,16 @@
                 </div>
             </form>
 
-            <p-divider></p-divider>
-
-            <h3>Asignar empleados *</h3>
-
-            <div class="p-grid">
-                <div class="p-col" *ngIf="empleados.length > 0">
-                    <p-listbox [options]="empleados" [metaKeySelection]="false" [checkbox]="true" optionLabel="apellidoEmpleado" (onChange)="asignarEmpleados($event.value)" [filter]="true" [multiple]="true" filterPlaceHolder="Filtrar por apellido" [style]="{'width':'100%'}">
-                        <ng-template let-empleado pTemplate="item">
-                            <div>
-                                <span>{{empleado.apellidoEmpleado}} {{empleado.nombreEmpleado}}</span>
-                            </div>
-                        </ng-template>
-                    </p-listbox>
-                </div>
-            </div>
-
             <ng-template pTemplate="footer">
                 <div class="centrar-boton">
-                    <button pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
+                    <button *ngIf="!modificandoProyecto" pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
                     <button pButton pRipple type="button" icon="pi pi-save" label="Guardar proyecto" (click)="guardarProyecto()" class="p-button-raised p-button-secondary"></button>
                 </div>
             </ng-template>
         </p-card>
+    </div>
+
+    <div *ngIf="modificandoProyecto" class="p-col-12">
+        <app-asignar-empleado-proyecto [idProyecto]="miProyecto.idproyecto"></app-asignar-empleado-proyecto>
     </div>
 </div>
