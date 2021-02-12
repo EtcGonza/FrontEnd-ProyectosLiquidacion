@@ -1,0 +1,14 @@
+<p-card header="Asignar perfiles">
+    <div class="p-grid">
+        <div class="p-col">
+            <p-multiSelect [options]="perfiles" [ngModel]="perfilesSeleccionados" (onChange)="onChangePerfil($event.value)" defaultLabel="Seleccione uno o varios perfiles" optionLabel="nombrePerfil" display="chip" [style]="{'width':'100%'}"></p-multiSelect>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="centrar-boton">
+            <button pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
+            <button pButton pRipple type="button" icon="pi pi-save" label="Guardar perfiles" (click)="guardarPerfiles()" class="p-button-raised p-button-secondary"></button>
+        </div>
+    </ng-template>
+</p-card>

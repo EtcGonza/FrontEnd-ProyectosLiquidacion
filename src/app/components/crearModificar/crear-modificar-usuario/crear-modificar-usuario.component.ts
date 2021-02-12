@@ -10,10 +10,8 @@ import { Provincia } from 'src/app/models/provincia';
 import { Localidad } from 'src/app/models/localidad';
 import { Perfil } from 'src/app/models/Perfil';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
-import { EmpleadosService } from '../../../services/empleados.service';
 import { LocalidadService } from '../../../services/localidad.service';
-import { PerfilService } from '../../../services/perfil.service';
-import { PerfilEmpleado } from '../../../models/PerfilEmpleado';
+import { EmpleadosService } from '../../../services/empleados.service';
 
 @Component({
   selector: 'app-crear-modificar-usuario',
@@ -40,16 +38,15 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
 
   tituloCard: string = ``;
 
-  constructor(private FormBuilder: FormBuilder, 
+  constructor(
+    private FormBuilder: FormBuilder, 
     private router: Router, 
     private _mensagesAlertService: MensagesAlertService, 
-    private _empleadoService: EmpleadosService,
     private storage: StorageMap,
-    private _localidadService: LocalidadService,
-    private _perfilServices: PerfilService) {}
+    private _empleadoService: EmpleadosService,
+    private _localidadService: LocalidadService) {}
 
   ngOnInit() {
-    // this.getPerfiles();
     this.getProvincias();
 
     this.formulario = this.FormBuilder.group({
@@ -74,6 +71,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
         this.miEmpleado = miEmpleado;
         this.formulario.patchValue(this.miEmpleado);
         this.formulario.controls.usuario.clearValidators();
+        this.formulario.controls.usuario.updateValueAndValidity();
       }
 
       if (this.miEmpleado) {
@@ -89,43 +87,22 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
 
   guardarUsuario() {
     if(this.formulario.valid) {
-
       this.miEmpleado = this.formulario.value;
     
       if (!this.modificandoEmpleado) {
         this.miEmpleado.fechaIngresoEmpleado = new Date();
-      } 
+      }
 
-      console.log(this.miEmpleado);
-
-      // this._empleadoService.guardarEmpleado(this.miEmpleado).then(response => response.subscribe(respuesta => {
-      //   console.log(respuesta);
-      //   // this._mensagesAlertService.ventanaExitosa('¡Exito!', `Usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} guardado`);
-      // }));
+      this._empleadoService.guardarEmpleado(this.miEmpleado).then(response => response.subscribe(respuesta => {
+        this._mensagesAlertService.ventanaExitosa('¡Exito!', `Empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} guardado`);
+      }, error => {
+        this._mensagesAlertService.ventanaError('Error', `El Empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} no pudo guardarse.`);
+      }));
       
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
   }
-
-  // getPerfiles() {
-  //   this._perfilServices.getPerfiles().then(response => response.subscribe((perfiles: Perfil []) => perfiles.forEach((perfil: Perfil) => this.perfiles.push(perfil as Perfil))));
-  // }
-
-  // onChangePerfil(perfiles: Perfil[]) {
-  //   let perfilesEmpleado: PerfilEmpleado [] = [];
-
-  //   perfiles.forEach((perfil: Perfil) => {
-  //     let nuevoperfilEmpleado: PerfilEmpleado = new PerfilEmpleado ();
-  //     nuevoperfilEmpleado.Idperfil = perfil.Idperfil;
-  //     nuevoperfilEmpleado.Idempleado = 18;
-  //     perfilesEmpleado.push(nuevoperfilEmpleado);
-  //   });
-
-  //   console.log(perfilesEmpleado);
-
-  //   this.formulario.controls.perfilEmpleado.setValue(perfilesEmpleado);
-  // }
 
   onChangeUsuario() {
     let usuarioAux = [];
@@ -136,8 +113,10 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
 
   onSelectProvincia(provincia: Provincia) {
     this.localidades = [];
-
-    this._localidadService.getLocalidades(provincia.idprovincia).then(response => response.subscribe((localidades: Localidad[]) => localidades.forEach((localidad: Localidad) => this.localidades.push(localidad))));
+    this._localidadService.getLocalidades(provincia.idprovincia).then(response => response.subscribe((localidades: Localidad[]) => localidades.forEach((localidad: Localidad) => this.localidades.push(localidad)), 
+    error => {
+      this._mensagesAlertService.ventanaError('Error', 'No pudo recuperarse la lista de localidades');
+    }));
   }
 
   onSelectLocalidad(localidad: Localidad) {
@@ -145,7 +124,10 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   }
 
   getProvincias() {
-    this._localidadService.getProvincias().then(response => response.subscribe((provincias: Provincia[]) => provincias.forEach(provincias => this.provincias.push(provincias))))
+    this._localidadService.getProvincias().then(response => response.subscribe((provincias: Provincia[]) => provincias.forEach(provincias => this.provincias.push(provincias)), 
+    error => {
+      this._mensagesAlertService.ventanaError('Error', 'No pudo recuperarse la lista de provincias');
+    }));
   }
 
   volver() {
