@@ -27,7 +27,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
     if (token) {
       req = req.clone({
         url: req.url,
-        headers: req.headers.set('Content-Type', 'application/json; charset=utf-8').set('Authorization', 'Bearer ' + token),
+        headers: req.headers.set('Accept', 'application/json').set('Content-Type', 'application/json').set('Authorization', 'Bearer ' + token),
         body: req.body,
         withCredentials: true,
       });
