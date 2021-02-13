@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Cliente } from '../../../models/Cliente';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
-import { Router } from '@angular/router';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -36,7 +35,6 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
      private _mensagesAlertService: MensagesAlertService,
      private _localidadService: LocalidadService,
      private formBuilder: FormBuilder,
-     private router: Router,
      private storage: StorageMap,
      private location: Location) { }
 
@@ -58,7 +56,6 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
     this.storage.get('_modificarCliente')
     .subscribe((miCliente: Cliente) => {
       if (miCliente) {
-        console.log('Cargo micliente', miCliente);
         this.miCliente = miCliente;
         this.formulario.patchValue(this.miCliente);
       }
@@ -79,38 +76,19 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
   guardarCliente() {
     if(this.formulario.valid) {
       this.miCliente = this.formulario.value;
-    console.log(this.miCliente);
-      this._clienteService.guardarcliente(this.miCliente).then(exito => {
-        exito.subscribe(respuesta => {
-          this._mensagesAlertService.ventanaExitosa('Cliente creado', 'Ahora puede asignar un proyecto al nuevo cliente');
-          console.log(respuesta);
-        });
-      }).catch(error => {
-        console.log('No se pudo guardar', error);
-      });
+      this._clienteService.guardarcliente(this.miCliente).then(
+        exito => exito.subscribe(respuesta => this._mensagesAlertService.ventanaExitosa('Cliente creado', `El cliente ${this.miCliente.nombreCliente} ${this.miCliente.apellidoCliente} fue creado exitosamente`)),
+        error => this._mensagesAlertService.ventanaError('Error', `El cliente ${this.miCliente.nombreCliente} ${this.miCliente.apellidoCliente} no se pudo crear`));
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
   }
 
-  ngOnDestroy() {
-    console.log('(crearModificarCliente) ngOnDestroy');
-    this.storage.delete('_modificarCliente').subscribe(() => {});
-    this.formulario.reset();
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
-  volver() {
-    this.location.back();
-  }
-
   onSelectProvincia(provincia: Provincia) {
     this.localidades = [];
-    
-    this._localidadService.getLocalidades(provincia.idprovincia).then(response => response.subscribe((localidades: Localidad[]) => localidades.forEach((localidad: Localidad) => {
-      this.localidades.push(localidad)
-    })));
+    this._localidadService.getLocalidades(provincia.idprovincia).then(
+    response => response.subscribe((localidades: Localidad[]) => localidades.forEach((localidad: Localidad) => this.localidades.push(localidad)), 
+    error => this._mensagesAlertService.ventanaError('Error', `No se pudo recuperar la lista de localidades`)));
   }
 
   onSelectLocalidad(localidad: Localidad) {
@@ -118,6 +96,18 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
   }
 
   getProvincias() {
-    this._localidadService.getProvincias().then(response => response.subscribe((provincias: Provincia[]) => provincias.forEach(provincias => this.provincias.push(provincias))))
+    this._localidadService.getProvincias().then(response => response.subscribe((provincias: Provincia[]) => provincias.forEach(provincias => this.provincias.push(provincias)),
+    error => this._mensagesAlertService.ventanaError('Error', `No se pudo recuperar la lista de provincias`)));
+  }
+
+  volver() {
+    this.location.back();
+  }
+
+  ngOnDestroy() {
+    this.storage.delete('_modificarCliente').subscribe(() => {});
+    this.formulario.reset();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

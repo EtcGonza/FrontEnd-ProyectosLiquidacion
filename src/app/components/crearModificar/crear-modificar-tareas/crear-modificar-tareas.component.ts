@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MensagesAlertService } from '../../../services/mensages-alert.service';
 import { Proyecto } from '../../../models/proyecto';
@@ -25,7 +24,6 @@ export class CrearModificarTareasComponent implements OnInit {
 
   constructor(private _mensagesAlertService: MensagesAlertService,
      private formBuilder: FormBuilder,
-     private router: Router,
      private storage: StorageMap,
      private _proyectoServices: ProyectosService,
      private location: Location) { }

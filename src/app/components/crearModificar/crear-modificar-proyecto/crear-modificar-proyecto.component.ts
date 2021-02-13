@@ -8,7 +8,6 @@ import { Cliente } from 'src/app/models/Cliente';
 import { Proyecto } from 'src/app/models/proyecto';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
 import { EstadoProyecto } from 'src/app/models/estadoProyecto';
-import { EmpleadosService } from '../../../services/empleados.service';
 import { ClientesService } from '../../../services/clientes.service';
 import { ProyectosService } from '../../../services/proyectos.service';
 
@@ -37,7 +36,6 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private router: Router,
     private storage: StorageMap,
-    private _empleadoServices: EmpleadosService,
     private _mensagesAlertService: MensagesAlertService,
     private _clienteServices: ClientesService,
     private _proyectoService: ProyectosService
@@ -83,12 +81,15 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
   }
 
   getClientes() {
-    this._clienteServices.getclientes().then(response => response.subscribe((clientes: Cliente []) => clientes.forEach(cliente => this.clientes.push(cliente)),
-    error => console.log('Error (getClientes)', error)));
+    this._clienteServices.getclientes().then(
+    response => response.subscribe((clientes: Cliente []) => clientes.forEach(cliente => this.clientes.push(cliente)),
+    error => this._mensagesAlertService.ventanaError('Error', `No se pudo recuperar la lista de clientes`)));
   }
 
   getClienteById() {
-    this._clienteServices.getClienteById(this.miProyecto.idcliente).then(response => response.subscribe((cliente: Cliente) => this.clienteSeleccionado = cliente));
+    this._clienteServices.getClienteById(this.miProyecto.idcliente).then(
+      response => response.subscribe((cliente: Cliente) => this.clienteSeleccionado = cliente),
+      error => this._mensagesAlertService.ventanaError('Error', `No se pudo recuperar el cliente by id`));
   }
 
   cargarEstadosProyecto() {
@@ -103,10 +104,9 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
     if(this.formulario.valid) {
       this.miProyecto = this.formulario.value;
 
-      this._proyectoService.guardarProyecto(this.miProyecto).then(response => response.subscribe(respuesta => {
-        console.log(respuesta.error);
-        this._mensagesAlertService.ventanaExitosa('Proyecto creado', 'Ahora puede agregar recursos, asignar tareas y cambiar el estado del mismo');
-      }));
+      this._proyectoService.guardarProyecto(this.miProyecto).then(
+        response => response.subscribe(respuesta => this._mensagesAlertService.ventanaExitosa('Proyecto creado', `El proyecto ${this.miProyecto.nombreProyecto} fue creado exitosamente. Ahora puede agregar recursos, asignar tareas y cambiar el estado del mismo`),
+        error => this._mensagesAlertService.ventanaError('Error', `No se pudo crear el proyecto ${this.miProyecto.nombreProyecto}`)));
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos son obligatorios');
     }

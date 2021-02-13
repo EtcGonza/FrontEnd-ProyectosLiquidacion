@@ -46,13 +46,13 @@ export class GestionarClientesComponent implements OnInit {
     this.router.navigateByUrl('crearModificarCliente', {replaceUrl: false});
   }
 
-  borrarCliente(cliente: any) {
-    this._mensagesAlertService.ventanaConfirmar('Borrar cliente', `¿Esta seguro que desea borrar el cliente '${cliente.NombreCliente}'?`)
+  borrarCliente(cliente: Cliente) {
+    this._mensagesAlertService.ventanaConfirmar('Borrar cliente', `¿Esta seguro que desea borrar el cliente '${cliente.nombreCliente}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
-        this._clienteService.borrarEmpelado(cliente.idcliente).then(response => response.subscribe(respuesta => {
-          console.log(respuesta);
-        }));
+        this._clienteService.borrarEmpelado(cliente.idcliente).then(
+          response => response.subscribe(respuesta => this._mensagesAlertService.ventanaExitosa('Exito','Cliente borrado'), 
+          error => this._mensagesAlertService.ventanaError('Error','No se pudo borrar el cliente')));
       }
     });
   }

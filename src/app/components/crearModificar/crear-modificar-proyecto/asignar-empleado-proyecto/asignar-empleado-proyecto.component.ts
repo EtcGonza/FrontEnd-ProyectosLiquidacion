@@ -3,8 +3,8 @@ import { Empleado } from '../../../../models/empleado';
 import { EmpleadosService } from '../../../../services/empleados.service';
 import { EmpleadoProyecto } from '../../../../models/EmpleadoProyecto';
 import { EmpleadoProyectoService } from '../../../../services/empleado-proyecto.service';
-import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { MensagesAlertService } from '../../../../services/mensages-alert.service';
 
 @Component({
   selector: 'app-asignar-empleado-proyecto',
@@ -21,6 +21,7 @@ export class AsignarEmpleadoProyectoComponent implements OnInit {
   constructor(
     private _empleadoProyectoServices: EmpleadoProyectoService,
     private _empleadoServices: EmpleadosService,
+    private _messagesService: MensagesAlertService,
     private location: Location 
   ) {}
 
@@ -36,11 +37,14 @@ export class AsignarEmpleadoProyectoComponent implements OnInit {
   }
 
   getEmpleados() {
-    this._empleadoServices.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => this.empleados.push(empleado))));
+    this._empleadoServices.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => this.empleados.push(empleado)),
+    error => this._messagesService.ventanaExitosa('Error', `No se pudo recuperar la lista de empleados.`)));
   }
 
   getEmpleadosProyecto() {
-    this._empleadoProyectoServices.getEmpleadosProyecto(this.idProyecto).then(response => response.subscribe((empleados: Empleado[]) => empleados.forEach((empleado: Empleado) => this.empleadosSeleccionados.push(empleado))));
+    this._empleadoProyectoServices.getEmpleadosProyecto(this.idProyecto).then(
+      response => response.subscribe((empleados: Empleado[]) => empleados.forEach((empleado: Empleado) => this.empleadosSeleccionados.push(empleado)),
+      error => this._messagesService.ventanaExitosa('Error', `No se pudo recuperar la lista de empleados asignados al proyecto.`)));
   }
 
   asignarEmpleados(empleados: Empleado []) {
@@ -48,7 +52,6 @@ export class AsignarEmpleadoProyectoComponent implements OnInit {
     this.empleadosSeleccionados = empleados;
 
     empleados.forEach((empleado: Empleado) => {
-      console.log(empleado);
       let empleadoProyecto: EmpleadoProyecto = new EmpleadoProyecto();
       empleadoProyecto.IdEmpleado = empleado.idempleado;
       empleadoProyecto.IdProyecto = this.idProyecto;
@@ -57,9 +60,9 @@ export class AsignarEmpleadoProyectoComponent implements OnInit {
   }
 
   guardarEmpleados() {
-    this._empleadoProyectoServices.guardarEmpleadosProyecto(this.empleadosProyectos).then(response => response.subscribe(respuesta => {
-      console.log('respuesta',respuesta.error);
-    }));
+    this._empleadoProyectoServices.guardarEmpleadosProyecto(this.empleadosProyectos).then(
+      response => response.subscribe(respuesta => this._messagesService.ventanaExitosa('Exito', `Los perfiles del empleado fueron guardados correctamente`),
+      error => this._messagesService.ventanaExitosa('Error', `No se pudo guardar los perfiles del empleado.`)));
   }
 
   volver() {

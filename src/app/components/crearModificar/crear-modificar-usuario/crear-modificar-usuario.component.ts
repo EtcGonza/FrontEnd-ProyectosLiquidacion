@@ -33,7 +33,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   provincias: Provincia [] = [];
   localidades: Localidad [] = [];
 
-  localidadSelected: Localidad = new Localidad();;
+  localidadSelected: Localidad = new Localidad();
   perfiles: Perfil [] = [];
 
   tituloCard: string = ``;
@@ -93,11 +93,9 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
         this.miEmpleado.fechaIngresoEmpleado = new Date();
       }
 
-      this._empleadoService.guardarEmpleado(this.miEmpleado).then(response => response.subscribe(respuesta => {
-        this._mensagesAlertService.ventanaExitosa('¡Exito!', `Empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} guardado`);
-      }, error => {
-        this._mensagesAlertService.ventanaError('Error', `El Empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} no pudo guardarse.`);
-      }));
+      this._empleadoService.guardarEmpleado(this.miEmpleado).then(
+        response => response.subscribe(respuesta => this._mensagesAlertService.ventanaExitosa('Empleado guardado', `El empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} fue guardado exitosamente`), 
+        error => this._mensagesAlertService.ventanaError('Error', `El Empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} no pudo guardarse.`)));
       
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
@@ -113,10 +111,9 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
 
   onSelectProvincia(provincia: Provincia) {
     this.localidades = [];
-    this._localidadService.getLocalidades(provincia.idprovincia).then(response => response.subscribe((localidades: Localidad[]) => localidades.forEach((localidad: Localidad) => this.localidades.push(localidad)), 
-    error => {
-      this._mensagesAlertService.ventanaError('Error', 'No pudo recuperarse la lista de localidades');
-    }));
+    this._localidadService.getLocalidades(provincia.idprovincia).then(
+      response => response.subscribe((localidades: Localidad[]) => localidades.forEach((localidad: Localidad) => this.localidades.push(localidad)), 
+      error => this._mensagesAlertService.ventanaError('Error', 'No pudo recuperarse la lista de localidades')));
   }
 
   onSelectLocalidad(localidad: Localidad) {
@@ -124,10 +121,9 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   }
 
   getProvincias() {
-    this._localidadService.getProvincias().then(response => response.subscribe((provincias: Provincia[]) => provincias.forEach(provincias => this.provincias.push(provincias)), 
-    error => {
-      this._mensagesAlertService.ventanaError('Error', 'No pudo recuperarse la lista de provincias');
-    }));
+    this._localidadService.getProvincias().then(
+    response => response.subscribe((provincias: Provincia[]) => provincias.forEach(provincias => this.provincias.push(provincias)), 
+    error => this._mensagesAlertService.ventanaError('Error', 'No pudo recuperarse la lista de provincias')));
   }
 
   volver() {
@@ -135,7 +131,6 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('(crearModificarUsuarios) ngOnDestroy');
     this.storage.delete('_modificarEmpleado').subscribe(() => {});
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
