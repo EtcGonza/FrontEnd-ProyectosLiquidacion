@@ -2,6 +2,10 @@
     <div class="p-grid">
         <div class="p-col">
 
+            <div *ngIf="!empleados.length > 0">
+                <p>No hay empleados asignados a este proyecto</p>
+            </div>
+
             <p-listbox [options]="empleados" [metaKeySelection]="false" [ngModel]="empleadosSeleccionados" (onChange)="asignarEmpleados($event.value)" optionLabel="apellidoEmpleado" [checkbox]="true" [filter]="true" [multiple]="true" filterPlaceHolder="Filtrar por apellido"
                 [style]="{'width':'100%'}">
                 <ng-template let-empleado pTemplate="item">
