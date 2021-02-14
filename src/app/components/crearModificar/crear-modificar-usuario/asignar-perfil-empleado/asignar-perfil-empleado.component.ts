@@ -67,10 +67,7 @@ export class AsignarPerfilEmpleadoComponent implements OnInit {
   guardarPerfiles() {
     this._perfilesEmpleadoService.guardarPerfilesEmpleado(this.perfilesEmpleado).then(response => response.subscribe(respuesta => {
       this._mensagesAlertService.ventanaExitosa('Perfil/es guardados', 'Los perfiles del empleado fueron guardados correctamente');
-    }, error => {
-      this._mensagesAlertService.ventanaExitosa('Error al guardar', 'Observar consola');
-      console.log(error);
-    }));
+    }, error => this._mensagesAlertService.ventanaExitosa('Error', 'No se pudo guardar los perfiles')));
   }
 
   volver() {

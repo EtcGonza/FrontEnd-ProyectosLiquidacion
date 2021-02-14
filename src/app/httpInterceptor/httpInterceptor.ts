@@ -47,7 +47,6 @@ export class AppHttpInterceptor implements HttpInterceptor {
       }),
       finalize(() => {
         // Termina la comunicaciónn y ocultamos
-        // console.log('Comunicacion terminada');
       })
     );
     // }

@@ -20,4 +20,12 @@ export class LocalidadService {
   async getLocalidades(idProvincia: number): Promise<Observable<Localidad[]>>{
     return this.httpClient.get<Localidad[]>(`Localidad/${idProvincia}`);
   }
+
+  async getProvinciaById(idProvincia: number): Promise<Observable<Provincia>>{
+    return this.httpClient.get<Provincia>(`Provincia/findOne/${idProvincia}`);
+  }
+
+  async getLocalidadById(idLocalidad: number): Promise<Observable<Localidad>>{
+    return this.httpClient.get<Localidad>(`Localidad/findOne/${idLocalidad}`);
+  }
 }

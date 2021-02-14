@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   formulario: FormGroup;
 
   constructor(private formBuilder: FormBuilder, 
-    private _mensagesAlertService: MensagesAlertService,
     private store: Store,
+    private _mensagesAlertService: MensagesAlertService,
     private _loginService: LoginService,
     private router: Router
     ) {}
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
         response.subscribe(respuesta => {
           this.store.dispatch(new SetTokenAction(respuesta.token));
           this.router.navigateByUrl('home', {replaceUrl: true});
-        }, error => console.log('error', error)));
+        }, error => this._mensagesAlertService.ventanaWarning('Usuario invalido', 'Usuario y/o contraseña invalido')));
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }

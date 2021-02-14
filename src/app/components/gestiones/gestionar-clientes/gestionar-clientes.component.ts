@@ -28,8 +28,9 @@ export class GestionarClientesComponent implements OnInit {
   }
 
   getClientes() {
-    this._clienteService.getclientes().then(response => response.subscribe((clientes: Cliente []) => clientes.forEach(cliente => this.clientes.push(cliente)),
-    error => console.log('Error (getClientes)', error)));
+    this._clienteService.getclientes().then(
+      response => response.subscribe((clientes: Cliente []) => clientes.forEach(cliente => this.clientes.push(cliente)),
+      error => this._mensagesAlertService.ventanaError('Error', 'No se pudo recuperar la lista de clientes')));
   }
 
   crearCliente() {
@@ -39,10 +40,9 @@ export class GestionarClientesComponent implements OnInit {
 
   editarCliente(cliente: Cliente) {
     this.storage.set('_modificarCliente', cliente).subscribe({
-      next: ()=> console.log('next'),
-      error: () => console.log('error')
+      next: ()=> {},
+      error: () => this._mensagesAlertService.ventanaError('Storage', 'No se pudo guardar el cliente en el storage')
     });
-
     this.router.navigateByUrl('crearModificarCliente', {replaceUrl: false});
   }
 

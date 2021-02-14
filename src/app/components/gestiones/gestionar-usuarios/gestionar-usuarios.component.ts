@@ -39,8 +39,8 @@ export class GestionarUsuariosComponent implements OnInit {
 
   editarEmpleado(empleado: Empleado) {
     this.storage.set('_modificarEmpleado', empleado).subscribe({
-      next: ()=> console.log('next'),
-      error: () => console.log('error')
+      next: ()=> {},
+      error: () => this._mensagesAlertServices.ventanaError('Storage', 'No se pudo guardar el usuario en el storage')
     });
 
     this.router.navigateByUrl('crearModificarUsuario', {replaceUrl: false});

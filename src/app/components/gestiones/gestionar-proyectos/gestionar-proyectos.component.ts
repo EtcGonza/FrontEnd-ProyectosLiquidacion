@@ -33,7 +33,11 @@ export class GestionarProyectosComponent implements OnInit {
   }
 
   editarProyecto(proyecto: any) {
-    this.storage.set('_modificarProyecto', proyecto).subscribe({next: ()=> console.log('next'), error: () => console.log('error')});
+    this.storage.set('_modificarProyecto', proyecto).subscribe({
+     next: () => {},
+     error: () => this._mensagesAlertService.ventanaError('Storage', 'No se pudo guardar el proyecto en el storage')
+    });
+
     this.router.navigateByUrl('crearModificarProyecto', {replaceUrl: false});
   }
 
@@ -57,8 +61,8 @@ export class GestionarProyectosComponent implements OnInit {
 
   navegarTareas(proyecto: Proyecto) {
     this.storage.set('_proyectoTareas', proyecto).subscribe({
-      next: ()=> console.log('next'),
-      error: () => console.log('error')
+      next: ()=> {},
+      error: () => this._mensagesAlertService.ventanaError('Storage', 'No se pudo guardar el proyecto en el storage')
     });
     this.router.navigateByUrl('crearModificarTareas', {replaceUrl: false});
   }
