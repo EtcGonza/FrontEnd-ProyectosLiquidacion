@@ -51,9 +51,9 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
 
     this.formulario = this.FormBuilder.group({
       idempleado: [null],
-      nombreEmpleado: ['Jorge', Validators.required],
-      apellidoEmpleado: ['Bubusela', Validators.required],
-      dniEmpleado: ['58745895', Validators.required],
+      nombreEmpleado: [null, Validators.required],
+      apellidoEmpleado: [null, Validators.required],
+      dniEmpleado: [null, Validators.required],
       telefono: [null],
       direccion: [null],
       usuario: [null, Validators.required],
