@@ -6,6 +6,8 @@ import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
 import { Empleado } from 'src/app/models/empleado';
 import { Location } from '@angular/common';
 import { EmpleadosService } from '../../../services/empleados.service';
+import { Perfil } from '../../../models/Perfil';
+import { PerfilEmpleadoService } from '../../../services/perfil-empleado.service';
 
 @Component({
   selector: 'app-gestionar-usuarios',
@@ -16,22 +18,23 @@ import { EmpleadosService } from '../../../services/empleados.service';
 export class GestionarUsuariosComponent implements OnInit {
 
   empleados: Empleado [] = [];
+  empledoBorrar: Empleado = null;
 
-  constructor(private router: Router,
+  constructor(
      private _mensagesAlertServices: MensagesAlertService,
+     private _perfilesEmpleadoService: PerfilEmpleadoService,
+     private _empleadoService: EmpleadosService,
+     private router: Router,
      private storage: StorageMap,
-     private location: Location,
-     private _empleadoService: EmpleadosService) {}
+     private location: Location) {}
 
   ngOnInit() {
     this.getEmpleados();
   }
 
   getEmpleados() {
-    this._empleadoService.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => {
-      console.log(empleado);
-      this.empleados.push(empleado)
-    })));
+    this._empleadoService.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => this.empleados.push(empleado)), 
+    error => this._mensagesAlertServices.ventanaError('Error', 'No se pudo recuperar la lista de empleados')));
   }
 
   editarEmpleado(empleado: Empleado) {
@@ -43,14 +46,24 @@ export class GestionarUsuariosComponent implements OnInit {
     this.router.navigateByUrl('crearModificarUsuario', {replaceUrl: false});
   }
 
+  getPerfilesEmpleadoBorrar() {
+    this._perfilesEmpleadoService.getPerfilesEmpleado(this.empledoBorrar.idempleado).then(response => response.subscribe((perfilesEmpleado: Perfil[]) => this.empledoBorrar.perfilEmpleado, error => {
+      this._mensagesAlertServices.ventanaError('Error', 'No se pudo recuperar los perfiles del empleado');
+    }));
+  }
+
   borrarEmpleado(empleado: Empleado) {
-    console.log();
     this._mensagesAlertServices.ventanaConfirmar('Borrar empleado', `¿Esta seguro que desea borrar el proyecto '${empleado.nombreEmpleado}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
+        this.empledoBorrar = empleado;
+        this.getPerfilesEmpleadoBorrar();
+
         this._empleadoService.borrarEmpelado(empleado.idempleado).then(response => response.subscribe(respuesta => {
-          console.log('Borro empleado... ',respuesta);
-        }));
+          this._mensagesAlertServices.ventanaExitosa('Exito', `El usuario ${empleado.nombreEmpleado} fue eliminado exitosamente.`);
+          this.empleados = [];
+          this.getEmpleados();
+        }, error => this._mensagesAlertServices.ventanaError('Error', `No se pudo eliminar el usuario ${empleado.nombreEmpleado}.`)));
       }
     });
   }

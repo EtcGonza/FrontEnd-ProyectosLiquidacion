@@ -50,9 +50,11 @@ export class GestionarClientesComponent implements OnInit {
     this._mensagesAlertService.ventanaConfirmar('Borrar cliente', `¿Esta seguro que desea borrar el cliente '${cliente.nombreCliente}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
-        this._clienteService.borrarEmpelado(cliente.idcliente).then(
-          response => response.subscribe(respuesta => this._mensagesAlertService.ventanaExitosa('Exito','Cliente borrado'), 
-          error => this._mensagesAlertService.ventanaError('Error','No se pudo borrar el cliente')));
+        this._clienteService.borrarEmpelado(cliente.idcliente).then(response => response.subscribe(respuesta => {
+          this._mensagesAlertService.ventanaExitosa('Exito','Cliente borrado');
+          this.clientes = [];
+          this.getClientes();
+        }, error => this._mensagesAlertService.ventanaError('Error','No se pudo borrar el cliente')));
       }
     });
   }

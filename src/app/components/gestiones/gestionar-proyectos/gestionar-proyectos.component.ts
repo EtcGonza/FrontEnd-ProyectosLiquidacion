@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SweetAlertResult } from 'sweetalert2';
-import { Cliente } from 'src/app/models/Cliente';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
 import { Proyecto } from 'src/app/models/proyecto';
@@ -17,14 +16,20 @@ export class GestionarProyectosComponent implements OnInit {
 
   proyectos: Proyecto [] = [];
 
-  constructor(private _mensagesAlertService: MensagesAlertService, private router: Router, private storage: StorageMap, private location: Location, private _proyectosService: ProyectosService) {}
+  constructor(private _mensagesAlertService: MensagesAlertService,
+     private router: Router,
+     private storage: StorageMap,
+     private location: Location,
+     private _proyectosService: ProyectosService) {}
 
   ngOnInit() {
     this.getProyectos();
   }
 
   getProyectos() {
-    this._proyectosService.getProyectos().then(response => response.subscribe((proyectos: Proyecto []) => proyectos.forEach((proyecto: Proyecto) => this.proyectos.push(proyecto))));
+    this._proyectosService.getProyectos().then(
+      response => response.subscribe((proyectos: Proyecto []) => proyectos.forEach((proyecto: Proyecto) => this.proyectos.push(proyecto)),
+      error => this._mensagesAlertService.ventanaError('Error', 'No se pudo recuperar la lista de proyectos')));
   }
 
   editarProyecto(proyecto: any) {
@@ -37,9 +42,10 @@ export class GestionarProyectosComponent implements OnInit {
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
         this._proyectosService.borrarProyecto(proyecto.idproyecto).then(response => response.subscribe(respuesta => {
-          console.log('Elimino proyecto ',respuesta);
+          this.proyectos = [];
           this.getProyectos();
-        }));
+        },
+        error => this._mensagesAlertService.ventanaError('Error', `No se pudo borrar el proyecto ${proyecto.nombreProyecto}.`)));
       }
     });
   }
