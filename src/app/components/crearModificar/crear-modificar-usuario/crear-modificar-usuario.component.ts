@@ -12,6 +12,9 @@ import { Perfil } from 'src/app/models/Perfil';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
 import { LocalidadService } from '../../../services/localidad.service';
 import { EmpleadosService } from '../../../services/empleados.service';
+import { RolService } from '../../../services/rol.service';
+import { Rol } from '../../../models/rol';
+import { UsuarioService } from '../../../services/usuario.service';
 
 @Component({
   selector: 'app-crear-modificar-usuario',
@@ -26,6 +29,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   usuarioEmpleado: Usuario = new Usuario();
 
   modificandoEmpleado: boolean;
+  mostrarCardPerfiles: boolean;
   fechaDeIngresoFormateada: Date;
   formulario: FormGroup;
 
@@ -38,23 +42,29 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   localidadSelected: Localidad = new Localidad();
   perfiles: Perfil [] = [];
 
-  tituloCard: string = ``;
+  roles: Rol [] = [];
+  rolTag: string = '';
+
+  tituloCard: string = '';
 
   constructor(
     private FormBuilder: FormBuilder, 
     private router: Router, 
-    private _mensagesAlertService: MensagesAlertService, 
     private storage: StorageMap,
+    private _rolService: RolService,
+    private _usuarioService: UsuarioService,
+    private _mensagesAlertService: MensagesAlertService, 
     private _empleadoService: EmpleadosService,
     private _localidadService: LocalidadService) {}
 
   ngOnInit() {
+    this.getRoles();
     this.getProvincias();
 
     this.formulario = this.FormBuilder.group({
       idempleado: [null],
-      nombreEmpleado: [null, Validators.required],
-      apellidoEmpleado: [null, Validators.required],
+      nombreEmpleado: ['', Validators.required],
+      apellidoEmpleado: ['', Validators.required],
       dniEmpleado: [null, Validators.required],
       telefono: [null],
       direccion: [null],
@@ -71,10 +81,14 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
       if (miEmpleado) {
         this.modificandoEmpleado = true;
         this.miEmpleado = miEmpleado;
+        this.getUsuario();
+
         this.formulario.patchValue(this.miEmpleado);
         this.formulario.controls.usuario.clearValidators();
         this.formulario.controls.usuario.updateValueAndValidity();
+
         this.setearLocalidad();
+        this.setearTag();
       }
 
       if (this.miEmpleado) {
@@ -99,13 +113,20 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
       this._empleadoService.guardarEmpleado(this.miEmpleado).then(
         response => response.subscribe(respuesta => {
           let mensaje = this.miEmpleado.idempleado ? 'modificado' : 'creado';
-          this._mensagesAlertService.ventanaExitosa(`Empleado ${mensaje}`, `El empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} fue ${mensaje} exitosamente`)
+          this._mensagesAlertService.ventanaExitosa(`Usuario ${mensaje}`, `El usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} fue ${mensaje} exitosamente`);
         }, 
-        error => this._mensagesAlertService.ventanaError('Error', `El Empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} no pudo guardarse.`)));
+        error => this._mensagesAlertService.ventanaError('Error', `El usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} no pudo guardarse.`)));
       
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
+  }
+
+  getUsuario() {
+    this._usuarioService.getUsuarioById(this.miEmpleado.idempleado).then(response => response.subscribe((usuario: Usuario) => {
+      this.miEmpleado.usuario.push(usuario);
+      this.comprobarIdRol();
+    }));
   }
 
   setearLocalidad() {
@@ -123,7 +144,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
 
   onChangeUsuario() {
     let usuarioAux = [];
-    this.usuarioEmpleado.Idrol = 6;
+    this.usuarioEmpleado.idrol = 6;
     usuarioAux.push(this.usuarioEmpleado);
     this.formulario.controls.usuario.setValue(usuarioAux);
   }
@@ -143,6 +164,25 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
     this._localidadService.getProvincias().then(
     response => response.subscribe((provincias: Provincia[]) => provincias.forEach(provincias => this.provincias.push(provincias)), 
     error => this._mensagesAlertService.ventanaError('Error', 'No pudo recuperarse la lista de provincias')));
+  }
+
+  getRoles() {
+    this._rolService.getRoles().then(response => response.subscribe((roles: Rol[]) => roles.forEach((rol: Rol) => this.roles.push(rol))));
+  }
+
+  onSelectRol(rol: Rol) {
+    this.usuarioEmpleado.idrol = rol.idrol;
+  }
+
+  comprobarIdRol() {
+    this.miEmpleado.usuario[0].idrol !== 6 ? this.mostrarCardPerfiles = false : this.mostrarCardPerfiles = true;
+  }
+
+  setearTag() {
+    setTimeout(() => {
+      const rolEmpleado = this.roles.find((rol: Rol) => rol.idrol == this.miEmpleado.usuario[0].idrol);
+      this.rolTag = rolEmpleado.descripcionRol;
+    }, 1500);
   }
 
   volver() {
