@@ -105,7 +105,10 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
       this.miProyecto = this.formulario.value;
 
       this._proyectoService.guardarProyecto(this.miProyecto).then(
-        response => response.subscribe(respuesta => this._mensagesAlertService.ventanaExitosa('Proyecto creado', `El proyecto ${this.miProyecto.nombreProyecto} fue creado exitosamente. Ahora puede agregar recursos, asignar tareas y cambiar el estado del mismo`),
+        response => response.subscribe(respuesta => {
+          let mensaje = this.miProyecto.idproyecto ? 'modificado' : 'creado';
+          this._mensagesAlertService.ventanaExitosa(`Proyecto ${mensaje}`, `El proyecto ${this.miProyecto.nombreProyecto} fue ${mensaje} exitosamente. Ahora puede agregar recursos, asignar tareas y cambiar el estado del mismo`)
+        },
         error => this._mensagesAlertService.ventanaError('Error', `No se pudo crear el proyecto ${this.miProyecto.nombreProyecto}`)));
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos son obligatorios');
@@ -117,7 +120,6 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('(crearModificarProyecto) ngOnDestroy');
     this.storage.delete('_modificarProyecto').subscribe(() => {});
     this.formulario.reset();
     this.unsubscribe$.next();

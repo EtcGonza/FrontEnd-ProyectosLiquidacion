@@ -52,10 +52,10 @@ export class CrearModificarTareasComponent implements OnInit {
     });
 
     let tarea1 = new Tarea ();
-    tarea1.DescripcionTarea = 'Crear header';
-    tarea1.HorasEstimadasTarea = 8;
-    tarea1.HorasTrabajadas = 9;
-    tarea1.HorasOverbudget = 1;
+    tarea1.descripcionTarea = 'Crear header';
+    tarea1.horasEstimadasTarea = 8;
+    tarea1.horasTrabajadas = 9;
+    tarea1.horasOverbudget = 1;
 
     this.tareasProyecto.push(tarea1);
   }
@@ -85,7 +85,7 @@ export class CrearModificarTareasComponent implements OnInit {
 
   editarTarea(tarea: Tarea) {
     this.modificarTarea = true;
-    this.tituloCard = `Modificar tarea '${tarea.DescripcionTarea}' - Proyecto ${this.miProyecto.nombreProyecto}`
+    this.tituloCard = `Modificar tarea '${tarea.descripcionTarea}' - Proyecto ${this.miProyecto.nombreProyecto}`
     this.formulario.patchValue(tarea);
   }
 

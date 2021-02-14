@@ -27,11 +27,13 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
   formulario: FormGroup;
 
   provinciaSeleccionada: Provincia = null;
+  localidadSeleccionada: Localidad = null;
   
   provincias: Provincia [] = [];
   localidades: Localidad [] = [];
 
-  constructor(private _clienteService: ClientesService,
+  constructor(
+     private _clienteService: ClientesService,
      private _mensagesAlertService: MensagesAlertService,
      private _localidadService: LocalidadService,
      private formBuilder: FormBuilder,
@@ -58,6 +60,7 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
       if (miCliente) {
         this.miCliente = miCliente;
         this.formulario.patchValue(this.miCliente);
+        this.setearLocalidad();
       }
 
       if (this.miCliente) {
@@ -77,11 +80,27 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
     if(this.formulario.valid) {
       this.miCliente = this.formulario.value;
       this._clienteService.guardarcliente(this.miCliente).then(
-        exito => exito.subscribe(respuesta => this._mensagesAlertService.ventanaExitosa('Cliente creado', `El cliente ${this.miCliente.nombreCliente} ${this.miCliente.apellidoCliente} fue creado exitosamente`)),
+        exito => exito.subscribe(respuesta => {
+          let mensaje = this.miCliente.idcliente ? 'modificado' : 'creado';
+          this._mensagesAlertService.ventanaExitosa(`Cliente ${mensaje}`, `El cliente ${this.miCliente.nombreCliente} ${this.miCliente.apellidoCliente} fue ${mensaje} exitosamente`)
+        }),
         error => this._mensagesAlertService.ventanaError('Error', `El cliente ${this.miCliente.nombreCliente} ${this.miCliente.apellidoCliente} no se pudo crear`));
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
+  }
+
+  setearLocalidad() {
+    this._localidadService.getLocalidadById(this.miCliente.localidadCliente).then(response => response.subscribe((localidad: Localidad) => {
+      this._localidadService.getProvinciaById(localidad.idprovincia).then(response => response.subscribe((provincia: Provincia) => {
+        this.provinciaSeleccionada = provincia;
+        this.onSelectProvincia(provincia);
+        setTimeout(() => {
+          this.localidadSeleccionada = localidad;
+          this.formulario.controls.localidadCliente.setValue(localidad.idlocalidad);
+        }, 1000);
+      }));
+    }));
   }
 
   onSelectProvincia(provincia: Provincia) {

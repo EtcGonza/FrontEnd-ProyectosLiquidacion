@@ -43,37 +43,37 @@
                             </span>
                         </div>
                     </div>
-
-                    <div class="p-grid">
-                        <div class="p-col-6">
-                            <p-dropdown [options]="provincias" optionLabel="descripcion" required="true" (onChange)="onSelectProvincia($event.value)" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una provincia" [style]="{'width':'100%'}">
-                                <ng-template *ngIf="provinciaSeleccionada" pTemplate="selectedItem">
-                                    <div>{{provinciaSeleccionada.descripcion}}</div>
-                                </ng-template>
-                                <ng-template let-provincia pTemplate="item">
-                                    <div>
-                                        <div>{{provincia.descripcion}}</div>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-
-                        <div class="p-col-6">
-                            <p-dropdown [options]="localidades" optionLabel="descripcion" (onChange)="onSelectLocalidad($event.value)" required="true" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una localidad" [style]="{'width':'100%'}">
-                                <ng-template *ngIf="this.formulario.controls.localidadCliente.value" pTemplate="selectedItem">
-                                    <div>{{this.formulario.controls.localidadCliente.value}}</div>
-                                </ng-template>
-                                <ng-template let-localidad pTemplate="item">
-                                    <div>
-                                        <div>{{localidad.descripcion}}</div>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                    </div>
-
                 </form>
 
+                <div class="p-grid">
+                    <div class="p-col-6">
+                        <p-dropdown [options]="provincias" optionLabel="descripcion" [ngModel]="provinciaSeleccionada" required="true" (onChange)="onSelectProvincia($event.value)" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una provincia"
+                            [style]="{'width':'100%'}">
+                            <ng-template *ngIf="provinciaSeleccionada" pTemplate="selectedItem">
+                                <div>{{provinciaSeleccionada.descripcion}}</div>
+                            </ng-template>
+                            <ng-template let-provincia pTemplate="item">
+                                <div>
+                                    <div>{{provincia.descripcion}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+
+                    <div class="p-col-6">
+                        <p-dropdown [options]="localidades" optionLabel="descripcion" [ngModel]="localidadSeleccionada" (onChange)="onSelectLocalidad($event.value)" required="true" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una localidad"
+                            [style]="{'width':'100%'}">
+                            <ng-template *ngIf="this.formulario.controls.localidadCliente.value" pTemplate="selectedItem">
+                                <div>{{this.formulario.controls.localidadCliente.value}}</div>
+                            </ng-template>
+                            <ng-template let-localidad pTemplate="item">
+                                <div>
+                                    <div>{{localidad.descripcion}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                </div>
             </div>
 
             <ng-template pTemplate="footer">

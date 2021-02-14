@@ -29,7 +29,9 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
   fechaDeIngresoFormateada: Date;
   formulario: FormGroup;
 
-  provinciaSeleccionada: Provincia;
+  provinciaSeleccionada: Provincia = null;
+  localidadSeleccionada: Localidad = null;
+  
   provincias: Provincia [] = [];
   localidades: Localidad [] = [];
 
@@ -72,6 +74,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
         this.formulario.patchValue(this.miEmpleado);
         this.formulario.controls.usuario.clearValidators();
         this.formulario.controls.usuario.updateValueAndValidity();
+        this.setearLocalidad();
       }
 
       if (this.miEmpleado) {
@@ -94,12 +97,28 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
       }
 
       this._empleadoService.guardarEmpleado(this.miEmpleado).then(
-        response => response.subscribe(respuesta => this._mensagesAlertService.ventanaExitosa('Empleado guardado', `El empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} fue guardado exitosamente`), 
+        response => response.subscribe(respuesta => {
+          let mensaje = this.miEmpleado.idempleado ? 'modificado' : 'creado';
+          this._mensagesAlertService.ventanaExitosa(`Empleado ${mensaje}`, `El empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} fue ${mensaje} exitosamente`)
+        }, 
         error => this._mensagesAlertService.ventanaError('Error', `El Empleado ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} no pudo guardarse.`)));
       
     } else {
       this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
+  }
+
+  setearLocalidad() {
+    this._localidadService.getLocalidadById(this.miEmpleado.localidad).then(response => response.subscribe((localidad: Localidad) => {
+      this._localidadService.getProvinciaById(localidad.idprovincia).then(response => response.subscribe((provincia: Provincia) => {
+        this.provinciaSeleccionada = provincia;
+        this.onSelectProvincia(provincia);
+        setTimeout(() => {
+          this.localidadSeleccionada = localidad;
+          this.formulario.controls.localidad.setValue(localidad.idlocalidad);
+        }, 1000);
+      }));
+    }));
   }
 
   onChangeUsuario() {
