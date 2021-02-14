@@ -13,7 +13,7 @@ export class PerfilEmpleadoService {
   constructor(private httpCliente: HttpClient) {}
 
   async getPerfilesEmpleado(idEmpleado: number): Promise<Observable <Perfil[]>> {
-    return this.httpCliente.get<Perfil[]>(`PerfilEmpleado/${idEmpleado}`);
+    return this.httpCliente.get<Perfil[]>(`PerfilEmpleado/perfiles/${idEmpleado}`);
   }
 
   async guardarPerfilesEmpleado(perfilesEmpleado: PerfilEmpleado []): Promise<Observable <string>> {
