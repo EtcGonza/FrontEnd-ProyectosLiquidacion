@@ -28,7 +28,7 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
 
   provinciaSeleccionada: Provincia = null;
   localidadSeleccionada: Localidad = null;
-  
+    
   provincias: Provincia [] = [];
   localidades: Localidad [] = [];
 

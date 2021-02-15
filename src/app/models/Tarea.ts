@@ -7,5 +7,5 @@ export class Tarea {
     horasEstimadasTarea: number;
     horasOverbudget: number;
     horasTrabajadas: number;
-    finalizada: boolean;
+    finalizada: string;
 }

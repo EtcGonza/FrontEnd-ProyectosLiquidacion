@@ -6,15 +6,23 @@ import { Proyecto } from '../../../models/proyecto';
 import { ProyectosService } from '../../../services/proyectos.service';
 import { Tarea } from '../../../models/Tarea';
 import { Location } from '@angular/common';
+import { Empleado } from 'src/app/models/empleado';
+import { EmpleadosService } from '../../../services/empleados.service';
+import { Perfil } from '../../../models/Perfil';
+import { PerfilEmpleadoService } from '../../../services/perfil-empleado.service';
+import { TareaService } from '../../../services/tarea.service';
+import { EmpleadoProyectoService } from '../../../services/empleado-proyecto.service';
 
 @Component({
   selector: 'app-crear-modificar-tareas',
   templateUrl: './crear-modificar-tareas.component.html',
   styleUrls: ['./crear-modificar-tareas.component.scss']
 })
+
 export class CrearModificarTareasComponent implements OnInit {
 
   miProyecto: Proyecto = null;
+  miTarea: Tarea = new Tarea();
   tituloCard: string = '';
 
   formulario: FormGroup;
@@ -22,63 +30,97 @@ export class CrearModificarTareasComponent implements OnInit {
   tareasProyecto: Tarea [] = [];
   modificarTarea: boolean;
 
-  constructor(private _mensagesAlertService: MensagesAlertService,
-     private formBuilder: FormBuilder,
-     private storage: StorageMap,
-     private _proyectoServices: ProyectosService,
-     private location: Location) { }
+  empleados: Empleado [] = [];
+  empleadoSeleccionado: Empleado = null;
+  perfilesEmpleado: Perfil [] = [];
+  perfilSeleccionado: Perfil = null;
+
+  constructor(
+    private _mensagesAlertService: MensagesAlertService,
+    private _proyectoServices: ProyectosService,
+    private _tareaService: TareaService,
+    private _perfilesEmpleadoService: PerfilEmpleadoService,
+    private _empleadoService: EmpleadosService,
+    private _empleadoProyectoService: EmpleadoProyectoService,
+    private formBuilder: FormBuilder,
+    private storage: StorageMap,
+    private location: Location) { }
 
   ngOnInit(): void {
 
     this.formulario = this.formBuilder.group({
-      Idtarea: [null],
-      Idproyecto: [null],
-      Idempleado: [null],
-      Idperfil: [null],
-      DescripcionTarea: [null ,Validators.required], 
-      HorasEstimadasTarea: [null ,Validators.required],
-      HorasOverbudget: [null],
-      HorasTrabajadas: [null],
+      idtarea: [null],
+      idproyecto: [null,Validators.required],
+      idempleado: [null,Validators.required],
+      idperfil: [null,Validators.required],
+      descripcionTarea: [null ,Validators.required], 
+      horasEstimadasTarea: [null ,Validators.required],
+      horasOverbudget: [0],
+      horasTrabajadas: [0],
+      finalizada: ['false',Validators.required]
     });
 
     this.storage.get('_proyectoTareas')
     .subscribe((miProyecto: Proyecto) => {
       if (miProyecto) {
         this.miProyecto = miProyecto;
+        this.formulario.controls.idproyecto.setValue(this.miProyecto.idproyecto);
         this.tituloCard = `Crear tarea - Proyecto ${miProyecto.nombreProyecto}`;
-        // this.getTareasProyecto(miProyecto.Idproyecto);
-        // this.tareasProyecto = miProyecto.Tarea;
+        this.getTareasProyecto();
+        this.getEmpleadosProyecto();
       }
     });
-
-    let tarea1 = new Tarea ();
-    tarea1.descripcionTarea = 'Crear header';
-    tarea1.horasEstimadasTarea = 8;
-    tarea1.horasTrabajadas = 9;
-    tarea1.horasOverbudget = 1;
-
-    this.tareasProyecto.push(tarea1);
   }
 
-  getTareasProyecto(idProyecto: number) {
-    this._proyectoServices.getTareasProyecto(idProyecto).then(response => 
-      response.subscribe(respuesta => {
-        console.log(respuesta);
-      }));
+  getTareasProyecto() {
+    this._proyectoServices.getTareasProyecto(this.miProyecto.idproyecto).then(response => 
+      response.subscribe((tareas: Tarea[]) => tareas.forEach((tarea: Tarea) => this.tareasProyecto.push(tarea))));
+  }
+
+  getEmpleadosProyecto() {
+    this._empleadoProyectoService.getEmpleadosProyecto(this.miProyecto.idproyecto).then(
+      response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => this.empleados.push(empleado)),
+      error => this._mensagesAlertService.ventanaExitosa('Error', `No se pudo recuperar la lista de empleados.`)));
+  }
+
+  getPerfilesEmpleado(idempleado: number) {
+    this._perfilesEmpleadoService.getPerfilesEmpleado(idempleado).then(response => response.subscribe((perfilesEmpleado: Perfil[]) => {
+      this.perfilesEmpleado = [];
+      perfilesEmpleado.forEach((perfil: Perfil) => this.perfilesEmpleado.push(perfil));
+    }, error => {
+      this._mensagesAlertService.ventanaError('Error', 'No se pudo recuperar los perfiles del empleado');
+    }));
+  }
+
+  asignarEmpleados(empleado: Empleado) {
+    this.empleadoSeleccionado = empleado;
+    this.formulario.controls.idempleado.setValue(empleado.idempleado);
+    this.getPerfilesEmpleado(this.empleadoSeleccionado.idempleado);
+  }
+
+  onSelectPerfil(perfil: Perfil) {
+    this.formulario.controls.idperfil.setValue(perfil?.idperfil);
   }
 
   guardarTarea() {
     if (this.formulario.valid) {
-      let tituloAlert = this.modificarTarea ? 'Tarea modificada': 'Tarea creada';
-      let cuerpoAlert = this.modificarTarea ? `La tarea '${this.formulario.value.DescripcionTarea}' fue modificada exitosamente`: `La tarea '${this.formulario.value.DescripcionTarea}' fue creada exitosamente`;
-      this._mensagesAlertService.ventanaExitosa(tituloAlert, cuerpoAlert);
+      this.miTarea = this.formulario.value;
 
-      // Una vez guardada la tarea, reseteo el formulario y cambio el contexto de que no estoy modificando.
-      this.formulario.reset();
-      this.modificarTarea = false;
-      this.tituloCard = `Crear tarea - Proyecto ${this.miProyecto.nombreProyecto}`;
+      this._tareaService.crearTarea(this.miTarea).then(response => response.subscribe(respuesta => {
+        let mensajeTarea = this.modificarTarea ? 'modificada': 'creada';
+        this._mensagesAlertService.ventanaExitosa(`Tarea ${mensajeTarea}`, `La tarea '${this.formulario.value.descripcionTarea}' fue ${mensajeTarea} exitosamente`);
+        
+        this.tareasProyecto = [];
+        this.getTareasProyecto();
+        this.empleadoSeleccionado = null;
+        this.perfilSeleccionado = new Perfil();
+
+        // Una vez guardada la tarea, reseteo el formulario y cambio el contexto de que no estoy modificando.
+        this.formulario.reset();
+        this.modificarTarea = false;
+        this.tituloCard = `Crear tarea - Proyecto ${this.miProyecto.nombreProyecto}`;
+      }));
     } else {
-        console.log('Form invalido',this.formulario.value);
         this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
     }
   }
@@ -87,6 +129,28 @@ export class CrearModificarTareasComponent implements OnInit {
     this.modificarTarea = true;
     this.tituloCard = `Modificar tarea '${tarea.descripcionTarea}' - Proyecto ${this.miProyecto.nombreProyecto}`
     this.formulario.patchValue(tarea);
+
+    this._empleadoService.getEmpleadoById(tarea.idempleado).then(response => response.subscribe((empleado: Empleado) => {
+      this.empleadoSeleccionado = empleado;
+      this.getPerfilesEmpleado(this.empleadoSeleccionado.idempleado);
+      setTimeout(() => this.perfilSeleccionado = this.perfilesEmpleado.find((perfil: Perfil) => perfil.idperfil === tarea.idperfil), 1500);
+    }));
+  }
+
+  completarTarea(tarea: Tarea) {
+    tarea.finalizada = 'true';
+
+    this._tareaService.crearTarea(tarea).then(response => response.subscribe(respuesta => {
+      this._mensagesAlertService.ventanaExitosa('Exíto', `La tarea ${tarea.descripcionTarea} ha sido finalizada`)},
+      error => this._mensagesAlertService.ventanaError('Error', `La tarea ${tarea.descripcionTarea} no se pudo finalizar`)));
+  }
+
+  borrarTarea(tarea: Tarea) {
+    this._tareaService.borrarTarea(tarea.idtarea).then(response => response.subscribe(respuesta => {
+      this.tareasProyecto = [];
+      this.getTareasProyecto();
+      this._mensagesAlertService.ventanaExitosa('Exíto', `La tarea ${tarea.descripcionTarea} se elimino`);
+    }, error => this._mensagesAlertService.ventanaError('Error', `No se pudo borrar la tarea ${tarea.descripcionTarea}`)));
   }
 
   volver() {

@@ -61,8 +61,8 @@ export class AsignarEmpleadoProyectoComponent implements OnInit {
 
   guardarEmpleados() {
     this._empleadoProyectoServices.guardarEmpleadosProyecto(this.empleadosProyectos).then(
-      response => response.subscribe(respuesta => this._messagesService.ventanaExitosa('Exito', `Los perfiles del empleado fueron guardados correctamente`),
-      error => this._messagesService.ventanaExitosa('Error', `No se pudo guardar los perfiles del empleado.`)));
+      response => response.subscribe(respuesta => this._messagesService.ventanaExitosa('Exito', `Los empleados fueron asignados al proyecto`),
+      error => this._messagesService.ventanaExitosa('Error', `No se pudo guardar asignar los empleados al proyecto.`)));
   }
 
   volver() {
