@@ -11,19 +11,22 @@ export class ClientesService {
   constructor(private httpCliente: HttpClient) { }
 
   async guardarcliente(cliente: Cliente): Promise<Observable<any>>{
-    console.log(JSON.stringify(cliente));
-    if(cliente.idCliente) {
+    if(cliente.idcliente) {
       return this.httpCliente.put<any>('Cliente', cliente);
     } else {
-      return this.httpCliente.post<any>('cliente', cliente);
+      return this.httpCliente.post<any>('Cliente', cliente);
     }
   }
 
-   async borrarEmpelado(idcliente: number): Promise<Observable<any>>{
-    return this.httpCliente.delete<any>(`Cliente/${idcliente}`);
+   async borrarEmpelado(iDcliente: number): Promise<Observable<any>>{
+    return this.httpCliente.delete<any>(`Cliente/${iDcliente}`);
   }
 
    async getclientes(): Promise<Observable<any>> {
     return this.httpCliente.get<any>(`Cliente`);
-  }  
+  } 
+
+  async getClienteById(idCliente: number): Promise<Observable<Cliente>> {
+    return this.httpCliente.get<Cliente>(`Cliente/find/${idCliente}`);
+  }
 }

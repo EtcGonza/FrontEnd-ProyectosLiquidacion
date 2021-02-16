@@ -6,19 +6,41 @@
                 <div class="p-grid">
                     <div class="p-col-6">
                         <span class="p-float-label">
-                        <input id="float-descripcion" type="text" pInputText formControlName="DescripcionTarea"> 
-                        <label for="float-descripcion">Descripcion *</label>
-                    </span>
+                            <input id="float-descripcion" type="text" pInputText formControlName="descripcionTarea">
+                            <label for="float-descripcion">Descripcion *</label>
+                        </span>
                     </div>
 
                     <div class="p-col-6">
                         <span class="p-float-label">
-                        <p-inputNumber formControlName="HorasEstimadasTarea" id="float-horas" mode="decimal" [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
-                        <label for="float-horas">Horas estimadas *</label>
-                    </span>
+                            <p-inputNumber formControlName="horasEstimadasTarea" id="float-horas" mode="decimal"
+                                [useGrouping]="false" [style]="{'width':'100%'}"></p-inputNumber>
+                            <label for="float-horas">Horas estimadas *</label>
+                        </span>
                     </div>
                 </div>
             </form>
+
+            <div class="p-grid">
+                <div class="p-col-6">
+                    <p-listbox [options]="empleados" [metaKeySelection]="false" [ngModel]="empleadoSeleccionado" (onChange)="asignarEmpleados($event.value)" optionLabel="apellidoEmpleado" [checkbox]="true" [filter]="true" [multiple]="false" filterPlaceHolder="Filtrar por apellido"
+                        [style]="{'width':'100%'}">
+                        <ng-template let-empleado pTemplate="item">
+                            <div>
+                                <span>{{empleado.apellidoEmpleado}} {{empleado.nombreEmpleado}}</span>
+                            </div>
+                        </ng-template>
+                    </p-listbox>
+                </div>
+
+                <div class="p-col-6">
+                    <p-dropdown [options]="perfilesEmpleado" [disabled]="!empleadoSeleccionado" [ngModel]="perfilSeleccionado" optionLabel="nombrePerfil" required="true" (onChange)="onSelectPerfil($event.value)" [showClear]="true" placeholder="Selecciona un perfil" [style]="{'width':'100%'}">
+                        <ng-template *ngIf="perfilSeleccionado" pTemplate="selectedItem">
+                            <div>{{perfilSeleccionado.nombrePerfil}}</div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
 
             <ng-template pTemplate="footer">
                 <div class="centrar-boton">
@@ -29,30 +51,33 @@
         </p-card>
     </div>
 
-
     <div class="p-col-12 p-pt-6">
         <p-card *ngIf="tareasProyecto" header="Tareas existentes" subheader="Modifique tareas existentes">
             <p-table #dt1 [value]="tareasProyecto" selectionMode="single" dataKey="idProyecto" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="DescripcionTarea">Descripción tarea
-                            <p-sortIcon field="DescripcionTarea"></p-sortIcon>
+                        <th pSortableColumn="descripcionTarea">Descripción tarea
+                            <p-sortIcon field="descripcionTarea"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="HorasEstimadasTarea">Horas estimadas
-                            <p-sortIcon field="HorasEstimadasTarea"></p-sortIcon>
+                        <th pSortableColumn="horasEstimadasTarea">Horas estimadas
+                            <p-sortIcon field="horasEstimadasTarea"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="HorasTrabajadas">Horas trabajadas
-                            <p-sortIcon field="HorasTrabajadas"></p-sortIcon>
+                        <th pSortableColumn="horasTrabajadas">Horas trabajadas
+                            <p-sortIcon field="horasTrabajadas"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="HorasOverbudget">Horas overbudget
-                            <p-sortIcon field="HorasOverbudget"></p-sortIcon>
+                        <th pSortableColumn="horasOverbudget">Horas overbudget
+                            <p-sortIcon field="horasOverbudget"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="finaliada">Finalizada
+                            <p-sortIcon field="finaliada"></p-sortIcon>
                         </th>
                         <th>Acciones</th>
                     </tr>
                     <tr>
                         <th>
-                            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'DescripcionTarea', 'contains')" [value]="dt1.filters['DescripcionTarea']?.value" placeholder="Buscar por descripción" class="p-column-filter">
+                            <input pInputText type="text" (input)="dt1.filter($event.target.value, 'descripcionTarea', 'contains')" [value]="dt1.filters['descripcionTarea']?.value" placeholder="Buscar por descripción" class="p-column-filter">
                         </th>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -62,19 +87,24 @@
                 <ng-template pTemplate="body" let-tarea>
                     <tr [pSelectableRow]="tarea">
                         <td>
-                            {{tarea.DescripcionTarea}}
+                            {{tarea.descripcionTarea}}
                         </td>
                         <td>
-                            {{tarea.HorasEstimadasTarea}}
+                            {{tarea.horasEstimadasTarea}}
                         </td>
                         <td>
-                            {{tarea.HorasTrabajadas}}
+                            {{tarea.horasTrabajadas}}
                         </td>
                         <td>
-                            {{tarea.HorasOverbudget}}
+                            {{tarea.horasOverbudget}}
                         </td>
                         <td>
-                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarTarea(tarea)" pTooltip="Editar tarea" tooltipPosition="top"></button>
+                            <p-tag *ngIf="tarea.finalizada == 'false'" severity="danger" [value]="tarea.finalizada | uppercase "></p-tag>
+                            <p-tag *ngIf="tarea.finalizada == 'true'" severity="info" [value]="tarea.finalizada | uppercase "></p-tag>
+                        </td>
+                        <td>
+                            <button *ngIf="tarea.finalizada == 'false'" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarTarea(tarea)" pTooltip="Editar tarea" tooltipPosition="top"></button>
+                            <button *ngIf="tarea.finalizada == 'false'" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="borrarTarea(tarea)" pTooltip="Borrar tarea" tooltipPosition="top"></button>
                         </td>
                     </tr>
                 </ng-template>

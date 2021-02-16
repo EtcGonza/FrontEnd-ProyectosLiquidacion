@@ -1,8 +1,11 @@
 <div class="p-grid p-jc-center p-p-5">
     <div class="p-col-12">
         <p-card [header]="tituloCard" [style]="{width: 'auto'}" styleClass="p-card-shadow">
-            <div *ngIf="modificandoProyecto">
+            <div *ngIf="modificandoProyecto" class="p-mb-3">
                 <p-tag styleClass="p-mr-2" icon="pi pi-calendar" severity="success" [value]="fechaInicioFormateada">
+                </p-tag>
+
+                <p-tag styleClass="p-mr-2" icon="pi pi-star-o" severity="warning" [value]="clienteSeleccionado?.nombreCliente">
                 </p-tag>
             </div>
             <form [formGroup]="formulario">
@@ -11,62 +14,40 @@
                     <div class="p-grid">
                         <div class="p-col-4">
                             <span class="p-float-label">
-                                <input id="float-input" type="text" pInputText formControlName="NombreProyecto">
+                                <input id="float-input" type="text" pInputText formControlName="nombreProyecto">
                                 <label for="float-input">Nombre del proyecto *</label>
                             </span>
                         </div>
 
-                        <div class="p-col-4">
-                            <p-dropdown required="true" [options]="estadosProyecto" formControlName="EstadoProyecto" [disabled]="!modificandoProyecto" [style]="{'width':'100%'}"></p-dropdown>
+                        <div *ngIf="!modificandoProyecto" class="p-col-4">
+                            <p-dropdown required="true" [options]="clientes" (onChange)="onChangeCliente($event.value)" optionLabel="nombreCliente" placeholder="Seleccione un cliente *" [style]="{'width':'100%'}"></p-dropdown>
                         </div>
 
                         <div class="p-col-4">
-                            <p-dropdown required="true" [options]="clientes" optionLabel="cliente" optionLabel="nombreCliente" placeholder="Seleccione un cliente *" formControlName="cliente" [style]="{'width':'100%'}"></p-dropdown>
-                            <ng-template pTemplate="selectedItem">
-                                <div *ngIf="formulario.value.nombreCliente">
-                                    <div>{{formulario.value.nombreCliente.nombreCliente}}</div>
-                                </div>
-                            </ng-template>
-
-                            <ng-template let-cliente pTemplate="item">
-                                <div>{{cliente.nombreCliente}}</div>
-                            </ng-template>
+                            <p-dropdown required="true" [options]="estadosProyecto" formControlName="estadoProyecto" [disabled]="!modificandoProyecto" [style]="{'width':'100%'}"></p-dropdown>
                         </div>
 
                         <div class="p-col-12">
                             <span class="p-float-label">
                                 <textarea rows="5" id="textDescripcion" pInputTextarea
-                                    formControlName="Descripcion"></textarea>
+                                formControlName="descripcion"></textarea>
                                 <label for="textDescripcion">Descripción *</label>
                             </span>
                         </div>
-                    </div>
-                </div>
-
-                <p-divider></p-divider>
-
-                <h3>Asignar empleados *</h3>
-
-                <div class="p-grid">
-                    <div class="p-col">
-                        <p-listbox [options]="empleados" formControlName="EmpleadoProyecto" [metaKeySelection]="false" [checkbox]="true" (onChange)="asignarEmpleados($event.value)" [filter]="true" [multiple]="true" filterPlaceHolder="Filtrar por apellido" optionLabel="apellidoEmpleado"
-                            [style]="{'width':'100%'}">
-                            <ng-template let-empleado pTemplate="item">
-                                <div class="country-item">
-                                    <span>{{empleado.nombreEmpleado}} {{empleado.apellidoEmpleado}}</span>
-                                </div>
-                            </ng-template>
-                        </p-listbox>
                     </div>
                 </div>
             </form>
 
             <ng-template pTemplate="footer">
                 <div class="centrar-boton">
-                    <button pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
+                    <button *ngIf="!modificandoProyecto" pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
                     <button pButton pRipple type="button" icon="pi pi-save" label="Guardar proyecto" (click)="guardarProyecto()" class="p-button-raised p-button-secondary"></button>
                 </div>
             </ng-template>
         </p-card>
+    </div>
+
+    <div *ngIf="modificandoProyecto" class="p-col-12">
+        <app-asignar-empleado-proyecto [idProyecto]="miProyecto.idproyecto"></app-asignar-empleado-proyecto>
     </div>
 </div>

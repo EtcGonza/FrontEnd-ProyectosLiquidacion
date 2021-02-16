@@ -1,14 +1,11 @@
-import { PerfilEmpleado } from "./PerfilEmpleado";
-import { Proyecto } from './proyecto';
-import { HoraTrabajada } from './HoraTrabajada';
-
 export class Tarea {
-    Idtarea: number;
-    Idproyecto: number;
-    Idempleado: number;
-    Idperfil: number;
-    DescripcionTarea: string; 
-    HorasEstimadasTarea: number;
-    HorasOverbudget: number;
-    HorasTrabajadas: number;
+    idtarea: number;
+    idproyecto: number;
+    idempleado: number;
+    idperfil: number;
+    descripcionTarea: string; 
+    horasEstimadasTarea: number;
+    horasOverbudget: number;
+    horasTrabajadas: number;
+    finalizada: string;
 }

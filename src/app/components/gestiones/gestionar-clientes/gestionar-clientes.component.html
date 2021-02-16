@@ -6,16 +6,19 @@
                 <p-table #dt1 [value]="clientes" selectionMode="single" dataKey="idCliente" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="Nombre">Nombre
+                            <th pSortableColumn="nombreCliente">Nombre
                                 <p-sortIcon field="nombreCliente"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="email">Email
+                            <th pSortableColumn="apellidoCliente">Apellido
+                                <p-sortIcon field="apellidoCliente"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="emailCliente">Email
                                 <p-sortIcon field="emailCliente"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="Direccion">Direccion
+                            <th pSortableColumn="direccionCliente">Direccion
                                 <p-sortIcon field="direccionCliente"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="Telefono">Telefono
+                            <th pSortableColumn="telefonoCliente">Telefono
                                 <p-sortIcon field="telefonoCliente"></p-sortIcon>
                             </th>
                             <th>Acciones</th>
@@ -23,6 +26,9 @@
                         <tr>
                             <th>
                                 <input pInputText type="text" (input)="dt1.filter($event.target.value, 'nombreCliente', 'contains')" [value]="dt1.filters['nombreCliente']?.value" placeholder="Buscar por nombre" class="p-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text" (input)="dt1.filter($event.target.value, 'apellidoCliente', 'contains')" [value]="dt1.filters['apellidoCliente']?.value" placeholder="Buscar por apellido" class="p-column-filter">
                             </th>
                             <th>
                                 <input pInputText type="text" (input)="dt1.filter($event.target.value, 'emailCliente', 'contains')" [value]="dt1.filters['emailCliente']?.value" placeholder="Buscar por email" class="p-column-filter">
@@ -40,6 +46,9 @@
                         <tr [pSelectableRow]="cliente">
                             <td>
                                 {{cliente.nombreCliente}}
+                            </td>
+                            <td>
+                                {{cliente.apellidoCliente}}
                             </td>
                             <td>
                                 {{cliente.emailCliente}}

@@ -6,13 +6,13 @@
                 <p-table #dt1 [value]="empleados" selectionMode="single" dataKey="idProyecto" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="dni">Dni
+                            <th pSortableColumn="dniEmpleado">Dni
                                 <p-sortIcon field="dniEmpleado"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="nombre">Nombre
+                            <th pSortableColumn="nombreEmpleado">Nombre
                                 <p-sortIcon field="nombreEmpleado"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="apellido">Apellido
+                            <th pSortableColumn="apellidoEmpleado">Apellido
                                 <p-sortIcon field="apellidoEmpleado"></p-sortIcon>
                             </th>
                             <th>Acciones</th>

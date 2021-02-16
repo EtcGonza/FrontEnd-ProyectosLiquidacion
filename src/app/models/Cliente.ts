@@ -1,12 +1,12 @@
-import { Localidad } from './localidad';
 import { Proyecto } from './proyecto';
 
 export class Cliente {
-    idCliente: number;
+    idcliente: number;
+    apellidoCliente: string;
     nombreCliente: string;
     telefonoCliente: string;
     direccionCliente: string;
-    localidadCliente: Localidad;
+    localidadCliente: number;
     emailCliente: string;
     proyecto: Proyecto [];
 }

@@ -1,6 +1,9 @@
 <div class="p-grid p-jc-center p-p-5">
     <div class="p-col-12">
         <p-card [header]="tituloCard" [style]="{width: 'auto'}" styleClass="p-card-shadow">
+            <div *ngIf="modificandoEmpleado" class="p-mb-3">
+                <p-tag styleClass="p-mr-2" icon="pi pi-tag" severity="success" [value]="rolTag"></p-tag>
+            </div>
 
             <div class="p-p-2">
                 <form [formGroup]="formulario">
@@ -45,43 +48,69 @@
 
                     </div>
 
-                    <div class="p-grid">
-                        <div class="p-col-8">
-                            <p-multiSelect [options]="perfiles" (onChange)="onChangePerfil($event.value)" defaultLabel="Seleccione uno o varios perfiles" optionLabel="NombrePerfil" display="chip" [style]="{'width':'100%'}"></p-multiSelect>
-                        </div>
-                    </div>
                 </form>
 
                 <div class="p-grid">
+                    <div class="p-col-6">
+                        <p-dropdown [options]="provincias" optionLabel="descripcion" required="true" [ngModel]="provinciaSeleccionada" (onChange)="onSelectProvincia($event.value)" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una provincia *"
+                            [style]="{'width':'100%'}">
+                            <ng-template *ngIf="provinciaSeleccionada" pTemplate="selectedItem">
+                                <div>{{provinciaSeleccionada.descripcion}}</div>
+                            </ng-template>
+                            <ng-template let-provincia pTemplate="item">
+                                <div>
+                                    <div>{{provincia.descripcion}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+
+                    <div class="p-col-6">
+                        <p-dropdown [options]="localidades" (onChange)="onSelectLocalidad($event.value)" [ngModel]="localidadSeleccionada" optionLabel="descripcion" required="true" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una localidad *"
+                            [style]="{'width':'100%'}">
+                            <ng-template *ngIf="this.formulario.controls.localidad.value" pTemplate="selectedItem">
+                                <div>{{this.formulario.controls.localidad.value}}</div>
+                            </ng-template>
+                            <ng-template let-localidad pTemplate="item">
+                                <div>
+                                    <div>{{localidad.descripcion}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                </div>
+
+                <div *ngIf="!modificandoEmpleado" class="p-grid">
                     <div class="p-col-4">
                         <span class="p-float-label">
-                            <input id="float-usuario" (change)="onChangeUsuario()" [(ngModel)]="usuarioEmpleado.NombreUsuario" type="text" pInputText> 
+                            <input id="float-usuario" (change)="onChangeUsuario()" [(ngModel)]="usuarioEmpleado.nombreUsuario" type="text" pInputText> 
                             <label for="float-usuario">Usuario *</label>
                         </span>
                     </div>
 
                     <div class="p-col-4">
                         <span class="p-float-label">
-                            <input id="float-contrasenia" (change)="onChangeUsuario()" [(ngModel)]="usuarioEmpleado.PasswordUsuario" type="text" pPassword> 
+                            <input id="float-contrasenia" (change)="onChangeUsuario()" [(ngModel)]="usuarioEmpleado.passwordUsuario" type="text" pPassword> 
                             <label for="float-contrasenia">Contraseña *</label>
                         </span>
                     </div>
-                </div>
-                <!-- <div class="p-col-4">
-                            <p-dropdown required="true" [options]="provincias" (onSelect)="onSelectProvincia($event)" [style]="{'width':'100%'}"></p-dropdown>
-                        </div>
 
-                        <div class="p-col-4">
-                            <p-dropdown required="true" [options]="localidades" (onSelect)="onSelectLocalidad($event)" [style]="{'width':'100%'}"></p-dropdown>
-                        </div> -->
+                    <div class="p-col-4">
+                        <p-dropdown [options]="roles" (onChange)="onSelectRol($event.value)" optionLabel="descripcionRol" required="true" [showClear]="true" placeholder="Seleccione un rol *" [style]="{'width':'100%'}"></p-dropdown>
+                    </div>
+                </div>
             </div>
 
             <ng-template pTemplate="footer">
                 <div class="centrar-boton">
                     <button pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary p-mr-2"></button>
-                    <button pButton pRipple type="button" icon="pi pi-save" label="Guardar proyecto" (click)="guardarUsuario()" class="p-button-raised p-button-secondary"></button>
+                    <button pButton pRipple type="button" icon="pi pi-save" label="Guardar usuario" (click)="guardarUsuario()" class="p-button-raised p-button-secondary"></button>
                 </div>
             </ng-template>
         </p-card>
+    </div>
+
+    <div *ngIf="mostrarCardPerfiles" class="p-col-12">
+        <app-asignar-perfil-empleado [idEmpleado]="miEmpleado.idempleado"></app-asignar-perfil-empleado>
     </div>
 </div>

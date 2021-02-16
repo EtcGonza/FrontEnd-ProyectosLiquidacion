@@ -10,19 +10,23 @@ export class EmpleadosService {
 
   constructor(private httpCliente: HttpClient) {}
 
-  async guardarEmpleado(empleado: Empleado): Promise<Observable<any>>{
-    if(empleado.idEmpleado) {
-      return this.httpCliente.put<any>('Empleado', empleado);
+  async guardarEmpleado(empleado: Empleado): Promise<Observable<string>>{
+    if(empleado.idempleado) {
+      return this.httpCliente.put<string>('Empleado', empleado);
     } else {
-      return this.httpCliente.post<any>('Empleado', empleado);
+      return this.httpCliente.post<string>('Empleado', empleado);
     }
   }
 
-   async borrarEmpelado(idEmpleado: number): Promise<Observable<any>>{
-    return this.httpCliente.delete<any>(`Empleado/${idEmpleado}`);
+   async borrarEmpelado(idEmpleado: number): Promise<Observable<string>>{
+    return this.httpCliente.delete<string>(`Empleado/${idEmpleado}`);
   }
 
-   async getEmpleados(nombre: string): Promise<Observable<any>> {
-    return this.httpCliente.get<any>(`Empleado/lista`);
-  }  
+   async getEmpleados(): Promise<Observable<Empleado []>> {
+    return this.httpCliente.get<Empleado []>(`Empleado`);
+  }
+
+  async getEmpleadoById(idEmpleado: number): Promise<Observable<Empleado>> {
+    return this.httpCliente.get<Empleado>(`Empleado/empleado/${idEmpleado}`);
+  }
 }

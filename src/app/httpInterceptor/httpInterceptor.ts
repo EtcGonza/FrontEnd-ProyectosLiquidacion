@@ -5,16 +5,14 @@ import { catchError, finalize, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { MensagesAlertService } from '../services/mensages-alert.service';
+import { Store } from '@ngxs/store';
+import { TokenState } from '../states/token/token-state';
 
 @Injectable()
 export class AppHttpInterceptor implements HttpInterceptor {
-  constructor(private _messagesService: MensagesAlertService, private router: Router) {}
+  constructor(private _messagesService: MensagesAlertService, private router: Router, private store: Store) {}
 
-  // TODO Hacer que antes de cada peticion HTTP se compruebe si el usuario tiene una empresa. Si no la tiene, te patea al login y limpia states.
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Mostramos el cargando
-
-    console.log('Construyo url ', environment.serverUrl + req.url,);
 
     req = req.clone({
       url: environment.serverUrl + req.url,
@@ -23,13 +21,17 @@ export class AppHttpInterceptor implements HttpInterceptor {
       withCredentials: true,
     });
 
+    const token = this.store.selectSnapshot(TokenState.getToken)
+
     // Si estamos autenticados tenemos que enviar el token
-        req = req.clone({
-          url: req.url,
-          headers: req.headers.set('Content-Type', 'application/json; charset=utf-8'),
-          body: req.body,
-          withCredentials: true,
-        });
+    if (token) {
+      req = req.clone({
+        url: req.url,
+        headers: req.headers.set('Accept', 'application/json').set('Content-Type', 'application/json').set('Authorization', 'Bearer ' + token),
+        body: req.body,
+        withCredentials: true,
+      });
+    }
 
     return next.handle(req).pipe(
       map((event: HttpEvent<any>) => {
@@ -45,7 +47,6 @@ export class AppHttpInterceptor implements HttpInterceptor {
       }),
       finalize(() => {
         // Termina la comunicaciónn y ocultamos
-        console.log('Comunicacion terminada');
       })
     );
     // }

@@ -1,5 +1,5 @@
 export class Localidad {
-    idLocalidad: number;
-    Descripcion: string;
-    Idprovincia: number;
+    idlocalidad: number;
+    descripcion: string;
+    idprovincia: number;
 }

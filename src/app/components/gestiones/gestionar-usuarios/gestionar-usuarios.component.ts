@@ -5,6 +5,9 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { MensagesAlertService } from 'src/app/services/mensages-alert.service';
 import { Empleado } from 'src/app/models/empleado';
 import { Location } from '@angular/common';
+import { EmpleadosService } from '../../../services/empleados.service';
+import { Perfil } from '../../../models/Perfil';
+import { PerfilEmpleadoService } from '../../../services/perfil-empleado.service';
 
 @Component({
   selector: 'app-gestionar-usuarios',
@@ -15,48 +18,52 @@ import { Location } from '@angular/common';
 export class GestionarUsuariosComponent implements OnInit {
 
   empleados: Empleado [] = [];
+  empledoBorrar: Empleado = null;
 
-  constructor(private router: Router, private _mensagesAlertServices: MensagesAlertService, private storage: StorageMap, private location: Location) {}
+  constructor(
+     private _mensagesAlertServices: MensagesAlertService,
+     private _perfilesEmpleadoService: PerfilEmpleadoService,
+     private _empleadoService: EmpleadosService,
+     private router: Router,
+     private storage: StorageMap,
+     private location: Location) {}
 
   ngOnInit() {
-    let empleado1 = new Empleado();
-    empleado1.nombreEmpleado = 'Gonzalo';
-    empleado1.apellidoEmpleado = 'Etchegaray';
-    empleado1.dniEmpleado = 39662738;
-    empleado1.direccion = 'Roca 1566';
-    empleado1.fechaIngreso = new Date();
-    empleado1.idEmpleado = 0;
-    empleado1.telefono = 3413496691;
+    this.getEmpleados();
+  }
 
-    console.log(JSON.stringify(empleado1));
-    
-    let empleado2 = new Empleado();
-    empleado2.nombreEmpleado = 'Nancy';
-    empleado2.apellidoEmpleado = 'Garcia';
-    empleado2.dniEmpleado = 11767270;
-    empleado2.direccion = 'Zarasa 158';
-    empleado2.fechaIngreso = new Date();
-    empleado2.idEmpleado = 1;
-    empleado2.telefono = 4860399;
-
-    this.empleados.push(empleado1);
-    this.empleados.push(empleado2);
+  getEmpleados() {
+    this._empleadoService.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => this.empleados.push(empleado)), 
+    error => this._mensagesAlertServices.ventanaError('Error', 'No se pudo recuperar la lista de empleados')));
   }
 
   editarEmpleado(empleado: Empleado) {
     this.storage.set('_modificarEmpleado', empleado).subscribe({
-      next: ()=> console.log('next'),
-      error: () => console.log('error')
+      next: ()=> {},
+      error: () => this._mensagesAlertServices.ventanaError('Storage', 'No se pudo guardar el usuario en el storage')
     });
 
-    this.router.navigateByUrl('crearModificarProyecto', {replaceUrl: false});
+    this.router.navigateByUrl('crearModificarUsuario', {replaceUrl: false});
+  }
+
+  getPerfilesEmpleadoBorrar() {
+    this._perfilesEmpleadoService.getPerfilesEmpleado(this.empledoBorrar.idempleado).then(response => response.subscribe((perfilesEmpleado: Perfil[]) => this.empledoBorrar.perfilEmpleado, error => {
+      this._mensagesAlertServices.ventanaError('Error', 'No se pudo recuperar los perfiles del empleado');
+    }));
   }
 
   borrarEmpleado(empleado: Empleado) {
     this._mensagesAlertServices.ventanaConfirmar('Borrar empleado', `¿Esta seguro que desea borrar el proyecto '${empleado.nombreEmpleado}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
-        // Llamo endpoint para borrar proyecto.
+        this.empledoBorrar = empleado;
+        this.getPerfilesEmpleadoBorrar();
+
+        this._empleadoService.borrarEmpelado(empleado.idempleado).then(response => response.subscribe(respuesta => {
+          this._mensagesAlertServices.ventanaExitosa('Exito', `El usuario ${empleado.nombreEmpleado} fue eliminado exitosamente.`);
+          this.empleados = [];
+          this.getEmpleados();
+        }, error => this._mensagesAlertServices.ventanaError('Error', `No se pudo eliminar el usuario ${empleado.nombreEmpleado}.`)));
       }
     });
   }

@@ -11,26 +11,26 @@ export class ProyectosService {
   constructor(private httpCliente: HttpClient) {}
 
    async guardarProyecto(proyecto: Proyecto): Promise<Observable<any>>{
-    if(proyecto.Idproyecto) {
-      return this.httpCliente.put<any>('zarasa', proyecto);
+    if(proyecto.idproyecto) {
+      return this.httpCliente.put<any>('Proyecto', proyecto);
     } else {
-      return this.httpCliente.post<any>('zarasa', proyecto);
+      return this.httpCliente.post<any>('Proyecto', proyecto);
     }
   }
 
    async borrarProyecto(idProyecto: number): Promise<Observable<any>>{
-    return this.httpCliente.delete<any>(`zarasa/${idProyecto}`);
+    return this.httpCliente.delete<any>(`Proyecto/${idProyecto}`);
   }
   
-   async GetProyectosByNombre(nombre: string): Promise<Observable<any>> {
-    return this.httpCliente.get<any>(`/bynombre/${nombre}`);
-  }
-
-  async GetTareasProyecto(idProyecto: number): Promise<Observable<any>> {
+  async getTareasProyecto(idProyecto: number): Promise<Observable<any>> {
     return this.httpCliente.get<any>(`Tarea/lista/${idProyecto}`);
   }
 
-  async getProyectosByCliente(idCliente: number): Promise<Observable<any>> {
-    return this.httpCliente.get<any>(`/cliente/${idCliente}`);
+  async getProyectos(): Promise<Observable<Proyecto[]>> {
+    return this.httpCliente.get<Proyecto[]>(`Proyecto`);
+  }
+
+  async getProyectoById(idProyecto: number): Promise<Observable<Proyecto>> {
+    return this.httpCliente.get<Proyecto>(`Proyecto/byid/${idProyecto}`);
   }
 }

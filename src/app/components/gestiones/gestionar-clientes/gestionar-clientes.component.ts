@@ -5,6 +5,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { MensagesAlertService } from '../../../services/mensages-alert.service';
 import { SweetAlertResult } from 'sweetalert2';
 import { Location } from '@angular/common';
+import { ClientesService } from '../../../services/clientes.service';
 
 @Component({
   selector: 'app-gestionar-clientes',
@@ -15,26 +16,21 @@ export class GestionarClientesComponent implements OnInit {
 
   clientes: Cliente [] = [];
 
-  constructor(private _mensagesAlertService: MensagesAlertService, private router: Router, private storage: StorageMap, private location: Location) {}
+  constructor(
+    private _mensagesAlertService: MensagesAlertService,
+    private _clienteService: ClientesService, 
+    private router: Router,
+     private storage: StorageMap,
+     private location: Location) {}
 
   ngOnInit(): void {
-    this.auxClientes();
+    this.getClientes();
   }
 
-  auxClientes() {
-    let cliente1: Cliente = new Cliente();
-    cliente1.direccionCliente = "Zarasa 150";
-    cliente1.emailCliente = "zarasa@mail.com";
-    cliente1.nombreCliente = "zarasa";
-    cliente1.telefonoCliente = "4860399";
-    this.clientes.push(cliente1);
-
-    let cliente2: Cliente = new Cliente();
-    cliente2.direccionCliente = "Montevideo 230";
-    cliente2.emailCliente = "montevideo@mail.com";
-    cliente2.nombreCliente = "Montevideo";
-    cliente2.telefonoCliente = "3413496691";
-    this.clientes.push(cliente2);
+  getClientes() {
+    this._clienteService.getclientes().then(
+      response => response.subscribe((clientes: Cliente []) => clientes.forEach(cliente => this.clientes.push(cliente)),
+      error => this._mensagesAlertService.ventanaError('Error', 'No se pudo recuperar la lista de clientes')));
   }
 
   crearCliente() {
@@ -44,10 +40,9 @@ export class GestionarClientesComponent implements OnInit {
 
   editarCliente(cliente: Cliente) {
     this.storage.set('_modificarCliente', cliente).subscribe({
-      next: ()=> console.log('next'),
-      error: () => console.log('error')
+      next: ()=> {},
+      error: () => this._mensagesAlertService.ventanaError('Storage', 'No se pudo guardar el cliente en el storage')
     });
-
     this.router.navigateByUrl('crearModificarCliente', {replaceUrl: false});
   }
 
@@ -55,7 +50,11 @@ export class GestionarClientesComponent implements OnInit {
     this._mensagesAlertService.ventanaConfirmar('Borrar cliente', `¿Esta seguro que desea borrar el cliente '${cliente.nombreCliente}'?`)
     .then((result: SweetAlertResult) => {
       if(result.isConfirmed) {
-        // Llamo endpoint para borrar proyecto.
+        this._clienteService.borrarEmpelado(cliente.idcliente).then(response => response.subscribe(respuesta => {
+          this._mensagesAlertService.ventanaExitosa('Exito','Cliente borrado');
+          this.clientes = [];
+          this.getClientes();
+        }, error => this._mensagesAlertService.ventanaError('Error','No se pudo borrar el cliente')));
       }
     });
   }
