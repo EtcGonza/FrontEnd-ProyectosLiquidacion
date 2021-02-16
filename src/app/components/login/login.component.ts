@@ -5,6 +5,7 @@ import { Store } from '@ngxs/store';
 import { SetTokenAction } from '../../states/token/token-state';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
+import { SetUsuarioAction } from '../../states/usuario/usuario-state';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit {
     if(this.formulario.valid) {
       this._loginService.ingresar(this.formulario.value.usuario, this.formulario.value.contrasenia).then(response => 
         response.subscribe(respuesta => {
+          this.store.dispatch(new SetUsuarioAction(respuesta));
           this.store.dispatch(new SetTokenAction(respuesta.token));
           this.router.navigateByUrl('home', {replaceUrl: true});
         }, error => this._mensagesAlertService.ventanaWarning('Usuario invalido', 'Usuario y/o contraseña invalido')));
