@@ -3,6 +3,8 @@ import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ResetTokenAction } from '../../states/token/token-state';
+import { MenuRoles } from '../../shared/menuRoles';
+import { UsuarioState } from '../../states/usuario/usuario-state';
 
 @Component({
   selector: 'app-header',
@@ -10,12 +12,14 @@ import { ResetTokenAction } from '../../states/token/token-state';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  items: MenuItem[];
 
-  constructor(private router: Router, private store: Store) { }
+  menu: MenuItem[] = [];
+  menuRoles = new MenuRoles ();
+
+  constructor(private router: Router, private store: Store) {}
 
   ngOnInit() {
-    this.items = [
+    this.menu = [
       {
         label: 'Home',
         icon: 'pi pi-fw pi-home',
@@ -64,30 +68,17 @@ export class HeaderComponent implements OnInit {
               label: 'Crear cliente',
               routerLink: 'crearModificarCliente'
             }]
+          },
+          {
+            label: 'Mis tareas',
+            icon: 'pi pi-fw pi-inbox',
+            routerLink: 'misTareas'
           }]
       },
       {
-        label: 'Liquidacion',
+        label: 'Generar liquidación',
         icon: 'pi pi-fw pi-chart-line',
-        items: [
-          {
-            label: 'Left',
-            icon: 'pi pi-fw pi-align-left'
-          },
-          {
-            label: 'Right',
-            icon: 'pi pi-fw pi-align-right'
-          },
-          {
-            label: 'Center',
-            icon: 'pi pi-fw pi-align-center'
-          },
-          {
-            label: 'Justify',
-            icon: 'pi pi-fw pi-align-justify'
-          },
-
-        ]
+        routerLink: 'generarLiquidacion'
       },
       {
         label: 'Salir',
@@ -95,6 +86,22 @@ export class HeaderComponent implements OnInit {
         command: () => this.logout()
       }
     ];
+
+    this.armarMenu();
+  }
+
+  armarMenu() {
+    const idRol = this.store.selectSnapshot(UsuarioState.getIdRol);
+    let menuRol: MenuItem [] = this.menuRoles.getMenuByIdRol(idRol);
+
+    let auxMenuSalir: MenuItem = {
+      label: 'Salir',
+      icon: 'pi pi-fw pi-power-off',
+      command: () => this.logout()
+    };
+    
+    menuRol.push(auxMenuSalir);
+    this.menu = menuRol;
   }
 
   logout() {
