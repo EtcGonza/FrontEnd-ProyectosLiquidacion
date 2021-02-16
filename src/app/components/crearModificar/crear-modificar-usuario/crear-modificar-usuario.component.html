@@ -52,7 +52,7 @@
 
                 <div class="p-grid">
                     <div class="p-col-6">
-                        <p-dropdown [options]="provincias" optionLabel="descripcion" required="true" [ngModel]="provinciaSeleccionada" (onChange)="onSelectProvincia($event.value)" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una provincia"
+                        <p-dropdown [options]="provincias" optionLabel="descripcion" required="true" [ngModel]="provinciaSeleccionada" (onChange)="onSelectProvincia($event.value)" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una provincia *"
                             [style]="{'width':'100%'}">
                             <ng-template *ngIf="provinciaSeleccionada" pTemplate="selectedItem">
                                 <div>{{provinciaSeleccionada.descripcion}}</div>
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="p-col-6">
-                        <p-dropdown [options]="localidades" (onChange)="onSelectLocalidad($event.value)" [ngModel]="localidadSeleccionada" optionLabel="descripcion" required="true" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una localidad"
+                        <p-dropdown [options]="localidades" (onChange)="onSelectLocalidad($event.value)" [ngModel]="localidadSeleccionada" optionLabel="descripcion" required="true" [filter]="true" filterBy="descripcion" [showClear]="true" placeholder="Selecciona una localidad *"
                             [style]="{'width':'100%'}">
                             <ng-template *ngIf="this.formulario.controls.localidad.value" pTemplate="selectedItem">
                                 <div>{{this.formulario.controls.localidad.value}}</div>
@@ -96,7 +96,7 @@
                     </div>
 
                     <div class="p-col-4">
-                        <p-dropdown [options]="roles" (onChange)="onSelectRol($event.value)" optionLabel="descripcionRol" required="true" [showClear]="true" placeholder="Seleccione un rol" [style]="{'width':'100%'}"></p-dropdown>
+                        <p-dropdown [options]="roles" (onChange)="onSelectRol($event.value)" optionLabel="descripcionRol" required="true" [showClear]="true" placeholder="Seleccione un rol *" [style]="{'width':'100%'}"></p-dropdown>
                     </div>
                 </div>
             </div>

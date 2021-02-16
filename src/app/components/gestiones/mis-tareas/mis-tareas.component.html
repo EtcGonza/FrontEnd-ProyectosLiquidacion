@@ -1,0 +1,66 @@
+<div class="p-grid p-jc-center p-p-5">
+    <div class="p-col-12">
+        <p-card header="Tareas del empleado" [style]="{width: 'auto'}" styleClass="p-card-shadow">
+
+            <div class="p-p-2">
+                <p-table [value]="tareasEmpleado" dataKey="idtarea">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Proyecto</th>
+                            <th>IdTarea</th>
+                            <th>Descripcion Tarea</th>
+                            <th>Horas estimadas</th>
+                            <th>Horas trabajadas</th>
+                            <th>Horas Overbudget</th>
+                            <th>Finalizada</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-tarea>
+                        <tr>
+                            <td>{{getNombreProyectoByTarea(tarea)}}</td>
+                            <td>{{tarea.idtarea}}</td>
+                            <td>{{tarea.descripcionTarea}}</td>
+                            <td>{{tarea.horasEstimadasTarea}}</td>
+                            <td *ngIf="tarea.finalizada == 'false'" pEditableColumn>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="number" [(ngModel)]="tarea.horasTrabajadas">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{tarea.horasTrabajadas}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td *ngIf="tarea.finalizada == 'true'">{{tarea.horasTrabajadas}}</td>
+
+                            <td *ngIf="tarea.finalizada == 'false'" pEditableColumn>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="number" [(ngModel)]="tarea.horasOverbudget">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{tarea.horasOverbudget}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td *ngIf="tarea.finalizada == 'true'">{{tarea.horasOverbudget}}</td>
+
+                            <td>
+                                <p-tag *ngIf="tarea.finalizada == 'false'" severity="danger" [value]="tarea.finalizada | uppercase "></p-tag>
+                                <p-tag *ngIf="tarea.finalizada == 'true'" severity="info" [value]="tarea.finalizada | uppercase "></p-tag>
+                            </td>
+
+                            <td>
+                                <button *ngIf="tarea.finalizada == 'false'" pButton pRipple icon="pi pi-save" class="p-button-rounded p-button-success p-mr-2" (click)="guardarTarea(tarea)" pTooltip="Guardar horas" tooltipPosition="top"></button>
+                                <button *ngIf="tarea.finalizada == 'false'" pButton pRipple icon="pi pi-check-circle" class="p-button-rounded p-button-success p-mr-2" (click)="completarTarea(tarea)" pTooltip="Completar tarea" tooltipPosition="top"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+    </div>
+</div>

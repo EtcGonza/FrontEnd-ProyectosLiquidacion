@@ -116,7 +116,18 @@ export class CrearModificarTareasComponent implements OnInit {
         this.perfilSeleccionado = new Perfil();
 
         // Una vez guardada la tarea, reseteo el formulario y cambio el contexto de que no estoy modificando.
-        this.formulario.reset();
+        this.formulario = this.formBuilder.group({
+          idtarea: [null],
+          idproyecto: [this.miProyecto.idproyecto, Validators.required],
+          idempleado: [null,Validators.required],
+          idperfil: [null,Validators.required],
+          descripcionTarea: [null ,Validators.required], 
+          horasEstimadasTarea: [null ,Validators.required],
+          horasOverbudget: [0],
+          horasTrabajadas: [0],
+          finalizada: ['false',Validators.required]
+        });
+
         this.modificarTarea = false;
         this.tituloCard = `Crear tarea - Proyecto ${this.miProyecto.nombreProyecto}`;
       }));
@@ -135,14 +146,6 @@ export class CrearModificarTareasComponent implements OnInit {
       this.getPerfilesEmpleado(this.empleadoSeleccionado.idempleado);
       setTimeout(() => this.perfilSeleccionado = this.perfilesEmpleado.find((perfil: Perfil) => perfil.idperfil === tarea.idperfil), 1500);
     }));
-  }
-
-  completarTarea(tarea: Tarea) {
-    tarea.finalizada = 'true';
-
-    this._tareaService.crearTarea(tarea).then(response => response.subscribe(respuesta => {
-      this._mensagesAlertService.ventanaExitosa('Exíto', `La tarea ${tarea.descripcionTarea} ha sido finalizada`)},
-      error => this._mensagesAlertService.ventanaError('Error', `La tarea ${tarea.descripcionTarea} no se pudo finalizar`)));
   }
 
   borrarTarea(tarea: Tarea) {

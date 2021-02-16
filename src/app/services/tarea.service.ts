@@ -25,4 +25,8 @@ export class TareaService {
   async borrarTarea(idTarea: number): Promise<Observable<string>> {
       return this.httpClient.delete<string>(`Tarea/${idTarea}`);
   }
+
+  async findTareasEmpleado(idEmpleado: number): Promise<Observable<Tarea[]>> {
+    return this.httpClient.get<Tarea[]>(`Tarea/empleado/${idEmpleado}`);
+  }
 }

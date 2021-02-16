@@ -26,7 +26,11 @@ export class ProyectosService {
     return this.httpCliente.get<any>(`Tarea/lista/${idProyecto}`);
   }
 
-  async getProyectos(): Promise<Observable<Proyecto []>> {
-    return this.httpCliente.get<Proyecto []>(`Proyecto`);
+  async getProyectos(): Promise<Observable<Proyecto[]>> {
+    return this.httpCliente.get<Proyecto[]>(`Proyecto`);
+  }
+
+  async getProyectoById(idProyecto: number): Promise<Observable<Proyecto>> {
+    return this.httpCliente.get<Proyecto>(`Proyecto/byid/${idProyecto}`);
   }
 }

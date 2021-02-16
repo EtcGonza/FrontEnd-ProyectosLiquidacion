@@ -104,7 +104,6 @@
                         </td>
                         <td>
                             <button *ngIf="tarea.finalizada == 'false'" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarTarea(tarea)" pTooltip="Editar tarea" tooltipPosition="top"></button>
-                            <button *ngIf="tarea.finalizada == 'false'" pButton pRipple icon="pi pi-check-circle" class="p-button-rounded p-button-success p-mr-2" (click)="completarTarea(tarea)" pTooltip="Completar tarea" tooltipPosition="top"></button>
                             <button *ngIf="tarea.finalizada == 'false'" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="borrarTarea(tarea)" pTooltip="Borrar tarea" tooltipPosition="top"></button>
                         </td>
                     </tr>
