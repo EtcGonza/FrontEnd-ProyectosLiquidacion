@@ -1,12 +1,12 @@
 <div class="p-grid p-jc-center p-p-5">
     <div class="p-col-12">
-        <p-card header="Liquidación" [style]="{width: 'auto'}" styleClass="p-card-shadow">
+        <p-card header="Generar nueva liquidación" [style]="{width: 'auto'}" styleClass="p-card-shadow">
 
             <div class="p-grid">
                 <div class="p-col-6">
                     <p-dropdown [options]="empleados" required="true" optionLabel="apellidoEmpleado" (onChange)="onSelectEmpleado($event.value)" [filter]="true" filterBy="apellidoEmpleado" [showClear]="true" placeholder="Selecciona un empleado *" [style]="{'width':'100%'}">
-                        <ng-template *ngIf="empleadoSeleccionado" pTemplate="selectedItem">
-                            <div>{{empleadoSeleccionado.nombreEmpleado}} {{empleadoSeleccionado.apellidoEmpleado}}</div>
+                        <ng-template *ngIf="empleadoLiquidar" pTemplate="selectedItem">
+                            <div>{{empleadoLiquidar.nombreEmpleado}} {{empleadoLiquidar.apellidoEmpleado}}</div>
                         </ng-template>
                         <ng-template let-empleado pTemplate="item">
                             <div>{{empleado.nombreEmpleado}} {{empleado.apellidoEmpleado}}</div>
@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="p-field p-col-6">
-                    <label for="fecha">Fecha liquidación *</label>
+                    <label class="p-mr-2" for="fecha">Fecha liquidación *</label>
                     <p-calendar (onSelect)="onSelectFecha($event)" [yearNavigator]="true" dateFormat="mm/yy" view="month" yearRange="2021:2021" inputId="fecha"></p-calendar>
                 </div>
             </div>
@@ -29,11 +29,24 @@
         </p-card>
     </div>
 
-    <div *ngIf="mostrarLiquidacion" class="p-col-12">
-        <p-card header="Nueva liquidación generada" [style]="{width: 'auto'}" styleClass="p-card-shadow">
+    <div class="p-col-12">
+        <p-card [header]="tituloTablaLiquidaciones" [style]="{width: 'auto'}" styleClass="p-card-shadow">
 
-            <p-table [value]="liquidacionNueva" dataKey="idtarea">
+            <div class="p-grid">
+                <div class="p-col-4">
+                    <p-dropdown [options]="empleados" required="true" [ngModel]="empleadoSeleccionado" optionLabel="apellidoEmpleado" (onChange)="cargarLiquidacionesEmpleado($event.value)" [filter]="true" filterBy="apellidoEmpleado" placeholder="Selecciona un empleado *"
+                        [style]="{'width':'100%'}">
+                        <ng-template *ngIf="empleadoSeleccionado" pTemplate="selectedItem">
+                            <div>{{empleadoSeleccionado.nombreEmpleado}} {{empleadoSeleccionado.apellidoEmpleado}}</div>
+                        </ng-template>
+                        <ng-template let-empleado pTemplate="item">
+                            <div>{{empleado.nombreEmpleado}} {{empleado.apellidoEmpleado}}</div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
 
+            <p-table [value]="liquidacionesEmpleado" dataKey="codliquidacion">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Código liquidación</th>
@@ -57,7 +70,7 @@
 
                         <td>{{liquidacion.importeLiquidacion}}</td>
 
-                        <td>{{empleadoLiquidado.apellidoEmpleado}} {{empleadoLiquidado.nombreEmpleado}}</td>
+                        <td>{{empleadoSeleccionado.apellidoEmpleado}} {{empleadoSeleccionado.nombreEmpleado}}</td>
 
                         <td>{{liquidacion.idescalaHoras}}</td>
 

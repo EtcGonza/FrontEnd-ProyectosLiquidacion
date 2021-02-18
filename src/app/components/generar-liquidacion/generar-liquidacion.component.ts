@@ -7,7 +7,6 @@ import { LiquidacionService } from '../../services/liquidacion.service';
 import { Liquidacion } from '../../models/Liquidacion';
 import { Location } from '@angular/common';
 import { Perfil } from '../../models/Perfil';
-import { PerfilService } from '../../services/perfil.service';
 
 @Component({
   selector: 'app-generar-liquidacion',
@@ -18,19 +17,21 @@ export class GenerarLiquidacionComponent implements OnInit {
 
   miLiquidacion: Liquidacion = null;
   empleados: Empleado [] = [];
-  empleadoSeleccionado: Empleado = null;
+  empleadoLiquidar: Empleado = null;
   formulario: FormGroup;
 
-  liquidacionNueva: Liquidacion [] = [];
-  empleadoLiquidado: Empleado = null;
+  liquidacionesEmpleado: Liquidacion [] = [];
   perfilEmpleadoLiquidado: Perfil = null;
   mostrarLiquidacion: boolean = false;
+
+  empleadoSeleccionado: Empleado = null;
+
+  tituloTablaLiquidaciones: string = 'Buscar liquidaciones';
 
   constructor(
     private _empleadoService: EmpleadosService,
     private _mensagesAlertService: MensagesAlertService,
     private _liquidacionService: LiquidacionService,
-    private _perfilService: PerfilService,
     private formBuilder: FormBuilder,
     private location: Location
   ) {}
@@ -49,8 +50,6 @@ export class GenerarLiquidacionComponent implements OnInit {
       idescalaHoras: [null],
       idescalaAntiguedad: [null]
     });
-
-    this.getLiquidacionesEmpleado();
   }
 
   getEmpleados() {
@@ -59,7 +58,7 @@ export class GenerarLiquidacionComponent implements OnInit {
   }
 
   onSelectEmpleado(empleado: Empleado) {
-    this.empleadoSeleccionado = empleado;
+    this.empleadoLiquidar = empleado;
     this.formulario.controls.idempleado.setValue(empleado.idempleado);
   }
 
@@ -70,29 +69,28 @@ export class GenerarLiquidacionComponent implements OnInit {
   generarLiquidacion() {
     if (this.formulario.valid) {
       this.miLiquidacion = this.formulario.value;
-      console.log(this.miLiquidacion);
       this._liquidacionService.crearLiquidacion(this.miLiquidacion).then(response => response.subscribe(respuesta => {
-        console.log(respuesta);
-        this.getLiquidacionesEmpleado();
-      }));
+        this._mensagesAlertService.ventanaExitosa('Exíto', 'Se creo la liquidación');
+        this.empleadoSeleccionado = this.empleadoLiquidar;
+        this.getLiquidacionesEmpleado(this.empleadoLiquidar);
+      }, error => this._mensagesAlertService.ventanaWarning('Atención', error.error)));
     } else {
       this._mensagesAlertService.ventanaError('Formulario inválido', 'Debe seleccionar un empleado y un mes para liquidar');
     }
   }
 
-  getLiquidacionesEmpleado() {
-    this._liquidacionService.getLiquidacionesEmpleado(21).then(response => response.subscribe((liquidaciones: Liquidacion[]) => {
-      console.log(liquidaciones);
-      this.liquidacionNueva.push(liquidaciones[0]);
-      this.cargarLiquidacion();
+  getLiquidacionesEmpleado(empleado: Empleado) {
+    this._liquidacionService.getLiquidacionesEmpleado(empleado.idempleado).then(response => response.subscribe((liquidaciones: Liquidacion[]) => {
+      this.liquidacionesEmpleado = [];
+      this.tituloTablaLiquidaciones = `Liquidaciones del empleado/a ${this.empleadoSeleccionado.apellidoEmpleado} ${this.empleadoSeleccionado.nombreEmpleado}`
+      liquidaciones.forEach((liquidacion: Liquidacion) => this.liquidacionesEmpleado.push(liquidacion));
     }));
   }
 
-  cargarLiquidacion() {
-    this._empleadoService.getEmpleadoById(this.liquidacionNueva[0].idempleado).then(response => response.subscribe((empleado: Empleado) => {
-      this.empleadoLiquidado = empleado;
-      this.mostrarLiquidacion = true;
-    }));
+  cargarLiquidacionesEmpleado(empleado: Empleado) {
+    this.empleadoSeleccionado = empleado;
+    this.tituloTablaLiquidaciones = `Liquidaciones del empleado ${this.empleadoSeleccionado.apellidoEmpleado} ${this.empleadoSeleccionado.nombreEmpleado}`
+    this.getLiquidacionesEmpleado(empleado);
   }
 
   volver() {
