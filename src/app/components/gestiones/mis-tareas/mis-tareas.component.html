@@ -14,6 +14,7 @@
                             <th>Horas trabajadas</th>
                             <th>Horas Overbudget</th>
                             <th>Finalizada</th>
+                            <th>Agregar horas</th>
                             <th>Acciones</th>
                         </tr>
                     </ng-template>
@@ -24,7 +25,7 @@
                             <td>{{tarea.idtarea}}</td>
                             <td>{{tarea.descripcionTarea}}</td>
                             <td>{{tarea.horasEstimadasTarea}}</td>
-                            <td *ngIf="tarea.finalizada == 'false'" pEditableColumn>
+                            <!-- <td *ngIf="tarea.finalizada == 'false'" pEditableColumn>
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
                                         <input pInputText type="number" [(ngModel)]="tarea.horasTrabajadas">
@@ -33,10 +34,10 @@
                                         {{tarea.horasTrabajadas}}
                                     </ng-template>
                                 </p-cellEditor>
-                            </td>
-                            <td *ngIf="tarea.finalizada == 'true'">{{tarea.horasTrabajadas}}</td>
+                            </td> -->
+                            <td>{{tarea.horasTrabajadas}}</td>
 
-                            <td *ngIf="tarea.finalizada == 'false'" pEditableColumn>
+                            <!-- <td *ngIf="tarea.finalizada == 'false'" pEditableColumn>
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
                                         <input pInputText type="number" [(ngModel)]="tarea.horasOverbudget">
@@ -45,16 +46,27 @@
                                         {{tarea.horasOverbudget}}
                                     </ng-template>
                                 </p-cellEditor>
-                            </td>
-                            <td *ngIf="tarea.finalizada == 'true'">{{tarea.horasOverbudget}}</td>
+                            </td> -->
+                            <td>{{tarea.horasOverbudget}}</td>
 
                             <td>
                                 <p-tag *ngIf="tarea.finalizada == 'false'" severity="danger" [value]="tarea.finalizada | uppercase "></p-tag>
                                 <p-tag *ngIf="tarea.finalizada == 'true'" severity="info" [value]="tarea.finalizada | uppercase "></p-tag>
                             </td>
 
+                            <td *ngIf="tarea.finalizada == 'false'" pEditableColumn>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="number" [(ngModel)]="agregarHoras">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{agregarHoras}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+
                             <td>
-                                <button *ngIf="tarea.finalizada == 'false'" pButton pRipple icon="pi pi-save" class="p-button-rounded p-button-success p-mr-2" (click)="guardarTarea(tarea)" pTooltip="Guardar horas" tooltipPosition="top"></button>
+                                <button *ngIf="tarea.finalizada == 'false'" pButton pRipple icon="pi pi-save" class="p-button-rounded p-button-success p-mr-2" (click)="guardarHoras(tarea)" pTooltip="Agregar horas" tooltipPosition="top"></button>
                                 <button *ngIf="tarea.finalizada == 'false'" pButton pRipple icon="pi pi-check-circle" class="p-button-rounded p-button-success p-mr-2" (click)="completarTarea(tarea)" pTooltip="Completar tarea" tooltipPosition="top"></button>
                             </td>
                         </tr>

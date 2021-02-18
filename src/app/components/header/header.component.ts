@@ -87,7 +87,7 @@ export class HeaderComponent implements OnInit {
       }
     ];
 
-    this.armarMenu();
+    // this.armarMenu();
   }
 
   armarMenu() {

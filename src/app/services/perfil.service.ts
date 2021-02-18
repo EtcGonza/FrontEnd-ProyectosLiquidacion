@@ -13,4 +13,8 @@ export class PerfilService {
   async getPerfiles(): Promise<Observable<Perfil []>>{
     return this.httpClient.get<Perfil []>('Perfil');
   }
+
+  async getPerfilById(idPerfil: number): Promise<Observable<Perfil>>{
+    return this.httpClient.get<Perfil>(`Perfil/${idPerfil}`);
+  }
 }
