@@ -57,6 +57,7 @@
                         <th>Escala horas</th>
                         <th>Escala perfil</th>
                         <th>Escala antiguedad</th>
+                        <th>Acciones</th>
                     </tr>
                 </ng-template>
 
@@ -77,10 +78,65 @@
                         <td>{{liquidacion.idescalaPerfil}}</td>
 
                         <td>{{liquidacion.idescalaAntiguedad}}</td>
+
+                        <td><button pButton pRipple type="button" icon="pi pi-file" label="Exportar pdf" (click)="mostrarLiquidacion(liquidacion)" pTooltip="Exportar a pdf" tooltipPosition="top" class="p-button-rounded p-button-success"></button></td>
                     </tr>
                 </ng-template>
             </p-table>
 
         </p-card>
     </div>
+
+    <p-dialog [(visible)]="displayBasic" [style]="{width: '80%'}" [baseZIndex]="10000">
+        <div id="toPdf">
+            <div class="p-grid">
+                <div class="p-col">
+                    <h4>Datos personales</h4>
+                    <p>Dni: {{empleadoSeleccionado?.dniEmpleado}}</p>
+                    <p>Nombre completo: {{empleadoSeleccionado?.apellidoEmpleado}} {{empleadoSeleccionado?.nombreEmpleado}}</p>
+                    <p>Telefono: {{empleadoSeleccionado?.telefono}}</p>
+                    <p>Direccion: {{empleadoSeleccionado?.direccion}}</p>
+                    <p>Fecha de ingreso: {{empleadoSeleccionado?.fechaIngresoEmpleado | date}}</p>
+                </div>
+            </div>
+
+            <p-divider class="p-m-2" type="dashed"></p-divider>
+
+            <p-table [value]="liquidacionesEmpleado" dataKey="codliquidacion">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Código liquidación</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Importe</th>
+                        <th>Escala horas</th>
+                        <th>Escala perfil</th>
+                        <th>Escala antiguedad</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-liquidacion>
+                    <tr>
+                        <td>{{liquidacion.codLiquidacion}}</td>
+
+                        <td>{{liquidacion.fechaLiquidacion | date}}</td>
+
+                        <td>{{liquidacion.estado}}</td>
+
+                        <td>{{liquidacion.importeLiquidacion}}</td>
+
+                        <td>{{liquidacion.idescalaHoras}}</td>
+
+                        <td>{{liquidacion.idescalaPerfil}}</td>
+
+                        <td>{{liquidacion.idescalaAntiguedad}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="displayBasic=false" label="Ok" styleClass="p-button-text"></p-button>
+            <button pButton pRipple type="button" icon="pi pi-plus-circle" label="Exportar a pdf" (click)="exportarPdf()" class="p-button-raised p-button-success"></button>
+        </ng-template>
+    </p-dialog>
 </div>

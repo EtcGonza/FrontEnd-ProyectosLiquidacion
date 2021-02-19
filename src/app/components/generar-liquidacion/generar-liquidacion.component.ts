@@ -7,6 +7,8 @@ import { LiquidacionService } from '../../services/liquidacion.service';
 import { Liquidacion } from '../../models/Liquidacion';
 import { Location } from '@angular/common';
 import { Perfil } from '../../models/Perfil';
+import jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-generar-liquidacion',
@@ -20,13 +22,17 @@ export class GenerarLiquidacionComponent implements OnInit {
   empleadoLiquidar: Empleado = null;
   formulario: FormGroup;
 
+  displayBasic: boolean;
+
   liquidacionesEmpleado: Liquidacion [] = [];
   perfilEmpleadoLiquidado: Perfil = null;
-  mostrarLiquidacion: boolean = false;
 
   empleadoSeleccionado: Empleado = null;
 
   tituloTablaLiquidaciones: string = 'Buscar liquidaciones';
+
+  liquidacionDialog: Liquidacion = null;
+  tituloDialog: string = "";
 
   constructor(
     private _empleadoService: EmpleadosService,
@@ -95,5 +101,37 @@ export class GenerarLiquidacionComponent implements OnInit {
 
   volver() {
     this.location.back();
+  }
+
+  mostrarLiquidacion(liquidacion: Liquidacion) {
+    this.displayBasic = true;
+    this.liquidacionDialog = liquidacion;
+    this.tituloDialog = `Liquidación ${this.empleadoSeleccionado.apellidoEmpleado} ${this.empleadoSeleccionado.nombreEmpleado}`
+  }
+
+  exportarPdf() {
+    // Extraemos el
+    const DATA = document.getElementById('toPdf');
+    const doc = new jspdf('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 3
+    };
+
+    html2canvas(DATA, options).then((canvas) => {
+
+      const img = canvas.toDataURL('image/PNG');
+
+      // Add image Canvas to PDF
+      const bufferX = 15;
+      const bufferY = 15;
+      const imgProps = (doc as any).getImageProperties(img);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      return doc;
+    }).then((docResult) => {
+      docResult.save(`${new Date().toISOString()}_tutorial.pdf`);
+    });
   }
 }
