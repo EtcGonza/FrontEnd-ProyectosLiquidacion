@@ -29,4 +29,8 @@ export class EmpleadosService {
   async getEmpleadoById(idEmpleado: number): Promise<Observable<Empleado>> {
     return this.httpCliente.get<Empleado>(`Empleado/empleado/${idEmpleado}`);
   }
+
+  async getEmpleadosLibresProyecto(idProyecto: number): Promise<Observable<Empleado[]>> {
+    return this.httpCliente.get<Empleado[]>(`Empleado/empleadosDesocupados/${idProyecto}`);
+  }
 }

@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="p-col-6">
-                    <p-dropdown [options]="perfilesEmpleado" [disabled]="!empleadoSeleccionado" [ngModel]="perfilSeleccionado" optionLabel="nombrePerfil" required="true" (onChange)="onSelectPerfil($event.value)" [showClear]="true" placeholder="Selecciona un perfil" [style]="{'width':'100%'}">
+                    <p-dropdown [options]="perfilesEmpleado" [disabled]="!empleadoSeleccionado" [ngModel]="perfilSeleccionado" optionLabel="nombrePerfil" required="true" (onChange)="onSelectPerfil($event.value)" [showClear]="true" placeholder="Selecciona un perfil *" [style]="{'width':'100%'}">
                         <ng-template *ngIf="perfilSeleccionado" pTemplate="selectedItem">
                             <div>{{perfilSeleccionado.nombrePerfil}}</div>
                         </ng-template>
@@ -68,8 +68,8 @@
                         <th pSortableColumn="horasOverbudget">Horas overbudget
                             <p-sortIcon field="horasOverbudget"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="finaliada">Finalizada
-                            <p-sortIcon field="finaliada"></p-sortIcon>
+                        <th pSortableColumn="finalizada">Finalizada
+                            <p-sortIcon field="finalizada"></p-sortIcon>
                         </th>
                         <th>Acciones</th>
                     </tr>

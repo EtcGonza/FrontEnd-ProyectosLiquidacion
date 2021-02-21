@@ -35,6 +35,8 @@ export class CrearModificarTareasComponent implements OnInit {
   perfilesEmpleado: Perfil [] = [];
   perfilSeleccionado: Perfil = null;
 
+  warningSinEmpleados: boolean = true;
+
   constructor(
     private _mensagesAlertService: MensagesAlertService,
     private _proyectoServices: ProyectosService,
@@ -67,7 +69,7 @@ export class CrearModificarTareasComponent implements OnInit {
         this.formulario.controls.idproyecto.setValue(this.miProyecto.idproyecto);
         this.tituloCard = `Crear tarea - Proyecto ${miProyecto.nombreProyecto}`;
         this.getTareasProyecto();
-        this.getEmpleadosProyecto();
+        this.getEmpleadosLibres();
       }
     });
   }
@@ -77,9 +79,17 @@ export class CrearModificarTareasComponent implements OnInit {
       response.subscribe((tareas: Tarea[]) => tareas.forEach((tarea: Tarea) => this.tareasProyecto.push(tarea))));
   }
 
-  getEmpleadosProyecto() {
-    this._empleadoProyectoService.getEmpleadosProyecto(this.miProyecto.idproyecto).then(
-      response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => this.empleados.push(empleado)),
+  getEmpleadosLibres() {
+    this._empleadoService.getEmpleadosLibresProyecto(this.miProyecto.idproyecto).then(
+      response => response.subscribe((empleados: Empleado []) => {
+        this.empleados = [];
+        if (empleados.length == 0 && this.warningSinEmpleados) {
+          this._mensagesAlertService.ventanaWarning('Atención', `Todos los empleados de este proyecto ya tienen tareas asignadas. No podra crear nuevas tareas.`);
+          this.warningSinEmpleados = false;
+        } else {
+          empleados.forEach((empleado: Empleado) => this.empleados.push(empleado))
+        }
+      },
       error => this._mensagesAlertService.ventanaExitosa('Error', `No se pudo recuperar la lista de empleados.`)));
   }
 
@@ -130,6 +140,8 @@ export class CrearModificarTareasComponent implements OnInit {
 
         this.modificarTarea = false;
         this.tituloCard = `Crear tarea - Proyecto ${this.miProyecto.nombreProyecto}`;
+        this.warningSinEmpleados = false;
+        this.getEmpleadosLibres();
       }));
     } else {
         this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
