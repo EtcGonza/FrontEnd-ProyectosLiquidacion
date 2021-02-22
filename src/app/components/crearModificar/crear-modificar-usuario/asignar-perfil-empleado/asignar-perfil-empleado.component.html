@@ -7,7 +7,7 @@
 
     <ng-template pTemplate="footer">
         <div class="centrar-boton">
-            <button pButton pRipple type="button" icon="pi pi-save" label="Guardar perfiles" (click)="guardarPerfiles()" class="p-button-raised p-button-secondary"></button>
+            <button pButton pRipple type="button" icon="pi pi-save" label="Guardar perfiles" [disabled]="perfilesEmpleado.length == 0" (click)="guardarPerfiles()" class="p-button-raised p-button-secondary"></button>
         </div>
     </ng-template>
 </p-card>

@@ -114,6 +114,7 @@ export class CrearModificarUsuarioComponent implements OnInit, OnDestroy {
         response => response.subscribe(respuesta => {
           let mensaje = this.miEmpleado.idempleado ? 'modificado' : 'creado';
           this._mensagesAlertService.ventanaExitosa(`Usuario ${mensaje}`, `El usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} fue ${mensaje} exitosamente`);
+          this.router.navigateByUrl('gestionarUsuarios', {replaceUrl: false});
         }, 
         error => this._mensagesAlertService.ventanaError('Error', `El usuario ${this.miEmpleado.nombreEmpleado} ${this.miEmpleado.apellidoEmpleado} no pudo guardarse.`)));
       

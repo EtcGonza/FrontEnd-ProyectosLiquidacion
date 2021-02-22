@@ -108,6 +108,7 @@ export class CrearModificarProyectoComponent implements OnInit, OnDestroy {
         response => response.subscribe(respuesta => {
           let mensaje = this.miProyecto.idproyecto ? 'modificado' : 'creado';
           this._mensagesAlertService.ventanaExitosa(`Proyecto ${mensaje}`, `El proyecto ${this.miProyecto.nombreProyecto} fue ${mensaje} exitosamente. Ahora puede agregar recursos, asignar tareas y cambiar el estado del mismo`)
+          this.router.navigateByUrl('gestionarProyectos', {replaceUrl: false});
         },
         error => this._mensagesAlertService.ventanaError('Error', `No se pudo crear el proyecto ${this.miProyecto.nombreProyecto}`)));
     } else {

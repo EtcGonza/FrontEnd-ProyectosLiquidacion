@@ -46,9 +46,7 @@ export class AsignarPerfilEmpleadoComponent implements OnInit {
   }
 
   getPerfilesEmpleado() {
-    this._perfilesEmpleadoService.getPerfilesEmpleado(this.idEmpleado).then(response => response.subscribe((perfilesEmpleado: Perfil[]) => {
-      perfilesEmpleado.forEach((perfil: Perfil) => this.perfilesSeleccionados.push(perfil));
-    }, error => {
+    this._perfilesEmpleadoService.getPerfilesEmpleado(this.idEmpleado).then(response => response.subscribe((perfilesEmpleado: Perfil[]) => this.perfilesSeleccionados = perfilesEmpleado, error => {
       this._mensagesAlertService.ventanaError('Error', 'No se pudo recuperar los perfiles del empleado');
     }));
   }
@@ -67,7 +65,7 @@ export class AsignarPerfilEmpleadoComponent implements OnInit {
   guardarPerfiles() {
     this._perfilesEmpleadoService.guardarPerfilesEmpleado(this.perfilesEmpleado).then(response => response.subscribe(respuesta => {
       this._mensagesAlertService.ventanaExitosa('Perfil/es guardados', 'Los perfiles del empleado fueron guardados correctamente');
-    }, error => this._mensagesAlertService.ventanaExitosa('Error', 'No se pudo guardar los perfiles')));
+    }, error => this._mensagesAlertService.ventanaError('Error', 'No se pudo guardar los perfiles')));
   }
 
   volver() {

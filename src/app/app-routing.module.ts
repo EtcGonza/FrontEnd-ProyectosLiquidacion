@@ -12,6 +12,7 @@ import { CrearModificarTareasComponent } from './components/crearModificar/crear
 import { LoggedInGuard } from './guards/logged-in.guard';
 import { MisTareasComponent } from './components/gestiones/mis-tareas/mis-tareas.component';
 import { GenerarLiquidacionComponent } from './components/generar-liquidacion/generar-liquidacion.component';
+import { EstadisticasProyectoComponent } from './components/estadisticas-proyecto/estadisticas-proyecto.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,6 +26,8 @@ const routes: Routes = [
   { path: 'misTareas', component: MisTareasComponent, canActivate: [LoggedInGuard]},
 
   { path: 'generarLiquidacion', component: GenerarLiquidacionComponent, canActivate: [LoggedInGuard]},
+
+  { path: 'estadisticasProyecto', component: EstadisticasProyectoComponent, canActivate: [LoggedInGuard]},
 
   { path: 'crearModificarProyecto', component: CrearModificarProyectoComponent, canActivate: [LoggedInGuard]},
   { path: 'crearModificarUsuario', component: CrearModificarUsuarioComponent, canActivate: [LoggedInGuard]},

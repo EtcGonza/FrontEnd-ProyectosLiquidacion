@@ -1,14 +1,10 @@
-import { Tarea } from "./Tarea";
-
 export class HoraTrabajada {
-     IdhoraTrabajada: number;
-     Idproyecto: number;
-     Idtarea: number;
-     CantidadHoraTrabajada: number; 
-     FechaHoraTrabajada: Date;
-     EstadoHoraTrabajada: string;
-     Idempleado: number;
-     Idperfil: number;
-     Id: number;
-     IdNavigation: Tarea
+     idhoratrabajada: number;
+     idproyecto: number;
+     idtarea: number;
+     cantidadHoraTrabajada: number; 
+     fechaHoraTrabajada: Date;
+     estadoHoraTrabajada: string;
+     idempleado: number;
+     idperfil: number;
 }

@@ -17,6 +17,8 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import {DividerModule} from 'primeng/divider';
 import {ListboxModule} from 'primeng/listbox';
 import {PickListModule} from 'primeng/picklist';
+import {CalendarModule} from 'primeng/calendar';
+import {DialogModule} from 'primeng/dialog';
 
 @NgModule({
   imports: [
@@ -37,7 +39,9 @@ import {PickListModule} from 'primeng/picklist';
     MultiSelectModule,
     DividerModule,
     ListboxModule,
-    PickListModule
+    PickListModule,
+    CalendarModule,
+    DialogModule
   ],
   exports: [
     ButtonModule,
@@ -56,7 +60,9 @@ import {PickListModule} from 'primeng/picklist';
     MultiSelectModule,
     DividerModule,
     ListboxModule,
-    PickListModule
+    PickListModule,
+    CalendarModule,
+    DialogModule
   ]
 })
 export class PrimeNgModule { }

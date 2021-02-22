@@ -11,8 +11,6 @@ export class LocalidadService {
 
   constructor(private httpClient: HttpClient) {}
 
-  // TODO Necesito un endpoint para recuperar las provincias y localidades de un empleado.
-
   async getProvincias(): Promise<Observable<Provincia[]>>{
     return this.httpClient.get<Provincia[]>('Provincia');
   }

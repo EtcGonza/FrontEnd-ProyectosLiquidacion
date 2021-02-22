@@ -29,4 +29,8 @@ export class TareaService {
   async findTareasEmpleado(idEmpleado: number): Promise<Observable<Tarea[]>> {
     return this.httpClient.get<Tarea[]>(`Tarea/empleado/${idEmpleado}`);
   }
+
+  async getCantidadHorasOverbudget(idProyecto: number): Promise<Observable<number>> {
+    return this.httpClient.get<number>(`Tarea/overbudget/${idProyecto}`);
+  }
 }
