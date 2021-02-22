@@ -1,0 +1,34 @@
+<div class="p-grid p-jc-center p-p-5">
+    <div class="p-col-12">
+        <p-card header="Estadisticas del proyecto" subheader="Muestra horas overbudget y horas trabajadas por perfil" [style]="{width: 'auto'}" styleClass="p-card-shadow">
+            <div class="p-grid">
+                <div class="p-col-4">
+                    <h4>Horas adeudadas:
+                        <p-tag styleClass="p-mr-2" severity="success" [value]="horasAdeudadas"></p-tag>
+                    </h4>
+                </div>
+
+                <div class="p-col-4">
+                    <h4>Horas trabajadas por perfil:</h4>
+                    <ul>
+                        <li *ngFor="let item of horasPerfiles">
+                            <p-tag styleClass="p-mt-2" severity="success" [value]="item"></p-tag>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-col-4">
+                    <h4>Horas overbudget:
+                        <p-tag styleClass="p-mr-2" severity="success" [value]="horasOverbudget"></p-tag>
+                    </h4>
+                </div>
+            </div>
+
+            <ng-template pTemplate="footer">
+                <div class="centrar-boton">
+                    <button pButton pRipple type="button" icon="pi pi-arrow-circle-left" label="Volver" (click)="volver()" class="p-button-outlined p-button-secondary"></button>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+</div>
