@@ -82,26 +82,18 @@ export class MisTareasComponent implements OnInit {
     tarea.horasTrabajadas = tarea.horasTrabajadas += this.agregarHoras;
 
     if (tarea.horasTrabajadas > tarea.horasEstimadasTarea) {
-      
       tarea.horasOverbudget = tarea.horasTrabajadas - tarea.horasEstimadasTarea;
-
-      this._messagesService.ventanaConfirmar('Horas overbudget', `Las horas estimadas de esta tarea eran '${tarea.horasEstimadasTarea}' y las horas trabajadas que usted va a guardar son '${tarea.horasTrabajadas}' esto creara ${tarea.horasOverbudget} horas overbudget. ¿Esta seguro que desea guardar esta cantidad de horas?`)
-      .then((result: SweetAlertResult) => {
-        if (result.isConfirmed) {
-          this._tareaService.crearTarea(tarea).then(response => response.subscribe(respuesta => {
-            this._messagesService.ventanaExitosa(`Exíto`, `Se guardaron las horas de la tarea '${tarea.descripcionTarea}'`);
-            this.tareasEmpleado = [];
-            this.getTareasEmpleado();
-            
-            console.log(horaTrabajada);
-            this._horaTrabajadaService.crearHoraTrabajada(horaTrabajada).then(response => response.subscribe(respuesta => {
-              console.log(respuesta);
-            }));
-          }));
-        } else {
-          this.getTareasEmpleado();
-        }
-      });
     }
+
+    this._tareaService.crearTarea(tarea).then(response => response.subscribe(respuesta => {
+      this._messagesService.ventanaExitosa(`Exíto`, `Se guardaron las horas de la tarea '${tarea.descripcionTarea}'`);
+      this.tareasEmpleado = [];
+      this.getTareasEmpleado();
+      
+      console.log(horaTrabajada);
+      this._horaTrabajadaService.crearHoraTrabajada(horaTrabajada).then(response => response.subscribe(respuesta => {
+        console.log(respuesta);
+      }));
+    }));
   }
 }

@@ -26,6 +26,7 @@ export class AsignarEmpleadoProyectoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.empleados = [];
     this.getEmpleados();
     this.getEmpleadosProyecto();
   }
@@ -36,14 +37,14 @@ export class AsignarEmpleadoProyectoComponent implements OnInit {
     }
   }
 
-  getEmpleados() {
-    this._empleadoServices.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => empleados.forEach((empleado: Empleado) => this.empleados.push(empleado)),
+  getEmpleados() {    
+    this._empleadoServices.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => this.empleados = empleados,
     error => this._messagesService.ventanaExitosa('Error', `No se pudo recuperar la lista de empleados.`)));
   }
 
   getEmpleadosProyecto() {
     this._empleadoProyectoServices.getEmpleadosProyecto(this.idProyecto).then(
-      response => response.subscribe((empleados: Empleado[]) => empleados.forEach((empleado: Empleado) => this.empleadosSeleccionados.push(empleado)),
+      response => response.subscribe((empleados: Empleado[]) => this.empleadosSeleccionados = empleados,
       error => this._messagesService.ventanaExitosa('Error', `No se pudo recuperar la lista de empleados asignados al proyecto.`)));
   }
 

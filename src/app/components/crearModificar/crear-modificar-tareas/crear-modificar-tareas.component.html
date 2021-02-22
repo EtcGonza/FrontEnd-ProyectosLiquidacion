@@ -52,8 +52,8 @@
     </div>
 
     <div class="p-col-12 p-pt-6">
-        <p-card *ngIf="tareasProyecto" header="Tareas existentes" subheader="Modifique tareas existentes">
-            <p-table #dt1 [value]="tareasProyecto" selectionMode="single" dataKey="idProyecto" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+        <p-card *ngIf="tareasProyecto" header="Tareas existentes">
+            <p-table #dt1 [value]="tareasProyecto" selectionMode="single" dataKey="idProyecto" styleClass="p-datatable-customers" stateStorage="session" stateKey="statedemo-session">
                 <ng-template pTemplate="header">
                     <tr>
                         <th pSortableColumn="descripcionTarea">Descripción tarea

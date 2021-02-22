@@ -16,6 +16,7 @@ import { AsignarEmpleadoProyectoComponent } from '../components/crearModificar/c
 import { AsignarPerfilEmpleadoComponent } from '../components/crearModificar/crear-modificar-usuario/asignar-perfil-empleado/asignar-perfil-empleado.component';
 import { MisTareasComponent } from '../components/gestiones/mis-tareas/mis-tareas.component';
 import { GenerarLiquidacionComponent } from '../components/generar-liquidacion/generar-liquidacion.component';
+import { EstadisticasProyectoComponent } from '../components/estadisticas-proyecto/estadisticas-proyecto.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { GenerarLiquidacionComponent } from '../components/generar-liquidacion/g
   AsignarEmpleadoProyectoComponent,
   AsignarPerfilEmpleadoComponent,
   MisTareasComponent,
-  GenerarLiquidacionComponent
+  GenerarLiquidacionComponent,
+  EstadisticasProyectoComponent
 ],
   exports:[
   HeaderComponent,
@@ -49,7 +51,8 @@ import { GenerarLiquidacionComponent } from '../components/generar-liquidacion/g
   AsignarEmpleadoProyectoComponent,
   AsignarPerfilEmpleadoComponent,
   MisTareasComponent,
-  GenerarLiquidacionComponent
+  GenerarLiquidacionComponent,
+  EstadisticasProyectoComponent
 ],
   imports: [
     CommonModule, PrimeNgModule,

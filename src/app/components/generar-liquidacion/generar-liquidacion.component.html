@@ -54,9 +54,6 @@
                         <th>Estado</th>
                         <th>Importe</th>
                         <th>Nombre apellido empleado</th>
-                        <th>Escala horas</th>
-                        <th>Escala perfil</th>
-                        <th>Escala antiguedad</th>
                         <th>Acciones</th>
                     </tr>
                 </ng-template>
@@ -72,12 +69,6 @@
                         <td>{{liquidacion.importeLiquidacion}}</td>
 
                         <td>{{empleadoSeleccionado.apellidoEmpleado}} {{empleadoSeleccionado.nombreEmpleado}}</td>
-
-                        <td>{{liquidacion.idescalaHoras}}</td>
-
-                        <td>{{liquidacion.idescalaPerfil}}</td>
-
-                        <td>{{liquidacion.idescalaAntiguedad}}</td>
 
                         <td><button pButton pRipple type="button" icon="pi pi-file" label="Exportar pdf" (click)="mostrarLiquidacion(liquidacion)" pTooltip="Exportar a pdf" tooltipPosition="top" class="p-button-rounded p-button-success"></button></td>
                     </tr>
@@ -109,9 +100,6 @@
                         <th>Fecha</th>
                         <th>Estado</th>
                         <th>Importe</th>
-                        <th>Escala horas</th>
-                        <th>Escala perfil</th>
-                        <th>Escala antiguedad</th>
                     </tr>
                 </ng-template>
 
@@ -124,19 +112,13 @@
                         <td>{{liquidacion.estado}}</td>
 
                         <td>{{liquidacion.importeLiquidacion}}</td>
-
-                        <td>{{liquidacion.idescalaHoras}}</td>
-
-                        <td>{{liquidacion.idescalaPerfil}}</td>
-
-                        <td>{{liquidacion.idescalaAntiguedad}}</td>
                     </tr>
                 </ng-template>
             </p-table>
         </div>
         <ng-template pTemplate="footer">
             <p-button icon="pi pi-check" (click)="displayBasic=false" label="Ok" styleClass="p-button-text"></p-button>
-            <button pButton pRipple type="button" icon="pi pi-plus-circle" label="Exportar a pdf" (click)="exportarPdf()" class="p-button-raised p-button-success"></button>
+            <button pButton pRipple type="button" icon="pi pi-file" label="Exportar a pdf" (click)="exportarPdf()" class="p-button-raised p-button-success"></button>
         </ng-template>
     </p-dialog>
 </div>

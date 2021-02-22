@@ -67,6 +67,15 @@ export class GestionarProyectosComponent implements OnInit {
     this.router.navigateByUrl('crearModificarTareas', {replaceUrl: false});
   }
 
+  mostrarEstadisticas(proyecto: Proyecto) {
+    this.storage.set('_estadisticasProyecto', proyecto).subscribe({
+      next: () => {},
+      error: () => this._mensagesAlertService.ventanaError('Storage', 'No se pudo guardar el proyecto en el storage')
+     });
+ 
+     this.router.navigateByUrl('estadisticasProyecto', {replaceUrl: false});
+  }
+
   volver() {
     this.location.back();
   }

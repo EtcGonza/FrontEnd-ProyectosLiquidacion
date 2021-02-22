@@ -2,7 +2,7 @@
     <div class="p-col-12">
         <p-card header="Lista de Proyectos" subheader="¿Vas a modificar o crear un nuevo proyecto?" [style]="{width: 'auto'}" styleClass="p-card-shadow">
             <div class="p-p-2">
-                <p-table #dt1 [value]="proyectos" selectionMode="single" dataKey="idproyecto" styleClass="p-datatable-customers" [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+                <p-table #dt1 [value]="proyectos" selectionMode="single" dataKey="idproyecto" styleClass="p-datatable-customers" stateStorage="session" stateKey="statedemo-session">
                     <ng-template pTemplate="header">
                         <tr>
                             <th pSortableColumn="nombre">Nombre Proyecto
@@ -43,6 +43,7 @@
                             <td>
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editarProyecto(proyecto)" pTooltip="Editar proyecto" tooltipPosition="top"></button>
                                 <button pButton pRipple icon="pi pi-book" class="p-button-rounded p-button-success p-mr-2" (click)="navegarTareas(proyecto)" pTooltip="Tareas" tooltipPosition="top"></button>
+                                <button pButton pRipple icon="pi pi-chart-bar" class="p-button-rounded p-button-success p-mr-2" (click)="mostrarEstadisticas(proyecto)" pTooltip="Estadisticas del proyecto" tooltipPosition="top"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="borrarProyecto(proyecto)" pTooltip="Borrar proyecto" tooltipPosition="top"></button>
                             </td>
                         </tr>

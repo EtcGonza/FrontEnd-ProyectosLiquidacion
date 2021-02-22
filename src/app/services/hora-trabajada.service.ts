@@ -14,7 +14,11 @@ export class HoraTrabajadaService {
     return this.httpCliente.post<string>('HoraTrabajada', horaTrabajada);
   }
 
-  async prueba(idProyecto: number): Promise<Observable<any>> {
-    return this.httpCliente.get<any>(`HoraTrabajada/${idProyecto}`);
+  async getHorasTrabajadasProyecto(idProyecto: number, idPerfil: number): Promise<Observable<number>> {
+    return this.httpCliente.get<number>(`HoraTrabajada/${idProyecto}/${idPerfil}`);
+  }
+
+  async getHorasAdeudadas(idProyecto: number): Promise<Observable<number>> {
+    return this.httpCliente.get<number>(`HoraTrabajada/${idProyecto}`);
   }
 }

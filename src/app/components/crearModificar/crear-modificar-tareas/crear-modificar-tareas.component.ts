@@ -46,7 +46,7 @@ export class CrearModificarTareasComponent implements OnInit {
     private _empleadoProyectoService: EmpleadoProyectoService,
     private formBuilder: FormBuilder,
     private storage: StorageMap,
-    private location: Location) { }
+    private location: Location) {}
 
   ngOnInit(): void {
 
