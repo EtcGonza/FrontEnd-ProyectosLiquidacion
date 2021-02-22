@@ -74,11 +74,11 @@ export class MenuRoles {
                 routerLink: 'crearModificarCliente'
               }]
             },
-            {
+            /*{
               label: 'Mis tareas',
               icon: 'pi pi-fw pi-inbox',
               routerLink: 'misTareas'
-            }]
+            }*/]
         },
         {
           label: 'Generar liquidación',
