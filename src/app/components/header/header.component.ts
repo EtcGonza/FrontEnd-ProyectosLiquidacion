@@ -19,75 +19,75 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private store: Store) {}
 
   ngOnInit() {
-    this.menu = [
-      {
-        label: 'Home',
-        icon: 'pi pi-fw pi-home',
-        routerLink: 'home'
-      },
-      {
-        label: 'Gestionar',
-        icon: 'pi pi-fw pi-book',
-        items: [
-          {
-            label: 'Proyectos',
-            icon: 'pi pi-fw pi-file-o',
-            items: [
-            {
-              label: 'Gestionar proyectos',
-              routerLink: 'gestionarProyectos'
-            },
-            {
-              label: 'Crear proyecto',
-              routerLink: 'crearModificarProyecto'
-            }]
-          },
-          {
-            label: 'Empleados',
-            icon: 'pi pi-fw pi-users',
-            items: [
-              {
-                label: 'Gestionar Empleados',
-                routerLink: 'gestionarUsuarios'
-              },
-              {
-                label: 'Crear empleado',
-                routerLink: 'crearModificarUsuario'
-              }
-            ]
-          },
-          {
-            label: 'Clientes',
-            icon: 'pi pi-fw pi-star',
-            items: [
-              {
-                label: 'Gestionar clientes',
-                routerLink: 'gestionarClientes'
-              },
-              {
-              label: 'Crear cliente',
-              routerLink: 'crearModificarCliente'
-            }]
-          },
-          {
-            label: 'Mis tareas',
-            icon: 'pi pi-fw pi-inbox',
-            routerLink: 'misTareas'
-          }]
-      },
-      {
-        label: 'Generar liquidación',
-        icon: 'pi pi-fw pi-chart-line',
-        routerLink: 'generarLiquidacion'
-      },
-      {
-        label: 'Salir',
-        icon: 'pi pi-fw pi-power-off',
-        command: () => this.logout()
-      }
-    ];
+    // this.menu = [
+    //   {
+    //     label: 'Home',
+    //     icon: 'pi pi-fw pi-home',
+    //     routerLink: 'home'
+    //   },
+    //   {
+    //     label: 'Gestionar',
+    //     icon: 'pi pi-fw pi-book',
+    //     items: [
+    //       {
+    //         label: 'Proyectos',
+    //         icon: 'pi pi-fw pi-file-o',
+    //         items: [
+    //         {
+    //           label: 'Gestionar proyectos',
+    //           routerLink: 'gestionarProyectos'
+    //         },
+    //         {
+    //           label: 'Crear proyecto',
+    //           routerLink: 'crearModificarProyecto'
+    //         }]
+    //       },
+    //       {
+    //         label: 'Empleados',
+    //         icon: 'pi pi-fw pi-users',
+    //         items: [
+    //           {
+    //             label: 'Gestionar Empleados',
+    //             routerLink: 'gestionarUsuarios'
+    //           },
+    //           {
+    //             label: 'Crear empleado',
+    //             routerLink: 'crearModificarUsuario'
+    //           }
+    //         ]
+    //       },
+    //       {
+    //         label: 'Clientes',
+    //         icon: 'pi pi-fw pi-star',
+    //         items: [
+    //           {
+    //             label: 'Gestionar clientes',
+    //             routerLink: 'gestionarClientes'
+    //           },
+    //           {
+    //           label: 'Crear cliente',
+    //           routerLink: 'crearModificarCliente'
+    //         }]
+    //       },
+    //       {
+    //         label: 'Mis tareas',
+    //         icon: 'pi pi-fw pi-inbox',
+    //         routerLink: 'misTareas'
+    //       }]
+    //   },
+    //   {
+    //     label: 'Generar liquidación',
+    //     icon: 'pi pi-fw pi-chart-line',
+    //     routerLink: 'generarLiquidacion'
+    //   },
+    //   {
+    //     label: 'Salir',
+    //     icon: 'pi pi-fw pi-power-off',
+    //     command: () => this.logout()
+    //   }
+    // ];
 
-    // this.armarMenu();
+    this.armarMenu();
   }
 
   armarMenu() {
