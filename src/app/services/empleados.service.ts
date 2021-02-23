@@ -26,6 +26,10 @@ export class EmpleadosService {
     return this.httpCliente.get<Empleado []>(`Empleado`);
   }
 
+  async getEmpleadosRolEmpleado(): Promise<Observable<Empleado []>> {
+    return this.httpCliente.get<Empleado[]>(`Empleado/rol`);
+  }
+
   async getEmpleadoById(idEmpleado: number): Promise<Observable<Empleado>> {
     return this.httpCliente.get<Empleado>(`Empleado/empleado/${idEmpleado}`);
   }

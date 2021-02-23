@@ -38,7 +38,7 @@ export class AsignarEmpleadoProyectoComponent implements OnInit {
   }
 
   getEmpleados() {    
-    this._empleadoServices.getEmpleados().then(response => response.subscribe((empleados: Empleado []) => this.empleados = empleados,
+    this._empleadoServices.getEmpleadosRolEmpleado().then(response => response.subscribe((empleados: Empleado []) => this.empleados = empleados,
     error => this._messagesService.ventanaExitosa('Error', `No se pudo recuperar la lista de empleados.`)));
   }
 

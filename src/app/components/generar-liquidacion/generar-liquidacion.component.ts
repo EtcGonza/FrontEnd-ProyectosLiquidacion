@@ -69,14 +69,14 @@ export class GenerarLiquidacionComponent implements OnInit {
   }
 
   onSelectFecha(date: any) {
-    this.formulario.controls.mesLiquidado.setValue(date.getMonth());
+    this.formulario.controls.mesLiquidado.setValue(date.getMonth() + 1);
   }
 
   generarLiquidacion() {
     if (this.formulario.valid) {
       this.miLiquidacion = this.formulario.value;
       this._liquidacionService.crearLiquidacion(this.miLiquidacion).then(response => response.subscribe(respuesta => {
-        this._mensagesAlertService.ventanaExitosa('Exíto', 'Se creo la liquidación');
+        this._mensagesAlertService.ventanaExitosa('Éxito', 'Se creo la liquidación');
         this.empleadoSeleccionado = this.empleadoLiquidar;
         this.getLiquidacionesEmpleado(this.empleadoLiquidar);
       }, error => this._mensagesAlertService.ventanaWarning('Atención', error.error)));
