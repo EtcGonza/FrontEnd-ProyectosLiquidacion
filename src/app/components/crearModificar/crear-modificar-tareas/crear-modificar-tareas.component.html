@@ -23,14 +23,17 @@
 
             <div class="p-grid">
                 <div class="p-col-6">
-                    <p-listbox [options]="empleados" [metaKeySelection]="false" [ngModel]="empleadoSeleccionado" (onChange)="asignarEmpleados($event.value)" optionLabel="apellidoEmpleado" [checkbox]="true" [filter]="true" [multiple]="false" filterPlaceHolder="Filtrar por apellido"
+                    <p-dropdown [options]="empleados" optionLabel="apellidoEmpleado" [ngModel]="empleadoSeleccionado" required="true" (onChange)="asignarEmpleados($event.value)" [filter]="true" filterBy="apellidoEmpleado" [showClear]="false" placeholder="Seleccione un empleado"
                         [style]="{'width':'100%'}">
+                        <ng-template *ngIf="empleadoSeleccionado" pTemplate="selectedItem">
+                            <div>{{empleadoSeleccionado.apellidoEmpleado}} {{empleadoSeleccionado.nombreEmpleado}}</div>
+                        </ng-template>
                         <ng-template let-empleado pTemplate="item">
                             <div>
-                                <span>{{empleado.apellidoEmpleado}} {{empleado.nombreEmpleado}}</span>
+                                <div>{{empleado.apellidoEmpleado}} {{empleado.nombreEmpleado}}</div>
                             </div>
                         </ng-template>
-                    </p-listbox>
+                    </p-dropdown>
                 </div>
 
                 <div class="p-col-6">
@@ -53,7 +56,7 @@
 
     <div class="p-col-12 p-pt-6">
         <p-card *ngIf="tareasProyecto" header="Tareas existentes">
-            <p-table #dt1 [value]="tareasProyecto" selectionMode="single" dataKey="idProyecto" styleClass="p-datatable-customers" stateStorage="session" stateKey="statedemo-session">
+            <p-table #dt1 [value]="tareasProyecto" selectionMode="single" dataKey="idtarea" styleClass="p-datatable-customers" stateStorage="session" stateKey="statedemo-session">
                 <ng-template pTemplate="header">
                     <tr>
                         <th pSortableColumn="descripcionTarea">Descripción tarea

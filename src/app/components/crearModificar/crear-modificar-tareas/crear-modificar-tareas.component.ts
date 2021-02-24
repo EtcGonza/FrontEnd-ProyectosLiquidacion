@@ -79,7 +79,7 @@ export class CrearModificarTareasComponent implements OnInit {
       response.subscribe((tareas: Tarea[]) => tareas.forEach((tarea: Tarea) => this.tareasProyecto.push(tarea))));
   }
 
-  getEmpleadosLibres() {
+  getEmpleadosLibres(empleadoSeleccionado?: Empleado) {
     this._empleadoService.getEmpleadosLibresProyecto(this.miProyecto.idproyecto).then(
       response => response.subscribe((empleados: Empleado []) => {
         this.empleados = [];
@@ -87,7 +87,11 @@ export class CrearModificarTareasComponent implements OnInit {
           this._mensagesAlertService.ventanaWarning('Atención', `Todos los empleados de este proyecto ya tienen tareas asignadas. No podra crear nuevas tareas.`);
           this.warningSinEmpleados = false;
         } else {
-          empleados.forEach((empleado: Empleado) => this.empleados.push(empleado))
+          empleados.forEach((empleado: Empleado) => this.empleados.push(empleado));
+
+          if (empleadoSeleccionado) {
+            this.empleados.push(empleadoSeleccionado);
+          }
         }
       },
       error => this._mensagesAlertService.ventanaExitosa('Error', `No se pudo recuperar la lista de empleados.`)));
@@ -155,6 +159,7 @@ export class CrearModificarTareasComponent implements OnInit {
 
     this._empleadoService.getEmpleadoById(tarea.idempleado).then(response => response.subscribe((empleado: Empleado) => {
       this.empleadoSeleccionado = empleado;
+      this.getEmpleadosLibres(this.empleadoSeleccionado);
       this.getPerfilesEmpleado(this.empleadoSeleccionado.idempleado);
       setTimeout(() => this.perfilSeleccionado = this.perfilesEmpleado.find((perfil: Perfil) => perfil.idperfil === tarea.idperfil), 1500);
     }));
