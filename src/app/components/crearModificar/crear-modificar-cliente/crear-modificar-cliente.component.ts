@@ -51,7 +51,7 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
       telefonoCliente: [null, Validators.required],
       direccionCliente: [null, Validators.required],
       localidadCliente: [null],
-      emailCliente: [null, Validators.required],
+      emailCliente: [null, [Validators.required, Validators.email]],
       proyecto: [null]
     });
 
@@ -86,7 +86,11 @@ export class CrearModificarClienteComponent implements OnInit, OnDestroy {
         }),
         error => this._mensagesAlertService.ventanaError('Error', `El cliente ${this.miCliente.nombreCliente} ${this.miCliente.apellidoCliente} no se pudo crear`));
     } else {
-      this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
+      if(this.formulario.controls.emailCliente.invalid) {
+        this._mensagesAlertService.ventanaWarning('Email invalido', 'El email ingresado no es valido');
+      } else {
+        this._mensagesAlertService.ventanaWarning('Formulario invalido', 'Todos los campos marcados con (*) son obligatorios');
+      }
     }
   }
 
