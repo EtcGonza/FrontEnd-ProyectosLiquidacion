@@ -17,6 +17,8 @@ import html2canvas from 'html2canvas';
 })
 export class GenerarLiquidacionComponent implements OnInit {
 
+  // TODO ¿No se tendria que mostrar solament los empleados en el dropdown del html?
+
   miLiquidacion: Liquidacion = null;
   empleados: Empleado [] = [];
   empleadoLiquidar: Empleado = null;
