@@ -3,7 +3,7 @@
         <p-card header="Lista de Empleados" subheader="Cree y modifique empleados" [style]="{width: 'auto'}" styleClass="p-card-shadow">
 
             <div class="p-p-2">
-                <p-table #dt1 [value]="empleados" selectionMode="single" dataKey="idProyecto" styleClass="p-datatable-customers" stateStorage="session" stateKey="statedemo-session">
+                <p-table #dt1 [value]="empleados" selectionMode="single" dataKey="idempleado" styleClass="p-datatable-customers" stateStorage="session" stateKey="statedemo-session">
                     <ng-template pTemplate="header">
                         <tr>
                             <th pSortableColumn="dniEmpleado">Dni
